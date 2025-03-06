@@ -124,9 +124,6 @@ const Hero: React.FC = () => {
             <Link to="/projects" className="button">
               View Our Work
             </Link>
-            <SecondaryButton to="/contact">
-              Let's Connect
-            </SecondaryButton>
           </ButtonGroup>
           <SocialLinks>
             <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">

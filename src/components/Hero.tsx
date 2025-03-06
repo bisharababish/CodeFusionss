@@ -75,20 +75,6 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const SecondaryButton = styled(Link)`
-  padding: 0.75rem 1.5rem;
-  border-radius: 5px;
-  font-weight: 600;
-  border: 2px solid var(--primary-color);
-  color: var(--light-text);
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background-color: rgba(108, 92, 231, 0.1);
-    transform: translateY(-2px);
-  }
-`;
-
 const SocialLinks = styled.div`
   display: flex;
   gap: 1.5rem;

@@ -6,7 +6,6 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ProjectsPage from './pages/ProjectsPage';
 import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
 
 const App: React.FC = () => {
   return (
@@ -17,7 +16,6 @@ const App: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
   );

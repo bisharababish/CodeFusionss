@@ -135,9 +135,6 @@ const Navbar: React.FC = () => {
               <NavItem>
                 <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
               </NavItem>
-              <NavItem>
-                <Link to="/contact" onClick={() => setIsOpen(false)}>Contact</Link>
-              </NavItem>
             </NavList>
           </NavLinks>
         </NavContent>

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { TeamMember } from '../types';
-import bisharaImage from '../components/images/bishara.jpg';
-import JudahImage from '../components/images/judah.jpg';
-import SalibaImage from '../components/images/saliba.jpg';
+import bisharaImage from '../components/bishara.jpg';
+import JudahImage from '../components/judah.jpg';
+import SalibaImage from '../components/saliba.jpg';
 
 const TeamSection = styled.section`
   padding: 6rem 0;

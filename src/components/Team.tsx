@@ -27,9 +27,12 @@ const SectionHeader = styled.div`
 `;
 
 const TeamGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  display: flex;
+  justify-content: center;
   gap: 2rem;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const TeamCard = styled.div`
@@ -39,6 +42,7 @@ const TeamCard = styled.div`
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.05);
   text-align: center;
+  width: 300px; /* Fixed width for all cards */
   
   &:hover {
     transform: translateY(-5px);
@@ -48,7 +52,7 @@ const TeamCard = styled.div`
 
 const MemberImage = styled.div`
   width: 100%;
-  height: 300px;
+  height: 300px; /* Fixed height for all images */
   overflow: hidden;
   
   img {

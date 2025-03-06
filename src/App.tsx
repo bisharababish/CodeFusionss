@@ -6,7 +6,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ProjectsPage from './pages/ProjectsPage';
 import AboutPage from './pages/AboutPage';
-
+import { Analytics } from "@vercel/analytics/react"
 const App: React.FC = () => {
   return (
     <Router>
@@ -17,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/about" element={<AboutPage />} />
       </Routes>
+      <Analytics />
     </Router>
   );
 };

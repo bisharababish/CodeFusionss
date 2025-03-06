@@ -74,7 +74,7 @@ const MemberInfo = styled.div`
   p {
     font-size: 0.9rem;
     color: var(--primary-color);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 `;
 

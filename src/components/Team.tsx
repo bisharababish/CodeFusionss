@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TeamMember } from '../types';
 import bisharaImage from '../components/images/bishara.jpg';
 import JudahImage from '../components/images/judah.jpg';
-import SalibaImage from '../components/images/saliba.jpg';
+import SalibaImage from '../components/images/ saliba.jpg';
 
 const TeamSection = styled.section`
   padding: 6rem 0;

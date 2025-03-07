@@ -72,12 +72,12 @@ const About: React.FC = () => {
     { name: 'Database', icon: 'fas fa-database' },
     { name: 'Exploratory Data Analysis', icon: 'fas fa-chart-line' },
     { name: 'Data analysis', icon: 'fas fa-chart-pie' },
-    { name: 'Machine learning', icon: 'fas fa-robot' },
+    { name: 'Machine learning', icon: 'fas fa-brain' },
     { name: 'Quality Assurance', icon: 'fas fa-bug' },
     { name: 'Arduino & Raspberry-pi', icon: 'fas fa-microchip' },
     { name: 'Linux', icon: 'fab fa-linux' },
     { name: 'Latex', icon: 'fas fa-square-root-alt' },
-    { name: 'Image Processing and Manipulation', icon: 'fas fa-brain' },
+    { name: 'Image Processing and Manipulation', icon: 'fas fa-image' },
   ];
 
   const technologies = [

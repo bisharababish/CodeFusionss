@@ -77,7 +77,7 @@ const About: React.FC = () => {
     { name: 'Arduino & Raspberry-pi', icon: 'fas fa-microchip' },
     { name: 'Linux', icon: 'fab fa-linux' },
     { name: 'Latex', icon: 'fas fa-square-root-alt' },
-    { name: 'Image Processing and Manipulation', icon: 'fas fa-image' },
+    { name: 'Image Processing and Manipulation', icon: 'fas fa-brain' },
   ];
 
   const technologies = [

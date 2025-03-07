@@ -7,15 +7,9 @@ const AboutSection = styled.section`
 `;
 
 const AboutContent = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 `;
 
 const AboutText = styled.div`
@@ -42,92 +36,123 @@ const AboutText = styled.div`
   }
 `;
 
-const TechnologiesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+const KnowledgeGrid = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   margin-top: 2rem;
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
 `;
 
-const TechItem = styled.div`
+const KnowledgeItem = styled.div`
+  width: 100%;
+  padding: 1.5rem;
+  background-color: var(--dark-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+const KnowledgeTitle = styled.h3`
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.9rem; /* Adjust font size */
-  white-space: nowrap; /* Ensure text stays in one line */
+`;
 
-  i {
-    color: var(--primary-color);
-    font-size: 1rem; /* Adjust icon size */
-  }
+const TechnologiesList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+`;
+
+const TechItem = styled.span`
+  color: var(--light-color);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
 `;
 
 const About: React.FC = () => {
-  const knowledge = [
-    { name: 'Web & App Development', icon: 'fas fa-laptop-code' },
-    { name: 'Database', icon: 'fas fa-database' },
-    { name: 'Exploratory Data Analysis', icon: 'fas fa-chart-line' },
-    { name: 'Data analysis', icon: 'fas fa-chart-pie' },
-    { name: 'Machine learning', icon: 'fas fa-brain' },
-    { name: 'Quality Assurance', icon: 'fas fa-bug' },
-    { name: 'Arduino & Raspberry-pi', icon: 'fas fa-microchip' },
-    { name: 'Linux', icon: 'fab fa-linux' },
-    { name: 'Latex', icon: 'fas fa-square-root-alt' },
-    { name: 'Image Processing and Manipulation', icon: 'fas fa-image' },
-  ];
-
-  const technologies = [
-    { name: 'React.js', icon: 'fab fa-react' },
-    { name: 'TypeScript', icon: 'fas fa-code' },
-    { name: 'Python', icon: 'fab fa-python' },
-    { name: 'Node.js', icon: 'fab fa-node-js' },
-    { name: 'OpenCV', icon: 'fas fa-camera' },
-    { name: 'Next.js', icon: 'fas fa-network-wired' },
-    { name: 'HTML/CSS', icon: 'fab fa-html5' },
-    { name: 'JavaScript', icon: 'fab fa-js' },
-    { name: 'SystemVerilog', icon: 'fas fa-microchip' },
+  const knowledgeAreas = [
+    {
+      name: 'Web & App Development',
+      icon: 'fas fa-laptop-code',
+      technologies: ['React.js', 'TypeScript', 'Node.js', 'Next.js', 'HTML/CSS', 'JavaScript']
+    },
+    {
+      name: 'Database',
+      icon: 'fas fa-database',
+      technologies: ['SQL', 'PhpMyAdmin']
+    },
+    {
+      name: 'Exploratory Data Analysis',
+      icon: 'fas fa-chart-line',
+      technologies: ['Matplotlib', 'Seaborn']
+    },
+    {
+      name: 'Data analysis',
+      icon: 'fas fa-chart-pie',
+      technologies: ['Minitab', 'Python', 'Excel', 'Pandas', 'NumPy']
+    },
+    {
+      name: 'Machine learning',
+      icon: 'fas fa-brain',
+      technologies: ['TensorFlow', 'PyTorch', 'Decision Tree']
+    },
+    {
+      name: 'Quality Assurance',
+      icon: 'fas fa-bug',
+      technologies: ['Selenium', 'JUnit', 'TestNG', 'Postman', 'Jmeter']
+    },
+    {
+      name: 'Arduino & Raspberry-pi',
+      icon: 'fas fa-microchip',
+      technologies: ['C/C++', 'Python', 'GPIO']
+    },
+    {
+      name: 'Linux',
+      icon: 'fab fa-linux',
+      technologies: ['Bash', 'Shell Scripting', 'System Administration']
+    },
+    {
+      name: 'Latex',
+      icon: 'fas fa-square-root-alt',
+      technologies: ['Overleaf', 'TeX', 'BibTeX']
+    }
   ];
 
   return (
     <AboutSection id="about">
-      <div className="container">
-        <AboutContent>
-          <AboutText>
-            <h2>Passionate team of tech enthusiasts</h2>
-            <p>
-              At Code Fusion, we specialize in developing innovative software solutions
-              that help businesses grow and adapt to the ever-changing digital landscape.
-              Our team combines technical expertise with creative problem-solving to deliver
-              results that exceed expectations.
-            </p>
-            <p>
-              We have extensive experience in web development, AI integration, and hardware programming.
-              Whether you need a custom website, a complex web application, or an innovative AI solution,
-              we have the skills and knowledge to bring your ideas to life.
-            </p>
-            <TechnologiesGrid>
-              {knowledge.map((tech, index) => (
-                <TechItem key={index}>
-                  <i className={tech.icon}></i>
-                  <span>{tech.name}</span>
-                </TechItem>
-              ))}
-            </TechnologiesGrid>
-            <TechnologiesGrid>
-              {technologies.map((tech, index) => (
-                <TechItem key={index}>
-                  <i className={tech.icon}></i>
-                  <span>{tech.name}</span>
-                </TechItem>
-              ))}
-            </TechnologiesGrid>
-          </AboutText>
-        </AboutContent>
-      </div>
+      <AboutContent>
+        <AboutText>
+          <h2>Passionate team of tech enthusiasts</h2>
+          <p>
+            At Code Fusion, we specialize in developing innovative software solutions
+            that help businesses grow and adapt to the ever-changing digital landscape.
+            Our team combines technical expertise with creative problem-solving to deliver
+            results that exceed expectations.
+          </p>
+          <p>
+            We have extensive experience in web development, AI integration, and hardware programming.
+            Whether you need a custom website, a complex web application, or an innovative AI solution,
+            we have the skills and knowledge to bring your ideas to life.
+          </p>
+          <KnowledgeGrid>
+            {knowledgeAreas.map((area, index) => (
+              <KnowledgeItem key={index}>
+                <KnowledgeTitle>
+                  <i className={area.icon}></i> {area.name}
+                </KnowledgeTitle>
+                <TechnologiesList>
+                  {area.technologies.map((tech, techIndex) => (
+                    <TechItem key={techIndex}>{tech}</TechItem>
+                  ))}
+                </TechnologiesList>
+              </KnowledgeItem>
+            ))}
+          </KnowledgeGrid>
+        </AboutText>
+      </AboutContent>
     </AboutSection>
   );
 };

@@ -83,7 +83,7 @@ const About: React.FC = () => {
           <AboutText>
             <h2>Passionate team of tech enthusiasts</h2>
             <p>
-              At Code Fusion, we specialize in developing innovative software solutions
+              Welcome to Code Fusion, we specialize in developing innovative software solutions
               that help businesses grow and adapt to the ever-changing digital landscape.
               Our team combines technical expertise with creative problem-solving to deliver
               results that exceed expectations.

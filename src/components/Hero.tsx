@@ -1,4 +1,3 @@
-// src/components/Hero.tsx
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -68,6 +67,7 @@ const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  align-items: center;
   
   @media (max-width: 480px) {
     flex-direction: column;
@@ -78,7 +78,6 @@ const ButtonGroup = styled.div`
 const SocialLinks = styled.div`
   display: flex;
   gap: 1.5rem;
-  margin-top: 3rem;
   
   a {
     font-size: 1.5rem;
@@ -110,12 +109,12 @@ const Hero: React.FC = () => {
             <Link to="/projects" className="button">
               View Our Work
             </Link>
+            <SocialLinks>
+              <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-instagram"></i>
+              </a>
+            </SocialLinks>
           </ButtonGroup>
-          <SocialLinks>
-            <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-instagram"></i>
-            </a>
-          </SocialLinks>
         </HeroContent>
       </div>
     </HeroSection>

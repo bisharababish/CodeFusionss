@@ -78,8 +78,8 @@ const About: React.FC = () => {
     { name: 'Linux', icon: 'fab fa-terminal' },
     { name: 'Latex', icon: 'fas fa-tex' },
     { name: 'Image Processing and Manipulation', icon: 'fas fa-image' },
+  ];
 
-  ]
   const technologies = [
     { name: 'React.js', icon: 'fab fa-react' },
     { name: 'TypeScript', icon: 'fas fa-code' },
@@ -116,7 +116,8 @@ const About: React.FC = () => {
                   <span>{tech.name}</span>
                 </TechItem>
               ))}
-              <br /> { }
+            </TechnologiesGrid>
+            <TechnologiesGrid>
               {technologies.map((tech, index) => (
                 <TechItem key={index}>
                   <i className={tech.icon}></i>

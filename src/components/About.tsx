@@ -68,15 +68,15 @@ const TechItem = styled.div`
 
 const About: React.FC = () => {
   const knowledge = [
-    { name: 'Web & App Development', icon: 'fab fa-code' },
+    { name: 'Web & App Development', icon: 'fas fa-laptop-code' },
     { name: 'Database', icon: 'fas fa-database' },
-    { name: 'Exploratory Data Analysis', icon: 'fab fa-chart-line' },
-    { name: 'Data analysis', icon: 'fab fa-chart-pie' },
+    { name: 'Exploratory Data Analysis', icon: 'fas fa-chart-line' },
+    { name: 'Data analysis', icon: 'fas fa-chart-pie' },
     { name: 'Machine learning', icon: 'fas fa-robot' },
     { name: 'Quality Assurance', icon: 'fas fa-bug' },
-    { name: 'Arduino & Raspberry-pi', icon: 'fab fa-microchip' },
-    { name: 'Linux', icon: 'fab fa-terminal' },
-    { name: 'Latex', icon: 'fas fa-tex' },
+    { name: 'Arduino & Raspberry-pi', icon: 'fas fa-microchip' },
+    { name: 'Linux', icon: 'fab fa-linux' },
+    { name: 'Latex', icon: 'fas fa-square-root-alt' },
     { name: 'Image Processing and Manipulation', icon: 'fas fa-image' },
   ];
 

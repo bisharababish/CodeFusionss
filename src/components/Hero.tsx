@@ -102,7 +102,7 @@ const Hero: React.FC = () => {
             Driving innovation and creating a <span className="highlight">brighter digital future.</span>
           </h1>
           <p>
-            We are Code Fusion, a passionate team of developers specialized in building
+            Welcome to Code Fusion, a passionate team of developers specialized in building
             custom solutions for businesses and startups. From web applications to AI
             integration, we bring your ideas to life.
           </p>

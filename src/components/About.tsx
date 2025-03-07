@@ -57,13 +57,29 @@ const TechItem = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 0.9rem; /* Adjust font size */
+  white-space: nowrap; /* Ensure text stays in one line */
 
   i {
     color: var(--primary-color);
+    font-size: 1rem; /* Adjust icon size */
   }
 `;
 
 const About: React.FC = () => {
+  const knowledge = [
+    { name: 'Web & App Development', icon: 'fab fa-code' },
+    { name: 'Database', icon: 'fas fa-database' },
+    { name: 'Exploratory Data Analysis', icon: 'fab fa-chart-line' },
+    { name: 'Data analysis', icon: 'fab fa-chart-pie' },
+    { name: 'Machine learning', icon: 'fas fa-robot' },
+    { name: 'Quality Assurance', icon: 'fas fa-bug' },
+    { name: 'Arduino & Raspberry-pi', icon: 'fab fa-microchip' },
+    { name: 'Linux', icon: 'fab fa-terminal' },
+    { name: 'Latex', icon: 'fas fa-book' },
+    { name: 'Image Processing and Manipulation', icon: 'fas fa-image' },
+
+  ]
   const technologies = [
     { name: 'React.js', icon: 'fab fa-react' },
     { name: 'TypeScript', icon: 'fas fa-code' },
@@ -94,6 +110,13 @@ const About: React.FC = () => {
               we have the skills and knowledge to bring your ideas to life.
             </p>
             <TechnologiesGrid>
+              {knowledge.map((tech, index) => (
+                <TechItem key={index}>
+                  <i className={tech.icon}></i>
+                  <span>{tech.name}</span>
+                </TechItem>
+              ))}
+              <br /> { }
               {technologies.map((tech, index) => (
                 <TechItem key={index}>
                   <i className={tech.icon}></i>

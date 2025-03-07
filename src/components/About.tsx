@@ -76,7 +76,7 @@ const About: React.FC = () => {
     { name: 'Quality Assurance', icon: 'fas fa-bug' },
     { name: 'Arduino & Raspberry-pi', icon: 'fab fa-microchip' },
     { name: 'Linux', icon: 'fab fa-terminal' },
-    { name: 'Latex', icon: 'fas fa-book' },
+    { name: 'Latex', icon: 'fas fa-tex' },
     { name: 'Image Processing and Manipulation', icon: 'fas fa-image' },
 
   ]

@@ -63,6 +63,9 @@ const HeroContent = styled.div`
   }
 `;
 
+const contactContent = styled.div`{
+
+}`;
 const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
@@ -76,14 +79,19 @@ const ButtonGroup = styled.div`
 `;
 
 const SocialLinks = styled.div`
+  position: absolute;
+  left: 20px; /* Adjust as needed */
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   
   a {
     font-size: 1.5rem;
     opacity: 0.7;
     transition: all 0.3s ease;
-    
+
     &:hover {
       opacity: 1;
       color: var(--primary-color);
@@ -91,6 +99,7 @@ const SocialLinks = styled.div`
     }
   }
 `;
+
 
 const Hero: React.FC = () => {
   return (
@@ -109,14 +118,35 @@ const Hero: React.FC = () => {
             <Link to="/projects" className="button">
               View Our Work
             </Link>
-            <SocialLinks>
-              <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-instagram"></i>
-              </a>
-            </SocialLinks>
+
           </ButtonGroup>
         </HeroContent>
       </div>
+      <div className='contact'>
+        <SocialLinks>
+          <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
+            <i className="fab fa-instagram"></i>
+          </a><br />
+          <a href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer">
+            <i className="fas fa-envelope"></i>
+          </a><br />
+          <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
+            <i className="fab fa-instagram"></i>
+          </a><br />
+          <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
+            <i className="fab fa-instagram"></i>
+          </a><br />
+          <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
+            <i className="fab fa-instagram"></i>
+          </a>
+        </SocialLinks>
+        email
+        instagram
+        number whatsapp businesses
+        linkedins and githubs
+
+      </div>
+
     </HeroSection>
   );
 };

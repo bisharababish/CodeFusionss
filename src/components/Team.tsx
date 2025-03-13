@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { TeamMember } from '../types';
 import bisharaImage from '../components/bishara.jpg';
 import JudahImage from '../components/judah.jpg';
-import SalibaImage from '../components/saliba.jpg';
+import SalibaImage from '../components/Saliba.png';
 
 const TeamSection = styled.section`
   padding: 6rem 0;
@@ -119,7 +119,7 @@ const Team: React.FC = () => {
     {
       id: 1,
       name: 'Bishara Babish',
-      role: 'Co-Founder & Lead Developer',
+      role: 'Co-Founder & Full Stack Developer',
       image: bisharaImage,
       socialLinks: {
         github: 'https://github.com/bisharababish',

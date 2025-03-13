@@ -113,13 +113,12 @@ interface ProjectsProps {
 }
 
 const Projects: React.FC<ProjectsProps> = ({ limit }) => {
-  // Sample project data - replace with your actual projects
   const projects: Project[] = [
     {
       id: 1,
       title: 'Robotics Programming',
       description: 'Programmed and built a robot for a competition using Python and Arduino.',
-      image: '/project1.jpg', // Replace with your project image
+      image: '/project1.jpg', 
       technologies: ['Python', 'Arduino', 'OpenCV'],
       githubLink: 'https://github.com/code-fusion/robotics-project'
     },
@@ -127,7 +126,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit }) => {
       id: 2,
       title: 'Buck-to-buck converter',
       description: 'PCB design for lowering high voltage efficiently.',
-      image: '/project2.jpg', // Replace with your project image
+      image: '/project2.jpg', 
       technologies: ['PCB Design', 'Electronics', 'Circuit Analysis'],
       githubLink: 'https://github.com/code-fusion/buck-converter'
     },
@@ -135,7 +134,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit }) => {
       id: 3,
       title: 'Job-Posting Website',
       description: 'Maharat website for job-postings using React and Node.js.',
-      image: '/project3.jpg', // Replace with your project image
+      image: '/project3.jpg', 
       technologies: ['React', 'Node.js', 'MongoDB'],
       link: 'https://maharat-jobs.com',
       githubLink: 'https://github.com/code-fusion/job-posting-site'
@@ -148,7 +147,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit }) => {
     <ProjectsSection id="projects">
       <div className="container">
         <SectionHeader>
-          <h2>Our Current Projects</h2>
+          <h2>Our Projects</h2>
           <p>Here are some of the projects we've worked on.</p>
         </SectionHeader>
 

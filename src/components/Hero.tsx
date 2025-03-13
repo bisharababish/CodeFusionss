@@ -141,13 +141,16 @@ const Hero: React.FC = () => {
             <a href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer">
               <i className="fas fa-envelope"></i>
             </a>
-            <a href="https://wa.me/yournumberhere" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/+970568302915" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-whatsapp"></i>
             </a>
-            <a href="https://www.linkedin.com/company/codefusion" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/bisharababish/" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-linkedin"></i>
             </a>
-            <a href="https://github.com/codefusion" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/saliba-rishmawi-b32a11255/" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/judah-sleibi-b8578b321/" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-github"></i>
             </a>
           </SocialLinks>

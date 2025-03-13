@@ -84,6 +84,11 @@ const SocialLinks = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   
+  @media (min-width: 768px) and (max-width: 1024px) {
+    right: 2rem;
+    gap: 1.2rem;
+  }
+  
   @media (max-width: 768px) {
     position: static;
     margin-top: 2rem;
@@ -107,6 +112,11 @@ const SocialLink = styled.a`
   span {
     display: none;
     
+    @media (min-width: 768px) and (max-width: 1024px) {
+      display: inline;
+      font-size: 0.9rem;
+    }
+    
     @media (max-width: 768px) {
       display: inline;
     }
@@ -116,6 +126,10 @@ const SocialLink = styled.a`
     opacity: 1;
     color: var(--primary-color);
     transform: translateY(-3px);
+  }
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+    padding: 0.5rem 0;
   }
   
   @media (max-width: 768px) {

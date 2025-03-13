@@ -110,19 +110,13 @@ const SocialLink = styled.a`
     margin-right: 0.75rem;
   }
   
-  span {
-    display: none;
-    
-    /* Add this for tablets to show text labels */
-    @media (min-width: 768px) and (max-width: 1024px) {
-      display: inline;
-      font-size: 0.9rem;
-    }
-    
-    @media (max-width: 768px) {
-      display: inline;
-    }
+span {
+  display: none;
+  
+  @media (max-width: 768px) {
+    display: inline;
   }
+}
   
   &:hover {
     opacity: 1;

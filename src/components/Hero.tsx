@@ -112,6 +112,7 @@ const SocialLink = styled.a`
   span {
     display: none;
     
+    /* Add this for tablets to show text labels */
     @media (min-width: 768px) and (max-width: 1024px) {
       display: inline;
       font-size: 0.9rem;

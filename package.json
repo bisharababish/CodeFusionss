@@ -24,7 +24,7 @@
     "react-scripts": "^5.0.1",
     "styled-components": "^6.1.15",
     "web-vitals": "^2.1.4",
-    "yocto-queue": "^1.2.0"
+    "yecto-queue": "file:./path/to/module"
   },
   "scripts": {
     "start": "react-scripts start",

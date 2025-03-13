@@ -84,6 +84,7 @@ const SocialLinks = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   
+  /* Add this tablet/iPad specific media query */
   @media (min-width: 768px) and (max-width: 1024px) {
     right: 2rem;
     gap: 1.2rem;
@@ -129,6 +130,7 @@ const SocialLink = styled.a`
     transform: translateY(-3px);
   }
   
+  /* Add this for better spacing on tablets */
   @media (min-width: 768px) and (max-width: 1024px) {
     padding: 0.5rem 0;
   }
@@ -138,7 +140,6 @@ const SocialLink = styled.a`
     margin-bottom: 0.5rem;
   }
 `;
-
 const ContactSection = styled.div`
   margin-top: 2rem;
   

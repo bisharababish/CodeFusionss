@@ -77,35 +77,53 @@ const ButtonGroup = styled.div`
 
 const SocialLinks = styled.div`
   position: absolute;
-  right: 3rem;  // Changed from 900px to use relative units
+  right: 3rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   
-  a {
-    font-size: 1.5rem;
-    opacity: 0.7;
-    transition: all 0.3s ease;
-
-    &:hover {
-      opacity: 1;
-      color: var(--primary-color);
-      transform: translateY(-3px);
-    }
-  }
-  
-  // Mobile styles - properly nested inside the component
   @media (max-width: 768px) {
     position: static;
-    flex-direction: row;
-    justify-content: center;
     margin-top: 2rem;
-    gap: 2rem;
+    gap: 1rem;
     transform: none;
   }
 `;
+
+const SocialLink = styled.a`
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  
+  i {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+  }
+  
+  span {
+    display: none;
+    
+    @media (max-width: 768px) {
+      display: inline;
+    }
+  }
+  
+  &:hover {
+    opacity: 1;
+    color: var(--primary-color);
+    transform: translateY(-3px);
+  }
+  
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
+  }
+`;
+
 const ContactSection = styled.div`
   margin-top: 2rem;
   
@@ -113,6 +131,7 @@ const ContactSection = styled.div`
     margin-top: 3rem;
   }
 `;
+
 const Hero: React.FC = () => {
   return (
     <HeroSection>
@@ -135,24 +154,35 @@ const Hero: React.FC = () => {
 
         <ContactSection>
           <SocialLinks>
-            <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
+            <SocialLink href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-instagram"></i>
-            </a>
-            <a href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer">
+              <span>Follow us on Instagram</span>
+            </SocialLink>
+
+            <SocialLink href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer">
               <i className="fas fa-envelope"></i>
-            </a>
-            <a href="https://wa.me/+970568302915" target="_blank" rel="noopener noreferrer">
+              <span>codefusion218@gmail.com</span>
+            </SocialLink>
+
+            <SocialLink href="https://wa.me/+972568302915" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-whatsapp"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/bisharababish/" target="_blank" rel="noopener noreferrer">
+              <span>+972 56-830-2915</span>
+            </SocialLink>
+
+            <SocialLink href="https://www.linkedin.com/in/bisharababish/" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-linkedin"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/saliba-rishmawi-b32a11255/" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-github"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/judah-sleibi-b8578b321/" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-github"></i>
-            </a>
+              <span>Bishara on LinkedIn</span>
+            </SocialLink>
+
+            <SocialLink href="https://www.linkedin.com/in/saliba-rishmawi-b32a11255/" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-linkedin"></i>
+              <span>Saliba on LinkedIn</span>
+            </SocialLink>
+
+            <SocialLink href="https://www.linkedin.com/in/judah-sleibi-b8578b321/" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-linkedin"></i>
+              <span>Judah on LinkedIn</span>
+            </SocialLink>
           </SocialLinks>
         </ContactSection>
       </div>

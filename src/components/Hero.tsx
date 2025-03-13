@@ -130,7 +130,7 @@ const SocialLink = styled.a`
   }
   
   @media (min-width: 768px) and (max-width: 1024px) {
-    padding: 0.2rem 0;
+    padding: 0.5rem 0;
   }
   
   @media (max-width: 768px) {

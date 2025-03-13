@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { TeamMember } from '../types';
-import bisharaImage from '../components/bishara.jpg';
-import JudahImage from '../components/judah.jpg';
+import bisharaImage from '../components/Bish.png';
+import JudahImage from '../components/Judah.png';
 import SalibaImage from '../components/Saliba.png';
 
 const TeamSection = styled.section`
@@ -52,14 +52,18 @@ const TeamCard = styled.div`
 
 const MemberImage = styled.div`
   width: 100%;
-  height: 300px; /* Fixed height for all images */
+  height: 300px; 
   overflow: hidden;
-  
+  position: relative;
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   
   ${TeamCard}:hover & img {

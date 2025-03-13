@@ -63,9 +63,6 @@ const HeroContent = styled.div`
   }
 `;
 
-const contactContent = styled.div`{
-
-}`;
 const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
@@ -80,7 +77,7 @@ const ButtonGroup = styled.div`
 
 const SocialLinks = styled.div`
   position: absolute;
-  left: 20px; /* Adjust as needed */
+  right: 3rem;  // Changed from 900px to use relative units
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -98,9 +95,24 @@ const SocialLinks = styled.div`
       transform: translateY(-3px);
     }
   }
+  
+  // Mobile styles - properly nested inside the component
+  @media (max-width: 768px) {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 2rem;
+    transform: none;
+  }
 `;
-
-
+const ContactSection = styled.div`
+  margin-top: 2rem;
+  
+  @media (max-width: 768px) {
+    margin-top: 3rem;
+  }
+`;
 const Hero: React.FC = () => {
   return (
     <HeroSection>
@@ -118,35 +130,29 @@ const Hero: React.FC = () => {
             <Link to="/projects" className="button">
               View Our Work
             </Link>
-
           </ButtonGroup>
         </HeroContent>
-      </div>
-      <div className='contact'>
-        <SocialLinks>
-          <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
-            <i className="fab fa-instagram"></i>
-          </a><br />
-          <a href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer">
-            <i className="fas fa-envelope"></i>
-          </a><br />
-          <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
-            <i className="fab fa-instagram"></i>
-          </a><br />
-          <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
-            <i className="fab fa-instagram"></i>
-          </a><br />
-          <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
-            <i className="fab fa-instagram"></i>
-          </a>
-        </SocialLinks>
-        email
-        instagram
-        number whatsapp businesses
-        linkedins and githubs
 
+        <ContactSection>
+          <SocialLinks>
+            <a href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-instagram"></i>
+            </a>
+            <a href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer">
+              <i className="fas fa-envelope"></i>
+            </a>
+            <a href="https://wa.me/yournumberhere" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://www.linkedin.com/company/codefusion" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-linkedin"></i>
+            </a>
+            <a href="https://github.com/codefusion" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-github"></i>
+            </a>
+          </SocialLinks>
+        </ContactSection>
       </div>
-
     </HeroSection>
   );
 };

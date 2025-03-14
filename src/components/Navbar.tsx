@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import CodeFusionLogo from '../components/images/CodeFusionLogo.png';
+import CodeFusion from '../components/images/CodeFusion.png';
 
 const NavContainer = styled.header`
   position: fixed;
@@ -13,12 +13,16 @@ const NavContainer = styled.header`
   z-index: 1000;
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
+  height: 64px; /* Fixed height for the header */
+  display: flex;
+  align-items: center;
 `;
 
 const NavContent = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `;
 
 const Logo = styled.div`
@@ -27,13 +31,23 @@ const Logo = styled.div`
   font-size: 1.5rem;
   font-weight: 700;
   
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--light-text);
+  }
+  
   span {
     color: var(--primary-color);
   }
-
+  
   img {
-    height: 40px; // Adjust as needed
-    margin-right: 10px; // Adjust as needed
+    height: 70px; /* Increased logo size */
+    width: auto;
+    margin-right: 10px;
+    object-fit: contain;
+    transform: translateY(4px); /* Adjust vertical position if needed */
   }
 `;
 
@@ -97,6 +111,13 @@ const MobileToggle = styled.button`
   }
 `;
 
+const LogoContainer = styled.div`
+  height: 40px; /* Fixed height container for the logo */
+  overflow: visible; /* Allow logo to extend outside the container */
+  display: flex;
+  align-items: center;
+`;
+
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -105,7 +126,6 @@ const Navbar: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -123,15 +143,15 @@ const Navbar: React.FC = () => {
         <NavContent>
           <Logo>
             <Link to="/">
-              <img src={CodeFusionLogo} alt="CodeFusion Logo" />
+              <LogoContainer>
+                <img src={CodeFusion} alt="CodeFusion Logo" />
+              </LogoContainer>
               Code<span>Fusion</span>
             </Link>
           </Logo>
-
           <MobileToggle onClick={toggleMenu}>
             {isOpen ? '✕' : '☰'}
           </MobileToggle>
-
           <NavLinks className={isOpen ? 'active' : ''}>
             <NavList>
               <NavItem>

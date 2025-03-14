@@ -181,17 +181,7 @@ const Hero: React.FC = () => {
 
             <SocialLink href="https://www.linkedin.com/in/bisharababish/" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-linkedin"></i>
-              <span>Bishara on LinkedIn</span>
-            </SocialLink>
-
-            <SocialLink href="https://www.linkedin.com/in/saliba-rishmawi-b32a11255/" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-linkedin"></i>
-              <span>Saliba on LinkedIn</span>
-            </SocialLink>
-
-            <SocialLink href="https://www.linkedin.com/in/judah-sleibi-b8578b321/" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-linkedin"></i>
-              <span>Judah on LinkedIn</span>
+              <span>Bishara's on LinkedIn</span>
             </SocialLink>
           </SocialLinks>
         </ContactSection>

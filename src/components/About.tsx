@@ -36,11 +36,20 @@ const AboutText = styled.div`
   }
 `;
 
+// Updated to use grid layout with 3 columns
 const KnowledgeGrid = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-top: 2rem;
+  
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const KnowledgeItem = styled.div`

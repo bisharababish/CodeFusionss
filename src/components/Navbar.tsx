@@ -1,7 +1,7 @@
-// src/components/Navbar.tsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import CodeFusionLogo from '../components/images/CodeFusionLogo.png';
 
 const NavContainer = styled.header`
   position: fixed;
@@ -22,11 +22,18 @@ const NavContent = styled.div`
 `;
 
 const Logo = styled.div`
+  display: flex;
+  align-items: center;
   font-size: 1.5rem;
   font-weight: 700;
   
   span {
     color: var(--primary-color);
+  }
+
+  img {
+    height: 40px; // Adjust as needed
+    margin-right: 10px; // Adjust as needed
   }
 `;
 
@@ -98,7 +105,7 @@ const Navbar: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -108,7 +115,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <NavContainer style={{ 
+    <NavContainer style={{
       boxShadow: scrolled ? '0 5px 15px rgba(0, 0, 0, 0.1)' : 'none',
       backgroundColor: scrolled ? 'rgba(8, 8, 15, 0.98)' : 'rgba(8, 8, 15, 0.85)'
     }}>
@@ -116,14 +123,15 @@ const Navbar: React.FC = () => {
         <NavContent>
           <Logo>
             <Link to="/">
+              <img src={CodeFusionLogo} alt="CodeFusion Logo" />
               Code<span>Fusion</span>
             </Link>
           </Logo>
-          
+
           <MobileToggle onClick={toggleMenu}>
             {isOpen ? '✕' : '☰'}
           </MobileToggle>
-          
+
           <NavLinks className={isOpen ? 'active' : ''}>
             <NavList>
               <NavItem>

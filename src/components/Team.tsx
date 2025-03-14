@@ -122,19 +122,8 @@ const Team: React.FC = () => {
   const teamMembers: TeamMember[] = [
     {
       id: 1,
-      name: 'Bishara Babish',
-      role: 'Co-Founder                                                                          & Full Stack Developer',
-      image: bisharaImage,
-      socialLinks: {
-        github: 'https://github.com/bisharababish',
-        linkedin: 'https://www.linkedin.com/in/bisharababish/',
-        instagram: 'https://instagram.com/bisharababish_'
-      }
-    },
-    {
-      id: 2,
       name: 'Judah Sleibi',
-      role: 'Co-Founder & AI Specialist',
+      role: 'Co-Founder<br>Quality assurance Team Leader<br>Quality Assurance Engineer<br>Artificial Intelligence Specialist<br>Data Scientist Specialist<br>SQL Developer',
       image: JudahImage,
       socialLinks: {
         github: 'https://github.com/judahsleibi34',
@@ -143,9 +132,20 @@ const Team: React.FC = () => {
       }
     },
     {
+      id: 2,
+      name: 'Bishara Babish',
+      role: 'Co-Founder<br>Development Team Lead<br>Full-Stack Developer',
+      image: bisharaImage,
+      socialLinks: {
+        github: 'https://github.com/bisharababish',
+        linkedin: 'https://www.linkedin.com/in/bisharababish/',
+        instagram: 'https://instagram.com/bisharababish_'
+      }
+    },
+    {
       id: 3,
       name: 'Saliba Rishmawi',
-      role: 'Co-Founder & Python, Arduino, Raspberry Pi',
+      role: 'Co-Founder<br>Artificial Intelligence Specialist<br>Image Processing Specialist<br>Linux System Developer<br>Embedded Systems Developer',
       image: SalibaImage,
       socialLinks: {
         github: 'https://github.com/Saliba-codes',
@@ -171,7 +171,7 @@ const Team: React.FC = () => {
               </MemberImage>
               <MemberInfo>
                 <h3>{member.name}</h3>
-                <p>{member.role}</p>
+                <p dangerouslySetInnerHTML={{ __html: member.role }}></p>
                 <SocialLinks>
                   {member.socialLinks?.github && (
                     <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer">

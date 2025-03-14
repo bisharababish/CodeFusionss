@@ -97,7 +97,7 @@ const SocialLinks = styled.div`
     height: 40px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center;                                  
     border-radius: 50%;
     background-color: rgba(108, 92, 231, 0.1);
     transition: all 0.3s ease;

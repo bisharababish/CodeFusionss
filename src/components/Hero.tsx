@@ -179,9 +179,9 @@ const Hero: React.FC = () => {
               <span>+972 56-830-2915</span>
             </SocialLink>
 
-            <SocialLink href="https://www.linkedin.com/in/bisharababish/" target="_blank" rel="noopener noreferrer">
+            <SocialLink href="https://x.com/codefusion218" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-linkedin"></i>
-              <span>Bishara's on LinkedIn</span>
+              <span>Follow us on Twitter/X</span>
             </SocialLink>
           </SocialLinks>
         </ContactSection>

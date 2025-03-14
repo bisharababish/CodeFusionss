@@ -185,31 +185,21 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
     },
     {
       id: 4,
-      title: 'ss',
-      description: 'Maharat website for job-postings using React and Node.js.',
-      image: '/project3.jpg',
-      technologies: ['React', 'Node.js', 'MongoDB'],
-      link: 'https://maharat-jobs.com',
-      githubLink: 'https://github.com/code-fusion/job-posting-site'
-    },
-    {
-      id: 4,
-      title: 'Jsste',
-      description: 'Maharat website for job-postings using React and Node.js.',
-      image: '/project3.jpg',
-      technologies: ['React', 'Node.js', 'MongoDB'],
-      link: 'https://maharat-jobs.com',
-      githubLink: 'https://github.com/code-fusion/job-posting-site'
+      title: 'Smart Home System',
+      description: 'IoT-based home automation system using Raspberry Pi and sensors.',
+      image: '/project4.jpg',
+      technologies: ['Raspberry Pi', 'IoT', 'Python', 'MQTT'],
+      githubLink: 'https://github.com/code-fusion/smart-home'
     },
     {
       id: 5,
-      title: 'Job-Posting Website',
-      description: 'Maharat website for job-postings using React and Node.js.',
-      image: '/project3.jpg',
-      technologies: ['React', 'Node.js', 'MongoDB'],
-      link: 'https://maharat-jobs.com',
-      githubLink: 'https://github.com/code-fusion/job-posting-site'
-    },
+      title: 'Mobile Learning App',
+      description: 'Educational application for mobile devices with interactive lessons.',
+      image: '/project5.jpg',
+      technologies: ['React Native', 'Firebase', 'Redux'],
+      link: 'https://edu-mobile-app.com',
+      githubLink: 'https://github.com/code-fusion/mobile-learning'
+    }
   ];
 
   // Use the limit prop if provided

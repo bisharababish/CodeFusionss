@@ -10,7 +10,7 @@ const Home: React.FC = () => {
         <>
             <Hero />
             <About />
-            <Projects limit={3} />
+            <Projects limit={5} />
             <Team />
         </>
     );

@@ -1,5 +1,5 @@
 // src/components/Projects.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Project } from '../types';
 
@@ -23,10 +23,26 @@ const SectionHeader = styled.div`
   }
 `;
 
-const ProjectsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+const SlideshowContainer = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const SlideIndicators = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 0.75rem;
+`;
+
+const Indicator = styled.div<{ active: boolean }>`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: ${props => props.active ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.3)'};
+  cursor: pointer;
+  transition: all 0.3s ease;
 `;
 
 const ProjectCard = styled.div`
@@ -35,16 +51,14 @@ const ProjectCard = styled.div`
   overflow: hidden;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
+  display: flex;
+  flex-direction: column;
+  height: 500px;
 `;
 
 const ProjectImage = styled.div`
   width: 100%;
-  height: 200px;
+  height: 280px;
   overflow: hidden;
   
   img {
@@ -53,24 +67,24 @@ const ProjectImage = styled.div`
     object-fit: cover;
     transition: transform 0.5s ease;
   }
-  
-  ${ProjectCard}:hover & img {
-    transform: scale(1.05);
-  }
 `;
 
 const ProjectInfo = styled.div`
   padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
   
   h3 {
     margin-bottom: 0.75rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
   
   p {
-    font-size: 0.9rem;
+    font-size: 1rem;
     opacity: 0.8;
     margin-bottom: 1rem;
+    flex-grow: 1;
   }
 `;
 
@@ -108,17 +122,47 @@ const ProjectLinks = styled.div`
   }
 `;
 
+const NavigationButtons = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+`;
+
+const NavButton = styled.button`
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+  
+  &:hover {
+    background-color: var(--primary-color);
+  }
+`;
+
 interface ProjectsProps {
   limit?: number;
+  autoplayInterval?: number;
 }
 
-const Projects: React.FC<ProjectsProps> = ({ limit }) => {
+const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) => {
   const projects: Project[] = [
     {
       id: 1,
       title: 'Robotics Programming',
       description: 'Programmed and built a robot for a competition using Python and Arduino.',
-      image: '/project1.jpg', 
+      image: '/project1.jpg',
       technologies: ['Python', 'Arduino', 'OpenCV'],
       githubLink: 'https://github.com/code-fusion/robotics-project'
     },
@@ -126,7 +170,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit }) => {
       id: 2,
       title: 'Buck-to-buck converter',
       description: 'PCB design for lowering high voltage efficiently.',
-      image: '/project2.jpg', 
+      image: '/project2.jpg',
       technologies: ['PCB Design', 'Electronics', 'Circuit Analysis'],
       githubLink: 'https://github.com/code-fusion/buck-converter'
     },
@@ -134,14 +178,74 @@ const Projects: React.FC<ProjectsProps> = ({ limit }) => {
       id: 3,
       title: 'Job-Posting Website',
       description: 'Maharat website for job-postings using React and Node.js.',
-      image: '/project3.jpg', 
+      image: '/project3.jpg',
+      technologies: ['React', 'Node.js', 'MongoDB'],
+      link: 'https://maharat-jobs.com',
+      githubLink: 'https://github.com/code-fusion/job-posting-site'
+    },
+    {
+      id: 4,
+      title: 'ss',
+      description: 'Maharat website for job-postings using React and Node.js.',
+      image: '/project3.jpg',
+      technologies: ['React', 'Node.js', 'MongoDB'],
+      link: 'https://maharat-jobs.com',
+      githubLink: 'https://github.com/code-fusion/job-posting-site'
+    },
+    {
+      id: 4,
+      title: 'Jsste',
+      description: 'Maharat website for job-postings using React and Node.js.',
+      image: '/project3.jpg',
+      technologies: ['React', 'Node.js', 'MongoDB'],
+      link: 'https://maharat-jobs.com',
+      githubLink: 'https://github.com/code-fusion/job-posting-site'
+    },
+    {
+      id: 5,
+      title: 'Job-Posting Website',
+      description: 'Maharat website for job-postings using React and Node.js.',
+      image: '/project3.jpg',
       technologies: ['React', 'Node.js', 'MongoDB'],
       link: 'https://maharat-jobs.com',
       githubLink: 'https://github.com/code-fusion/job-posting-site'
     },
   ];
 
+  // Use the limit prop if provided
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isPaused) {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % displayedProjects.length);
+      }
+    }, autoplayInterval);
+
+    return () => clearInterval(interval);
+  }, [isPaused, displayedProjects.length, autoplayInterval]);
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) =>
+      (prevIndex - 1 + displayedProjects.length) % displayedProjects.length
+    );
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), autoplayInterval);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % displayedProjects.length);
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), autoplayInterval);
+  };
+
+  const handleIndicatorClick = (index: number) => {
+    setCurrentIndex(index);
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), autoplayInterval);
+  };
 
   return (
     <ProjectsSection id="projects">
@@ -151,36 +255,59 @@ const Projects: React.FC<ProjectsProps> = ({ limit }) => {
           <p>Here are some of the projects we've worked on.</p>
         </SectionHeader>
 
-        <ProjectsGrid>
-          {displayedProjects.map(project => (
-            <ProjectCard key={project.id}>
-              <ProjectImage>
-                <img src={project.image} alt={project.title} />
-              </ProjectImage>
-              <ProjectInfo>
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <TechTags>
-                  {project.technologies.map((tech, index) => (
-                    <TechTag key={index}>{tech}</TechTag>
-                  ))}
-                </TechTags>
-                <ProjectLinks>
-                  {project.link && (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer">
-                      <i className="fas fa-external-link-alt"></i> View Live
-                    </a>
-                  )}
-                  {project.githubLink && (
-                    <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
-                      <i className="fab fa-github"></i> Source Code
-                    </a>
-                  )}
-                </ProjectLinks>
-              </ProjectInfo>
-            </ProjectCard>
-          ))}
-        </ProjectsGrid>
+        <SlideshowContainer
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <ProjectCard>
+            <ProjectImage>
+              <img
+                src={displayedProjects[currentIndex].image}
+                alt={displayedProjects[currentIndex].title}
+              />
+            </ProjectImage>
+            <ProjectInfo>
+              <h3>{displayedProjects[currentIndex].title}</h3>
+              <p>{displayedProjects[currentIndex].description}</p>
+              <TechTags>
+                {displayedProjects[currentIndex].technologies.map((tech, index) => (
+                  <TechTag key={index}>{tech}</TechTag>
+                ))}
+              </TechTags>
+              <ProjectLinks>
+                {displayedProjects[currentIndex].link && (
+                  <a href={displayedProjects[currentIndex].link} target="_blank" rel="noopener noreferrer">
+                    <i className="fas fa-external-link-alt"></i> View Live
+                  </a>
+                )}
+                {displayedProjects[currentIndex].githubLink && (
+                  <a href={displayedProjects[currentIndex].githubLink} target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-github"></i> Source Code
+                  </a>
+                )}
+              </ProjectLinks>
+            </ProjectInfo>
+          </ProjectCard>
+
+          <NavigationButtons>
+            <NavButton onClick={handlePrev}>
+              <i className="fas fa-chevron-left"></i>
+            </NavButton>
+            <NavButton onClick={handleNext}>
+              <i className="fas fa-chevron-right"></i>
+            </NavButton>
+          </NavigationButtons>
+
+          <SlideIndicators>
+            {displayedProjects.map((_, index) => (
+              <Indicator
+                key={index}
+                active={index === currentIndex}
+                onClick={() => handleIndicatorClick(index)}
+              />
+            ))}
+          </SlideIndicators>
+        </SlideshowContainer>
       </div>
     </ProjectsSection>
   );

@@ -81,10 +81,9 @@ const Footer: React.FC = () => {
         <FooterContainer>
             <FooterContent>
                 <FooterLinks>
-                    <a href="/Home">Home</a>
+                    <a href="/">Home</a>
                     <a href="/About">About</a>
                     <a href="/Projects">Projects</a>
-                    <a href="/privacy-policy">Privacy Policy</a>
                 </FooterLinks>
 
                 <SocialLinks>

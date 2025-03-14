@@ -91,7 +91,7 @@ const About: React.FC = () => {
     {
       name: 'Database',
       icon: 'fas fa-database',
-      technologies: ['SQL', 'PhpMyAdmin']
+      technologies: ['SQL', 'PhpMyAdmin', 'MongoDB', '.NET', 'Firebase']
     },
     {
       name: 'Exploratory Data Analysis',
@@ -127,6 +127,11 @@ const About: React.FC = () => {
       name: 'Latex',
       icon: 'fas fa-square-root-alt',
       technologies: ['Overleaf', 'TeX', 'BibTeX']
+    },
+    {
+      name: 'Office & Adobe Software',
+      icon: 'fab fa-microsoft',
+      technologies: ['Word', 'Excel', 'PowerPoint', 'Photoshop', 'Illustrator', 'Premiere Pro']
     }
   ];
 

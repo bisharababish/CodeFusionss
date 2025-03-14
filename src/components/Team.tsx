@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { TeamMember } from '../types';
-import bisharaImage from '../components/Bish.png';
-import JudahImage from '../components/Judah.png';
-import SalibaImage from '../components/Saliba.png';
+import bisharaImage from '../components/images/Bish.png';
+import JudahImage from '../components/images/Judah.png';
+import SalibaImage from '../components/images/Saliba.png';
 
 const TeamSection = styled.section`
   padding: 6rem 0;
@@ -123,7 +123,7 @@ const Team: React.FC = () => {
     {
       id: 1,
       name: 'Bishara Babish',
-      role: 'Co-Founder & Full Stack Developer',
+      role: 'Co-Founder                                                                          & Full Stack Developer',
       image: bisharaImage,
       socialLinks: {
         github: 'https://github.com/bisharababish',

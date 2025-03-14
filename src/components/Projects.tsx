@@ -1,7 +1,12 @@
 // src/components/Projects.tsx
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { Project } from '../types';
+import BlogImage from './projectspics/blog.png';
+import MRIImage from './projectspics/mri.png';
+import SnakeImage from './projectspics/snake.png';
+import TravelImage from './projectspics/travel.png';
+import DistrubitionImage from './projectspics/Distribution.png';
 
 const ProjectsSection = styled.section`
   padding: 6rem 0;
@@ -53,18 +58,44 @@ const ProjectCard = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 700px;
+`;
+
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const LoadingSpinner = styled.div`
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid var(--primary-color);
+  width: 40px;
+  height: 40px;
+  animation: ${spin} 1s linear infinite;
+  margin: 10px auto;
+`;
+
+const LoadingText = styled.div`
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 10px;
 `;
 
 const ProjectImage = styled.div`
   width: 100%;
-  height: 280px;
-  overflow: hidden;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
   
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.5s ease;
   }
 `;
@@ -160,49 +191,54 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
   const projects: Project[] = [
     {
       id: 1,
-      title: 'Robotics Programming',
-      description: 'Programmed and built a robot for a competition using Python and Arduino.',
-      image: '/project1.jpg',
-      technologies: ['Python', 'Arduino', 'OpenCV'],
-      githubLink: 'https://github.com/code-fusion/robotics-project'
+      title: 'Personal Blog Page',
+      description: 'A personal Blog that consists of random generated poems or blogs that you can read about when you press Continue Reading.',
+      image: BlogImage,
+      technologies: ['HTML', 'CSS'],
+      githubLink: 'https://github.com/bisharababish/Personal-Blog'
     },
     {
       id: 2,
-      title: 'Buck-to-buck converter',
-      description: 'PCB design for lowering high voltage efficiently.',
-      image: '/project2.jpg',
-      technologies: ['PCB Design', 'Electronics', 'Circuit Analysis'],
-      githubLink: 'https://github.com/code-fusion/buck-converter'
+      title: 'MRI Brain Tumor Detection',
+      description: 'This project focuses on developing an innovative AI-integrated application designed to analyze MRI scans of the brain and accurately detect the presence of tumors. Utilizing the PyTorch framework for its machine learning model, the project employs CNNs to achieve high accuracy in image analysis tasks.',
+      image: MRIImage,
+      technologies: ['JavaScript', 'HTML', 'CSS'],
+      githubLink: 'https://github.com/bisharababish/MRI-Brain-Tumor'
     },
     {
       id: 3,
-      title: 'Job-Posting Website',
-      description: 'Maharat website for job-postings using React and Node.js.',
-      image: '/project3.jpg',
-      technologies: ['React', 'Node.js', 'MongoDB'],
-      link: 'https://maharat-jobs.com',
-      githubLink: 'https://github.com/code-fusion/job-posting-site'
+      title: 'Snake Game',
+      description: 'An advanced, feature-rich implementation of the classic Snake game with modern graphics, power-ups, and progression mechanics.',
+      image: SnakeImage,
+      technologies: ['JavaScript', 'CSS', 'HTML'],
+      link: 'https://slitherzone.netlify.app/',
+      githubLink: 'https://github.com/bisharababish/Snake-Game'
     },
     {
       id: 4,
-      title: 'Smart Home System',
-      description: 'IoT-based home automation system using Raspberry Pi and sensors.',
-      image: '/project4.jpg',
-      technologies: ['Raspberry Pi', 'IoT', 'Python', 'MQTT'],
-      githubLink: 'https://github.com/code-fusion/smart-home'
+      title: 'Travel App',
+      description: 'This project involves building a personal blog website from scratch using HTML and CSS, focusing on custom design, layout, and styling while ensuring proper file structure and code formatting.',
+      image: TravelImage,
+      technologies: ['JavaScript', 'SCSS', 'HTML'],
+      githubLink: 'https://github.com/bisharababish/TravelApp'
     },
     {
       id: 5,
-      title: 'Mobile Learning App',
-      description: 'Educational application for mobile devices with interactive lessons.',
-      image: '/project5.jpg',
-      technologies: ['React Native', 'Firebase', 'Redux'],
-      link: 'https://edu-mobile-app.com',
-      githubLink: 'https://github.com/code-fusion/mobile-learning'
+      title: 'Early Prediction of Kidney Dysfunction in Diabetic Patients',
+      description: 'This project investigates the early prediction of kidney dysfunction in diabetic patients by analyzing Fasting Blood Sugar and Creatinine levels using machine learning models. The study leverages a dataset consisting of 499 samples with 13 features, undergoing rigorous preprocessing and analysis to improve model performance.',
+      image: DistrubitionImage,
+      technologies: ['Python'],
+      githubLink: 'https://github.com/judahsleibi34/Early-Prediction-of-Kidney-Dysfunction-in-Diabetic-Patients'
+    },
+    {
+      id: 6,
+      title: 'More Projects to come!',
+      description: 'Eearly Production and more developed applications, websites soon!',
+      image: "",
+      technologies: ['Soon'],
     }
   ];
 
-  // Use the limit prop if provided
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -251,10 +287,17 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
         >
           <ProjectCard>
             <ProjectImage>
-              <img
-                src={displayedProjects[currentIndex].image}
-                alt={displayedProjects[currentIndex].title}
-              />
+              {displayedProjects[currentIndex].image ? (
+                <img
+                  src={displayedProjects[currentIndex].image}
+                  alt={displayedProjects[currentIndex].title}
+                />
+              ) : (
+                <>
+                  <LoadingText>Loading...</LoadingText>
+                  <LoadingSpinner />
+                </>
+              )}
             </ProjectImage>
             <ProjectInfo>
               <h3>{displayedProjects[currentIndex].title}</h3>

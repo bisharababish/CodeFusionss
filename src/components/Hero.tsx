@@ -180,7 +180,7 @@ const Hero: React.FC = () => {
             </SocialLink>
 
             <SocialLink href="https://x.com/codefusion218" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-linkedin"></i>
+              <i className="fab fa-twitter"></i>
               <span>Follow us on Twitter/X</span>
             </SocialLink>
           </SocialLinks>

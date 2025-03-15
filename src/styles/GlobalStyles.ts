@@ -9,12 +9,16 @@ const GlobalStyles = createGlobalStyle`
     --darker-bg: #08080f;
     --light-text: #e6e6e6;
     --light-accent: #ddd6f3;
-  }
+
 
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
   }
 
   body {

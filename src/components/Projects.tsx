@@ -18,7 +18,7 @@ const SectionHeader = styled.div`
   
   h2 {
     font-size: clamp(1.8rem, 4vw, 2.5rem);
-    margin-bottom: 1rem;
+    margin-bottom: 0.2rem;
   }
   
   p {
@@ -200,9 +200,10 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
     {
       id: 2,
       title: 'MRI Brain Tumor Detection',
-      description: 'This project focuses on developing an innovative AI-integrated application designed to analyze MRI scans of the brain and accurately detect the presence of tumors. Utilizing the PyTorch framework for its machine learning model, the project employs CNNs to achieve high accuracy in image analysis tasks.',
+      description: 'This AI-powered application analyzes brain MRI scans to detect tumors using a CNN model built with PyTorch, ensuring high accuracy in image analysis.',
       image: MRIImage,
       technologies: ['JavaScript', 'HTML', 'CSS'],
+      link: 'https://mridetection.netlify.app/',
       githubLink: 'https://github.com/bisharababish/MRI-Brain-Tumor'
     },
     {

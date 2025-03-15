@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import CodeFusion from '../components/images/CodeFusion.png';
 
 const HeroSection = styled.section`
   min-height: 100vh;
@@ -13,15 +14,18 @@ const HeroSection = styled.section`
   &::before {
     content: '';
     position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-    opacity: 0.1;
-    filter: blur(50px);
-    z-index: -1;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%; 
+    height: 140%;
+    height: 140%;
+    background-image: url(${CodeFusion});
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.10; 
+    z-index: -2;
   }
   
   &::after {
@@ -43,7 +47,6 @@ const HeroContent = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 800px;
-  
   h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     margin-bottom: 1.5rem;

@@ -75,7 +75,7 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const SocialLinks = styled.div`
+const SocialLinksWrapper = styled.div`
   position: absolute;
   right: 3rem;
   top: 50%;
@@ -84,7 +84,6 @@ const SocialLinks = styled.div`
   flex-direction: column;
   gap: 1.5rem;
   
-  /* Add this tablet/iPad specific media query */
   @media (min-width: 768px) and (max-width: 1024px) {
     right: 2rem;
     gap: 1.2rem;
@@ -93,47 +92,89 @@ const SocialLinks = styled.div`
   @media (max-width: 768px) {
     position: static;
     margin-top: 2rem;
-    gap: 1rem;
     transform: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
   }
 `;
 
 const SocialLink = styled.a`
   display: flex;
   align-items: center;
-  font-size: 1rem;
-  opacity: 0.7;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(30, 30, 38, 0.8);
+  color: white;
   transition: all 0.3s ease;
+  position: relative;
   
   i {
-    font-size: 1.5rem;
-    margin-right: 0.75rem;
+    font-size: 1.25rem;
   }
   
-span {
-  display: none;
-  
-  @media (max-width: 768px) {
-    display: inline;
+  span {
+    position: absolute;
+    right: calc(100% + 15px);
+    white-space: nowrap;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    transform: translateX(10px);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent rgba(0, 0, 0, 0.8);
+    }
   }
-}
   
   &:hover {
-    opacity: 1;
-    color: var(--primary-color);
-    transform: translateY(-3px);
-  }
-  
-  /* Add this for better spacing on tablets */
-  @media (min-width: 768px) and (max-width: 1024px) {
-    padding: 0.5rem 0;
+    opacity: 0.9;
+    transform: scale(1.05);
+    
+    span {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
   
   @media (max-width: 768px) {
-    justify-content: flex-start;
-    margin-bottom: 0.5rem;
+    width: 42px;
+    height: 42px;
+    
+    span {
+      display: none;
+    }
   }
 `;
+
+const ContactLabel = styled.div`
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+  font-weight: 600;
+  
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
 const ContactSection = styled.div`
   margin-top: 2rem;
   
@@ -163,27 +204,28 @@ const Hero: React.FC = () => {
         </HeroContent>
 
         <ContactSection>
-          <SocialLinks>
-            <SocialLink href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer">
+          <SocialLinksWrapper>
+            <ContactLabel>Connect With Us</ContactLabel>
+            <SocialLink href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <i className="fab fa-instagram"></i>
               <span>Follow us on Instagram</span>
             </SocialLink>
 
-            <SocialLink href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer">
+            <SocialLink href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email">
               <i className="fas fa-envelope"></i>
               <span>codefusion218@gmail.com</span>
             </SocialLink>
 
-            <SocialLink href="https://wa.me/+972568302915" target="_blank" rel="noopener noreferrer">
+            <SocialLink href="https://wa.me/+972568302915" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
               <i className="fab fa-whatsapp"></i>
               <span>+972 56-830-2915</span>
             </SocialLink>
 
-            <SocialLink href="https://x.com/codefusion218" target="_blank" rel="noopener noreferrer">
+            <SocialLink href="https://x.com/codefusion218" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X">
               <i className="fab fa-twitter"></i>
               <span>Follow us on Twitter/X</span>
             </SocialLink>
-          </SocialLinks>
+          </SocialLinksWrapper>
         </ContactSection>
       </div>
     </HeroSection>

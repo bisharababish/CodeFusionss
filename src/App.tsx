@@ -15,7 +15,7 @@ const App: React.FC = () => {
     setContentVisible(false);
     const timer = setTimeout(() => {
       setContentVisible(true);
-    }, 2000);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);

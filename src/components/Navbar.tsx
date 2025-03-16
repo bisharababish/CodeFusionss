@@ -118,7 +118,6 @@ const LogoContainer = styled.div`
   align-items: center;
 `;
 
-// Simple anchor tag for direct HTML navigation
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
@@ -151,7 +150,7 @@ const Navbar = () => {
       <div className="container">
         <NavContent>
           <Logo>
-            {/* SIMPLE HTML ANCHOR TAG - GUARANTEED TO WORK */}
+            { }
             <LogoLink href="/">
               <LogoContainer>
                 <img src={CodeFusion} alt="CodeFusion Logo" />

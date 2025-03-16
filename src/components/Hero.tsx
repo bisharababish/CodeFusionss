@@ -24,7 +24,7 @@ const HeroSection = styled.section`
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.12; 
+    opacity: 0.15; 
     z-index: -2;
   }
   

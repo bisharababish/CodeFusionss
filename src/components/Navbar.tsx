@@ -118,7 +118,16 @@ const LogoContainer = styled.div`
   align-items: center;
 `;
 
-const Navbar: React.FC = () => {
+// Simple anchor tag for direct HTML navigation
+const LogoLink = styled.a`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--light-text);
+  cursor: pointer;
+`;
+
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -142,12 +151,13 @@ const Navbar: React.FC = () => {
       <div className="container">
         <NavContent>
           <Logo>
-            <Link to="/">
+            {/* SIMPLE HTML ANCHOR TAG - GUARANTEED TO WORK */}
+            <LogoLink href="/">
               <LogoContainer>
                 <img src={CodeFusion} alt="CodeFusion Logo" />
               </LogoContainer>
               Code<span>Fusion</span>
-            </Link>
+            </LogoLink>
           </Logo>
           <MobileToggle onClick={toggleMenu}>
             {isOpen ? '✕' : '☰'}

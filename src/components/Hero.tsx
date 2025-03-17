@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import CodeFusion from '../components/images/CodeFusion.png';
 import { motion } from 'framer-motion';
 
-// Styled components with animations
 const HeroSection = styled.section`
   min-height: 100vh;
   display: flex;
@@ -241,7 +240,6 @@ const ContactSection = styled(motion.div)`
   }
 `;
 
-// Particles component
 const ParticlesContainer = styled.div`
   position: absolute;
   top: 0;
@@ -314,7 +312,6 @@ const Particles: React.FC<ParticleProps> = ({ count }) => {
   return <ParticlesContainer>{particles}</ParticlesContainer>;
 };
 
-// Social links data
 const socialLinks = [
   {
     label: "Instagram",
@@ -342,13 +339,10 @@ const socialLinks = [
   }
 ];
 
-// Main component
 const Hero: React.FC = () => {
-  // All words in a single array for continuous flow
   const regularWords = ["Driving", "innovation", "and", "creating", "a"];
   const highlightedWords = ["brighter", "digital", "future."];
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -373,7 +367,6 @@ const Hero: React.FC = () => {
     }
   };
 
-  // Animation for highlighted words - coming from the right side of the screen
   const highlightedContainerVariants = {
     hidden: { opacity: 1 },
     visible: {
@@ -387,7 +380,7 @@ const Hero: React.FC = () => {
 
   const highlightedWordVariants = {
     hidden: {
-      x: 1000, // Start from far right of the screen
+      x: 1000, 
       opacity: 0
     },
     visible: {

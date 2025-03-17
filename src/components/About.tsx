@@ -136,12 +136,12 @@ const About: React.FC = () => {
   ];
 
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.5 });
+  const isInView = useInView(ref, { once: false, amount: 0.3 }); // Adjust threshold for mobile
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -50 }
+    hidden: { opacity: 0, y: 50 }, // Slide up from 50px
+    visible: { opacity: 1, y: 0 }, // Slide to original position
+    exit: { opacity: 0, y: -50 } // Slide up and fade out
   };
 
   return (
@@ -168,7 +168,7 @@ const About: React.FC = () => {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 exit="exit"
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }} // Staggered delay
               >
                 <KnowledgeTitle>
                   <i className={area.icon}></i> {area.name}

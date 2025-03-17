@@ -26,6 +26,19 @@ const HeroSection = styled.section`
     background-repeat: no-repeat;
     opacity: 0.15;
     z-index: -2;
+    animation: floatBackground 20s ease-in-out infinite; // Background image animation
+  }
+
+  @keyframes floatBackground {
+    0% {
+      transform: translate(-50%, -50%) translateX(0) translateY(0);
+    }
+    50% {
+      transform: translate(-50%, -50%) translateX(20px) translateY(20px);
+    }
+    100% {
+      transform: translate(-50%, -50%) translateX(0) translateY(0);
+    }
   }
 
   &::after {

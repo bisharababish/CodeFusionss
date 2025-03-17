@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CodeFusion from '../components/images/CodeFusion.png';
@@ -63,13 +63,6 @@ const HeroContent = styled(motion.div)`
     margin-bottom: 1.5rem;
     line-height: 1.1;
     overflow: hidden;
-  }
-  
-  p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    margin-bottom: 2rem;
-    opacity: 0.8;
-    max-width: 600px;
   }
 `;
 
@@ -339,9 +332,65 @@ const socialLinks = [
   }
 ];
 
+const AnimatedParagraphContainer = styled.p`
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  margin-bottom: 2rem;
+  opacity: 0.8;
+  max-width: 600px;
+`;
+
+const AnimatedWord = styled(motion.span)`
+  display: inline-block;
+  margin-right: 0.25rem;
+`;
+
+interface AnimatedParagraphProps {
+  text: string;
+  startDelay?: number;
+  wordDelay?: number;
+}
+
+const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
+  text,
+  startDelay = 1.5,
+  wordDelay = 0.05
+}) => {
+  const words = text.split(" ");
+
+  const paragraphWordVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.4,
+        delay: startDelay + custom * wordDelay,
+        ease: "easeOut"
+      }
+    })
+  };
+
+  return (
+    <AnimatedParagraphContainer>
+      {words.map((word, index) => (
+        <AnimatedWord
+          key={index}
+          custom={index}
+          variants={paragraphWordVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {word}
+        </AnimatedWord>
+      ))}
+    </AnimatedParagraphContainer>
+  );
+};
+
 const Hero: React.FC = () => {
   const regularWords = ["Driving", "innovation", "and", "creating", "a"];
   const highlightedWords = ["brighter", "digital", "future."];
+  const paragraphText = "Welcome to Code Fusion, a passionate team of developers specialized in building custom solutions for businesses and startups. From web applications to AI integration, we bring your ideas to life.";
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -434,15 +483,7 @@ const Hero: React.FC = () => {
             </motion.div>
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 1.5 }}
-          >
-            Welcome to Code Fusion, a passionate team of developers specialized in building
-            custom solutions for businesses and startups. From web applications to AI
-            integration, we bring your ideas to life.
-          </motion.p>
+          <AnimatedParagraph text={paragraphText} />
 
           <ButtonGroup
             initial={{ opacity: 0, y: 20 }}

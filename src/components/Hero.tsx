@@ -11,23 +11,23 @@ const HeroSection = styled.section`
   position: relative;
   overflow: hidden;
   padding: 8rem 0 6rem;
-  
+
   &::before {
     content: '';
     position: absolute;
     top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 140%; 
+    width: 140%;
     height: 140%;
     background-image: url(${CodeFusion});
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.15; 
+    opacity: 0.15;
     z-index: -2;
   }
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -57,7 +57,7 @@ const HeroContent = styled(motion.div)`
   display: flex;
   flex-direction: column;
   max-width: 800px;
-  
+
   h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     margin-bottom: 1.5rem;
@@ -94,7 +94,7 @@ const ButtonGroup = styled(motion.div)`
   gap: 1rem;
   margin-top: 1rem;
   align-items: center;
-  
+
   @media (max-width: 480px) {
     flex-direction: column;
     align-items: flex-start;
@@ -106,7 +106,7 @@ const AnimatedButton = styled(motion.div)`
     position: relative;
     overflow: hidden;
     z-index: 1;
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -118,7 +118,7 @@ const AnimatedButton = styled(motion.div)`
       z-index: -1;
       transition: left 0.3s ease;
     }
-    
+
     &:hover::before {
       left: 100%;
     }
@@ -133,12 +133,12 @@ const SocialLinksWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  
+
   @media (min-width: 768px) and (max-width: 1024px) {
     right: 2rem;
     gap: 1.2rem;
   }
-  
+
   @media (max-width: 768px) {
     position: static;
     margin-top: 2rem;
@@ -161,11 +161,11 @@ const SocialLink = styled(motion.a)`
   color: white;
   transition: all 0.3s ease;
   position: relative;
-  
+
   i {
     font-size: 1.25rem;
   }
-  
+
   span {
     position: absolute;
     right: calc(100% + 15px);
@@ -179,7 +179,7 @@ const SocialLink = styled(motion.a)`
     pointer-events: none;
     transition: all 0.3s ease;
     transform: translateX(10px);
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -191,21 +191,21 @@ const SocialLink = styled(motion.a)`
       border-color: transparent transparent transparent rgba(0, 0, 0, 0.8);
     }
   }
-  
+
   &:hover {
     opacity: 0.9;
     transform: scale(1.05);
-    
+
     span {
       opacity: 1;
       transform: translateX(0);
     }
   }
-  
+
   @media (max-width: 768px) {
     width: 42px;
     height: 42px;
-    
+
     span {
       display: none;
     }
@@ -219,7 +219,7 @@ const ContactLabel = styled(motion.div)`
   margin-bottom: 1rem;
   opacity: 0.7;
   font-weight: 600;
-  
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -227,7 +227,7 @@ const ContactLabel = styled(motion.div)`
 
 const ContactSection = styled(motion.div)`
   margin-top: 2rem;
-  
+
   @media (max-width: 768px) {
     margin-top: 3rem;
   }
@@ -262,7 +262,7 @@ const Particle = styled.div<ParticleStyleProps>`
   left: ${props => props.left};
   animation: float ${props => props.duration}s linear infinite;
   animation-delay: ${props => props.delay}s;
-  
+
   @keyframes float {
     0% {
       transform: translateY(0) rotate(0deg);
@@ -378,7 +378,8 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
           custom={index}
           variants={paragraphWordVariants}
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: false, amount: 0.5 }}
         >
           {word}
         </AnimatedWord>
@@ -429,7 +430,7 @@ const Hero: React.FC = () => {
 
   const highlightedWordVariants = {
     hidden: {
-      x: 1000, 
+      x: 1000,
       opacity: 0
     },
     visible: {
@@ -450,14 +451,16 @@ const Hero: React.FC = () => {
       <div className="container">
         <HeroContent
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.5 }}
         >
           <motion.h1>
             <motion.div
               variants={containerVariants}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.5 }}
               style={{ display: "inline" }}
             >
               {regularWords.map((word, index) => (
@@ -470,7 +473,8 @@ const Hero: React.FC = () => {
             <motion.div
               variants={highlightedContainerVariants}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.5 }}
               style={{ display: "inline" }}
             >
               {highlightedWords.map((word, index) => (
@@ -487,7 +491,8 @@ const Hero: React.FC = () => {
 
           <ButtonGroup
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.5 }}
             transition={{ duration: 0.5, delay: 1.8 }}
           >
             <AnimatedButton
@@ -503,17 +508,20 @@ const Hero: React.FC = () => {
 
         <ContactSection
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: false, amount: 0.5 }}
           transition={{ duration: 0.5, delay: 2 }}
         >
           <SocialLinksWrapper
             initial={{ x: 100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: false, amount: 0.5 }}
             transition={{ duration: 0.6, delay: 2.2 }}
           >
             <ContactLabel
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.7 }}
+              whileInView={{ opacity: 0.7 }}
+              viewport={{ once: false, amount: 0.5 }}
               transition={{ duration: 0.5, delay: 2.3 }}
             >
               Connect With Us
@@ -527,7 +535,8 @@ const Hero: React.FC = () => {
                 rel="noopener noreferrer"
                 aria-label={link.label}
                 initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: false, amount: 0.5 }}
                 transition={{ duration: 0.4, delay: 2.4 + index * 0.1 }}
                 whileHover={{
                   scale: 1.1,

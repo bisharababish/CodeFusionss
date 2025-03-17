@@ -8,6 +8,45 @@ import SnakeImage from './projectspics/snake.png';
 import TravelImage from './projectspics/travel.png';
 import DistrubitionImage from './projectspics/Distribution.png';
 
+// Animations
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const bounce = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+`;
+
+// Styled Components
 const ProjectsSection = styled.section`
   padding: 6rem 0;
 `;
@@ -48,7 +87,11 @@ const Indicator = styled.div<{ active: boolean }>`
   background-color: ${props => props.active ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.3)'};
   cursor: pointer;
   transition: all 0.3s ease;
-`;
+  animation: ${props => props.active ? pulse : 'none'} 1.5s infinite;
+   @media (max-width: 768px) {
+    animation: none; 
+  }
+  `;
 
 const ProjectCard = styled.div`
   background-color: rgba(15, 15, 26, 0.5);
@@ -59,11 +102,11 @@ const ProjectCard = styled.div`
   display: flex;
   flex-direction: column;
   height: 700px;
-`;
-
-const spin = keyframes`
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  animation: ${fadeIn} 0.5s ease-out;
+  
+  @media (max-width: 768px) {
+    height: 500px; 
+  }
 `;
 
 const LoadingSpinner = styled.div`
@@ -72,7 +115,7 @@ const LoadingSpinner = styled.div`
   border-top: 4px solid var(--primary-color);
   width: 40px;
   height: 40px;
-  animation: ${spin} 1s linear infinite;
+  animation: ${spin} 1s linear infinite, ${bounce} 1.5s ease-in-out infinite;
   margin: 10px auto;
 `;
 
@@ -97,6 +140,16 @@ const ProjectImage = styled.div`
     height: 100%;
     object-fit: contain;
     transition: transform 0.5s ease;
+    animation: ${fadeIn} 0.5s ease-out;
+  }
+  
+  &:hover img {
+    transform: scale(1.05);
+  }
+ @media (max-width: 768px) {
+    &:hover img {
+      transform: none; 
+    }
   }
 `;
 
@@ -179,6 +232,14 @@ const NavButton = styled.button`
   
   &:hover {
     background-color: var(--primary-color);
+    transform: scale(1.1);
+  }
+  @media (max-width: 768px) {
+    width: 50px; 
+    height: 50px;
+    &:hover {
+      transform: none; 
+    }
   }
 `;
 
@@ -234,7 +295,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
     {
       id: 6,
       title: 'More Projects to come!',
-      description: 'Eearly Production and more developed applications, websites soon!',
+      description: 'Early Production and more developed applications, websites soon!',
       image: "",
       technologies: ['Soon'],
     }

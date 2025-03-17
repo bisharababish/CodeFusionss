@@ -27,6 +27,17 @@ const SectionHeader = styled.div`
   }
 `;
 
+// Bounce animation for the loading spinner
+const bounce = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+`;
+
+// Slide-in animation for project cards
 const slideIn = keyframes`
   0% {
     transform: translateX(100%);
@@ -38,6 +49,7 @@ const slideIn = keyframes`
   }
 `;
 
+// Slide-out animation for project cards
 const slideOut = keyframes`
   0% {
     transform: translateX(0);
@@ -84,18 +96,13 @@ const ProjectCard = styled.div<{ isActive: boolean }>`
   animation: ${props => props.isActive ? slideIn : slideOut} 0.5s ease-in-out;
 `;
 
-const spin = keyframes`
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-`;
-
 const LoadingSpinner = styled.div`
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top: 4px solid var(--primary-color);
   width: 40px;
   height: 40px;
-  animation: ${spin} 1s linear infinite;
+  animation: ${bounce} 0.8s infinite ease-in-out;
   margin: 10px auto;
 `;
 
@@ -104,6 +111,7 @@ const LoadingText = styled.div`
   color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
   margin-bottom: 10px;
+  animation: ${bounce} 0.8s infinite ease-in-out;
 `;
 
 const ProjectImage = styled.div`

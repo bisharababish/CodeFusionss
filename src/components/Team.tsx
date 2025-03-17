@@ -5,6 +5,7 @@ import bisharaImage from '../components/images/Bish.png';
 import JudahImage from '../components/images/Judah.png';
 import SalibaImage from '../components/images/Saliba.png';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const flip = keyframes`
   from {
     transform: rotateY(0deg);

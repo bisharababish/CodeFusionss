@@ -5,7 +5,6 @@ import bisharaImage from '../components/images/Bish.png';
 import JudahImage from '../components/images/Judah.png';
 import SalibaImage from '../components/images/Saliba.png';
 
-// Keyframes for the flip animation
 const flip = keyframes`
   from {
     transform: rotateY(0deg);
@@ -47,8 +46,8 @@ const TeamGrid = styled.div`
 
 const TeamCard = styled.div`
   width: 300px;
-  height: 500px; /* Increased height for the card */
-  perspective: 1000px; /* Enables 3D perspective for the flip effect */
+  height: 500px; 
+  perspective: 1000px; 
 `;
 
 const CardInner = styled.div`
@@ -57,11 +56,11 @@ const CardInner = styled.div`
   height: 100%;
   text-align: center;
   transition: transform 0.6s ease;
-  transform-style: preserve-3d; /* Ensures the child elements are rendered in 3D space */
+  transform-style: preserve-3d; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
   ${TeamCard}:hover & {
-    transform: rotateY(180deg); /* Flip the card on hover */
+    transform: rotateY(180deg); 
   }
 `;
 
@@ -69,7 +68,7 @@ const CardFront = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden; /* Hide the back of the card */
+  backface-visibility: hidden; 
   border-radius: 10px;
   overflow: hidden;
   background-color: rgba(15, 15, 26, 0.5);
@@ -80,12 +79,12 @@ const CardBack = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden; /* Hide the front of the card */
+  backface-visibility: hidden;  
   border-radius: 10px;
   overflow: hidden;
   background-color: rgba(15, 15, 26, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  transform: rotateY(180deg); /* Start flipped */
+  transform: rotateY(180deg); 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -95,14 +94,14 @@ const CardBack = styled.div`
 
 const MemberImage = styled.div`
   width: 100%;
-  height: 300px; /* Increased height for the image container */
+  height: 300px;
   overflow: hidden;
   position: relative;
 
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures the image covers the container */
+    object-fit: cover; 
     transition: transform 0.5s ease;
     position: absolute;
     top: 0;

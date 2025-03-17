@@ -1,4 +1,3 @@
-// src/components/Projects.tsx
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Project } from '../types';
@@ -28,10 +27,33 @@ const SectionHeader = styled.div`
   }
 `;
 
+const slideIn = keyframes`
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const slideOut = keyframes`
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+`;
+
 const SlideshowContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
   position: relative;
+  overflow: hidden;
 `;
 
 const SlideIndicators = styled.div`
@@ -50,7 +72,7 @@ const Indicator = styled.div<{ active: boolean }>`
   transition: all 0.3s ease;
 `;
 
-const ProjectCard = styled.div`
+const ProjectCard = styled.div<{ isActive: boolean }>`
   background-color: rgba(15, 15, 26, 0.5);
   border-radius: 10px;
   overflow: hidden;
@@ -59,6 +81,7 @@ const ProjectCard = styled.div`
   display: flex;
   flex-direction: column;
   height: 700px;
+  animation: ${props => props.isActive ? slideIn : slideOut} 0.5s ease-in-out;
 `;
 
 const spin = keyframes`
@@ -286,7 +309,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <ProjectCard>
+          <ProjectCard isActive={true}>
             <ProjectImage>
               {displayedProjects[currentIndex].image ? (
                 <img

@@ -88,10 +88,7 @@ const Indicator = styled.div<{ active: boolean }>`
   cursor: pointer;
   transition: all 0.3s ease;
   animation: ${props => props.active ? pulse : 'none'} 1.5s infinite;
-   @media (max-width: 768px) {
-    animation: none; 
-  }
-  `;
+`;
 
 const ProjectCard = styled.div`
   background-color: rgba(15, 15, 26, 0.5);
@@ -103,10 +100,6 @@ const ProjectCard = styled.div`
   flex-direction: column;
   height: 700px;
   animation: ${fadeIn} 0.5s ease-out;
-  
-  @media (max-width: 768px) {
-    height: 500px; 
-  }
 `;
 
 const LoadingSpinner = styled.div`
@@ -145,11 +138,6 @@ const ProjectImage = styled.div`
   
   &:hover img {
     transform: scale(1.05);
-  }
- @media (max-width: 768px) {
-    &:hover img {
-      transform: none; 
-    }
   }
 `;
 
@@ -234,15 +222,9 @@ const NavButton = styled.button`
     background-color: var(--primary-color);
     transform: scale(1.1);
   }
-  @media (max-width: 768px) {
-    width: 50px; 
-    height: 50px;
-    &:hover {
-      transform: none; 
-    }
-  }
 `;
 
+// Projects Component
 interface ProjectsProps {
   limit?: number;
   autoplayInterval?: number;

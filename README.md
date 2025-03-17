@@ -7,8 +7,7 @@ Welcome to **CodeFusion**, a passionate team of developers specializing in build
 - [About](#about)
 - [Projects](#projects)
 - [Team](#team)
-- [Installation](#installation)
-- [Usage](#usage)
+
 
 ## About
 

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { motion, useInView } from 'framer-motion';
 
 const AboutSection = styled.section`
   padding: 6rem 0;
@@ -36,7 +37,6 @@ const AboutText = styled.div`
   }
 `;
 
-// Updated to use grid layout with 3 columns
 const KnowledgeGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -52,7 +52,7 @@ const KnowledgeGrid = styled.div`
   }
 `;
 
-const KnowledgeItem = styled.div`
+const KnowledgeItem = styled(motion.div)`
   width: 100%;
   padding: 1.5rem;
   background-color: var(--dark-bg);
@@ -135,6 +135,15 @@ const About: React.FC = () => {
     }
   ];
 
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, amount: 0.5 });
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -50 }
+  };
+
   return (
     <AboutSection id="about">
       <AboutContent>
@@ -151,9 +160,16 @@ const About: React.FC = () => {
             Whether you need a custom website, a complex web application, or an innovative AI solution,
             we have the skills and knowledge to bring your ideas to life.
           </p>
-          <KnowledgeGrid>
+          <KnowledgeGrid ref={ref}>
             {knowledgeAreas.map((area, index) => (
-              <KnowledgeItem key={index}>
+              <KnowledgeItem
+                key={index}
+                variants={itemVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                exit="exit"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
                 <KnowledgeTitle>
                   <i className={area.icon}></i> {area.name}
                 </KnowledgeTitle>

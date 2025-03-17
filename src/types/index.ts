@@ -4,6 +4,7 @@ export interface TeamMember {
   name: string;
   role: string;
   image: string;
+  bio: string;
   socialLinks?: {
     github?: string;
     linkedin?: string;

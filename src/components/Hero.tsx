@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CodeFusion from '../components/images/CodeFusion.png';
+import { motion } from 'framer-motion';
 
+// Styled components with animations
 const HeroSection = styled.section`
   min-height: 100vh;
   display: flex;
@@ -18,7 +20,6 @@ const HeroSection = styled.section`
     left: 50%;
     transform: translate(-50%, -50%);
     width: 140%; 
-    height: 140%;
     height: 140%;
     background-image: url(${CodeFusion});
     background-size: contain;
@@ -40,17 +41,29 @@ const HeroSection = styled.section`
     opacity: 0.08;
     filter: blur(70px);
     z-index: -1;
+    animation: floatGradient 15s ease-in-out infinite alternate;
+  }
+
+  @keyframes floatGradient {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(100px, 100px);
+    }
   }
 `;
 
-const HeroContent = styled.div`
+const HeroContent = styled(motion.div)`
   display: flex;
   flex-direction: column;
   max-width: 800px;
+  
   h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     margin-bottom: 1.5rem;
     line-height: 1.1;
+    overflow: hidden;
   }
   
   p {
@@ -59,14 +72,32 @@ const HeroContent = styled.div`
     opacity: 0.8;
     max-width: 600px;
   }
-  
-  .highlight {
-    color: var(--primary-color);
-    font-weight: 700;
-  }
 `;
 
-const ButtonGroup = styled.div`
+const WordContainer = styled(motion.div)`
+  display: inline-block;
+  margin-right: 0.5rem;
+  overflow: hidden;
+`;
+
+const Word = styled(motion.span)`
+  display: inline-block;
+  white-space: nowrap;
+`;
+
+const HighlightedWordContainer = styled(motion.div)`
+  display: inline-block;
+  overflow: hidden;
+`;
+
+const HighlightedWord = styled(motion.span)`
+  color: var(--primary-color);
+  font-weight: 700;
+  display: inline-block;
+  margin-right: 0.5rem;
+`;
+
+const ButtonGroup = styled(motion.div)`
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
@@ -78,7 +109,31 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const SocialLinksWrapper = styled.div`
+const AnimatedButton = styled(motion.div)`
+  .button {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: -1;
+      transition: left 0.3s ease;
+    }
+    
+    &:hover::before {
+      left: 100%;
+    }
+  }
+`;
+
+const SocialLinksWrapper = styled(motion.div)`
   position: absolute;
   right: 3rem;
   top: 50%;
@@ -103,7 +158,7 @@ const SocialLinksWrapper = styled.div`
   }
 `;
 
-const SocialLink = styled.a`
+const SocialLink = styled(motion.a)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -165,7 +220,7 @@ const SocialLink = styled.a`
   }
 `;
 
-const ContactLabel = styled.div`
+const ContactLabel = styled(motion.div)`
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -178,7 +233,7 @@ const ContactLabel = styled.div`
   }
 `;
 
-const ContactSection = styled.div`
+const ContactSection = styled(motion.div)`
   margin-top: 2rem;
   
   @media (max-width: 768px) {
@@ -186,48 +241,271 @@ const ContactSection = styled.div`
   }
 `;
 
+// Particles component
+const ParticlesContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+`;
+
+interface ParticleStyleProps {
+  size: number;
+  top: string;
+  left: string;
+  duration: number;
+  delay: number;
+}
+
+const Particle = styled.div<ParticleStyleProps>`
+  position: absolute;
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  opacity: 0.5;
+  top: ${props => props.top};
+  left: ${props => props.left};
+  animation: float ${props => props.duration}s linear infinite;
+  animation-delay: ${props => props.delay}s;
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.3;
+    }
+    100% {
+      transform: translateY(-100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+`;
+
+interface ParticleProps {
+  count: number;
+}
+
+const Particles: React.FC<ParticleProps> = ({ count }) => {
+  const particles = Array.from({ length: count }, (_, i) => {
+    const size = Math.random() * 5 + 1;
+    const top = `${Math.random() * 100 + 50}%`;
+    const left = `${Math.random() * 100}%`;
+    const duration = Math.random() * 20 + 10;
+    const delay = Math.random() * 5;
+
+    return (
+      <Particle
+        key={i}
+        size={size}
+        top={top}
+        left={left}
+        duration={duration}
+        delay={delay}
+      />
+    );
+  });
+
+  return <ParticlesContainer>{particles}</ParticlesContainer>;
+};
+
+// Social links data
+const socialLinks = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/codefusionn/",
+    icon: "fab fa-instagram",
+    text: "Follow us on Instagram"
+  },
+  {
+    label: "Email",
+    href: "mailto:codefusion218@gmail.com",
+    icon: "fas fa-envelope",
+    text: "codefusion218@gmail.com"
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/+972568302915",
+    icon: "fab fa-whatsapp",
+    text: "+972 56-830-2915"
+  },
+  {
+    label: "Twitter/X",
+    href: "https://x.com/codefusion218",
+    icon: "fab fa-twitter",
+    text: "Follow us on Twitter/X"
+  }
+];
+
+// Main component
 const Hero: React.FC = () => {
+  // All words in a single array for continuous flow
+  const regularWords = ["Driving", "innovation", "and", "creating", "a"];
+  const highlightedWords = ["brighter", "digital", "future."];
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const wordVariants = {
+    hidden: {
+      y: 50,
+      opacity: 0
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        damping: 12,
+        stiffness: 100
+      }
+    }
+  };
+
+  // Animation for highlighted words - coming from the right side of the screen
+  const highlightedContainerVariants = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.8
+      }
+    }
+  };
+
+  const highlightedWordVariants = {
+    hidden: {
+      x: 1000, // Start from far right of the screen
+      opacity: 0
+    },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        damping: 10,
+        stiffness: 70
+      }
+    }
+  };
+
   return (
     <HeroSection>
+      <Particles count={25} />
+
       <div className="container">
-        <HeroContent>
-          <h1>
-            Driving innovation and creating a <span className="highlight">brighter digital future.</span>
-          </h1>
-          <p>
+        <HeroContent
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.h1>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              style={{ display: "inline" }}
+            >
+              {regularWords.map((word, index) => (
+                <WordContainer key={index} variants={wordVariants}>
+                  <Word>{word}</Word>{' '}
+                </WordContainer>
+              ))}
+            </motion.div>
+
+            <motion.div
+              variants={highlightedContainerVariants}
+              initial="hidden"
+              animate="visible"
+              style={{ display: "inline" }}
+            >
+              {highlightedWords.map((word, index) => (
+                <HighlightedWordContainer key={index} variants={highlightedWordVariants}>
+                  <HighlightedWord>
+                    {word}
+                  </HighlightedWord>
+                </HighlightedWordContainer>
+              ))}
+            </motion.div>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 1.5 }}
+          >
             Welcome to Code Fusion, a passionate team of developers specialized in building
             custom solutions for businesses and startups. From web applications to AI
             integration, we bring your ideas to life.
-          </p>
-          <ButtonGroup>
-            <Link to="/projects" className="button">
-              View Our Work
-            </Link>
+          </motion.p>
+
+          <ButtonGroup
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.8 }}
+          >
+            <AnimatedButton
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link to="/projects" className="button">
+                View Our Work
+              </Link>
+            </AnimatedButton>
           </ButtonGroup>
         </HeroContent>
 
-        <ContactSection>
-          <SocialLinksWrapper>
-            <ContactLabel>Connect With Us</ContactLabel>
-            <SocialLink href="https://www.instagram.com/codefusionn/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <i className="fab fa-instagram"></i>
-              <span>Follow us on Instagram</span>
-            </SocialLink>
+        <ContactSection
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 2 }}
+        >
+          <SocialLinksWrapper
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 2.2 }}
+          >
+            <ContactLabel
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.7 }}
+              transition={{ duration: 0.5, delay: 2.3 }}
+            >
+              Connect With Us
+            </ContactLabel>
 
-            <SocialLink href="mailto:codefusion218@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email">
-              <i className="fas fa-envelope"></i>
-              <span>codefusion218@gmail.com</span>
-            </SocialLink>
-
-            <SocialLink href="https://wa.me/+972568302915" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-              <i className="fab fa-whatsapp"></i>
-              <span>+972 56-830-2915</span>
-            </SocialLink>
-
-            <SocialLink href="https://x.com/codefusion218" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X">
-              <i className="fab fa-twitter"></i>
-              <span>Follow us on Twitter/X</span>
-            </SocialLink>
+            {socialLinks.map((link, index) => (
+              <SocialLink
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.label}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 2.4 + index * 0.1 }}
+                whileHover={{
+                  scale: 1.1,
+                  backgroundColor: "rgba(70, 70, 90, 0.9)",
+                  transition: { duration: 0.3 }
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <i className={link.icon}></i>
+                <span>{link.text}</span>
+              </SocialLink>
+            ))}
           </SocialLinksWrapper>
         </ContactSection>
       </div>

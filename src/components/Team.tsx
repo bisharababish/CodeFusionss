@@ -164,7 +164,7 @@ const Team: React.FC = () => {
       name: 'Judah Sleibi',
       role: 'Co-Founder<br>Quality assurance Team Leader<br>Quality Assurance Engineer<br>Artificial Intelligence Specialist<br>Data Scientist Specialist<br>SQL Developer',
       image: JudahImage,
-      bio: 'Judah is passionate about AI and data science. He ensures the highest quality in all our projects.',
+      bio: 'Judah ensures top-quality results in AI and data science.',
       socialLinks: {
         github: 'https://github.com/judahsleibi34',
         linkedin: 'https://linkedin.com/in/judah-sleibi-b8578b321',
@@ -176,7 +176,7 @@ const Team: React.FC = () => {
       name: 'Bishara Babish',
       role: 'Co-Founder<br>Development Team Lead<br>Full-Stack Developer',
       image: bisharaImage,
-      bio: 'Bishara is a full-stack developer with a knack for building scalable and user-friendly applications.',
+      bio: 'Bishara builds scalable, user-friendly applications as a full-stack developer.',
       socialLinks: {
         github: 'https://github.com/bisharababish',
         linkedin: 'https://www.linkedin.com/in/bisharababish/',
@@ -188,64 +188,64 @@ const Team: React.FC = () => {
       name: 'Saliba Rishmawi',
       role: 'Co-Founder<br>Artificial Intelligence Specialist<br>Image Processing Specialist<br>Linux System Developer<br>Embedded Systems Developer',
       image: SalibaImage,
-      bio: 'Saliba specializes in AI, image processing, and embedded systems. He loves solving complex problems.',
+      bio: 'Saliba applies AI, image processing, and embedded systems to solve complex problems.',
       socialLinks: {
-        github: 'https://github.com/Saliba-codes',
-        linkedin: 'https://linkedin.com/in/saliba-rishmawi-b32a11255',
-        instagram: 'https://instagram.com/saliba2002',
-      },
+      github: 'https://github.com/Saliba-codes',
+      linkedin: 'https://linkedin.com/in/saliba-rishmawi-b32a11255',
+      instagram: 'https://instagram.com/saliba2002',
+    },
     },
   ];
 
-  return (
-    <TeamSection id="team">
-      <div className="container">
-        <SectionHeader>
-          <h2>Meet Our Team</h2>
-          <p>The talented people behind Code Fusion</p>
-        </SectionHeader>
+return (
+  <TeamSection id="team">
+    <div className="container">
+      <SectionHeader>
+        <h2>Meet Our Team</h2>
+        <p>The talented people behind Code Fusion</p>
+      </SectionHeader>
 
-        <TeamGrid>
-          {teamMembers.map((member) => (
-            <TeamCard key={member.id}>
-              <CardInner>
-                <CardFront>
-                  <MemberImage>
-                    <img src={member.image} alt={member.name} />
-                  </MemberImage>
-                  <MemberInfo>
-                    <h3>{member.name}</h3>
-                    <p dangerouslySetInnerHTML={{ __html: member.role }}></p>
-                  </MemberInfo>
-                </CardFront>
-                <CardBack>
+      <TeamGrid>
+        {teamMembers.map((member) => (
+          <TeamCard key={member.id}>
+            <CardInner>
+              <CardFront>
+                <MemberImage>
+                  <img src={member.image} alt={member.name} />
+                </MemberImage>
+                <MemberInfo>
                   <h3>{member.name}</h3>
-                  <p>{member.bio}</p>
-                  <SocialLinks>
-                    {member.socialLinks?.github && (
-                      <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer">
-                        <i className="fab fa-github"></i>
-                      </a>
-                    )}
-                    {member.socialLinks?.linkedin && (
-                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer">
-                        <i className="fab fa-linkedin-in"></i>
-                      </a>
-                    )}
-                    {member.socialLinks?.instagram && (
-                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-                        <i className="fab fa-instagram"></i>
-                      </a>
-                    )}
-                  </SocialLinks>
-                </CardBack>
-              </CardInner>
-            </TeamCard>
-          ))}
-        </TeamGrid>
-      </div>
-    </TeamSection>
-  );
+                  <p dangerouslySetInnerHTML={{ __html: member.role }}></p>
+                </MemberInfo>
+              </CardFront>
+              <CardBack>
+                <h3>{member.name}</h3>
+                <p>{member.bio}</p>
+                <SocialLinks>
+                  {member.socialLinks?.github && (
+                    <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-github"></i>
+                    </a>
+                  )}
+                  {member.socialLinks?.linkedin && (
+                    <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-linkedin-in"></i>
+                    </a>
+                  )}
+                  {member.socialLinks?.instagram && (
+                    <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-instagram"></i>
+                    </a>
+                  )}
+                </SocialLinks>
+              </CardBack>
+            </CardInner>
+          </TeamCard>
+        ))}
+      </TeamGrid>
+    </div>
+  </TeamSection>
+);
 };
 
 export default Team;

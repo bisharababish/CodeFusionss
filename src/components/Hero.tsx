@@ -21,19 +21,18 @@ const HeroSection = styled.section`
   overflow: hidden;
   padding: 8rem 0 6rem;
 
-  /* Mobile-first approach with progressively enhanced media queries */
-  @media (max-width: ${breakpoints.tablet}) {
-    padding: 4rem 0;
-    min-height: calc(100vh - 60px); /* Accounting for potential mobile nav */
+@media (max-width: ${breakpoints.tablet}) {
+    padding: 6rem 0; 
+    min-height: calc(100vh - 60px);
   }
 
   @media (max-width: ${breakpoints.mobile}) {
-    padding: 3rem 0.5rem;
+    padding: 5rem 0.5rem; 
     align-items: flex-start;
   }
 
   @media (max-width: ${breakpoints.smallMobile}) {
-    padding: 2rem 0.5rem;
+    padding: 4rem 0.5rem; 
   }
 
   /* Background image adjustments */
@@ -516,16 +515,16 @@ interface ParticleProps {
 const Particles: React.FC<ParticleProps> = ({ count }) => {
   // Get the current viewport width for responsive adjustments
   const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
-  
+
   React.useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
   // Adjust particle count based on screen size
   let particleCount = count;
   if (windowWidth <= parseInt(breakpoints.smallMobile)) {
@@ -535,7 +534,7 @@ const Particles: React.FC<ParticleProps> = ({ count }) => {
   } else if (windowWidth <= parseInt(breakpoints.tablet)) {
     particleCount = Math.max(15, Math.floor(count * 0.7));
   }
-  
+
   const particles = Array.from({ length: particleCount }, (_, i) => {
     const size = Math.random() * 5 + 1;
     const top = `${Math.random() * 100 + 50}%`;
@@ -637,20 +636,20 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
 }) => {
   // Get the current viewport width for responsive adjustments
   const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
-  
+
   React.useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
   // Adjust animation timing based on screen size
   let adjustedStartDelay = startDelay;
   let adjustedWordDelay = wordDelay;
-  
+
   if (windowWidth <= parseInt(breakpoints.smallMobile)) {
     adjustedStartDelay = startDelay * 0.5;
     adjustedWordDelay = wordDelay * 0.5;
@@ -661,7 +660,7 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
     adjustedStartDelay = startDelay * 0.8;
     adjustedWordDelay = wordDelay * 0.8;
   }
-  
+
   const words = text.split(" ");
 
   const paragraphWordVariants = {
@@ -702,16 +701,16 @@ const Hero: React.FC = () => {
 
   // Get the current viewport width for responsive adjustments
   const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
-  
+
   React.useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
+
   // Adjust animation parameters based on screen size
   const getAnimationParams = () => {
     if (windowWidth <= parseInt(breakpoints.smallMobile)) {
@@ -760,7 +759,7 @@ const Hero: React.FC = () => {
       };
     }
   };
-  
+
   const animParams = getAnimationParams();
 
   const containerVariants = {
@@ -857,8 +856,8 @@ const Hero: React.FC = () => {
             </motion.div>
           </motion.h1>
 
-          <AnimatedParagraph 
-            text={paragraphText} 
+          <AnimatedParagraph
+            text={paragraphText}
             startDelay={windowWidth <= parseInt(breakpoints.mobile) ? 1 : 1.5}
             wordDelay={windowWidth <= parseInt(breakpoints.mobile) ? 0.03 : 0.05}
           />
@@ -870,8 +869,8 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.5, delay: animParams.buttonDelay }}
           >
             <AnimatedButton
-              whileHover={{ 
-                scale: windowWidth <= parseInt(breakpoints.mobile) ? 1.02 : 1.05 
+              whileHover={{
+                scale: windowWidth <= parseInt(breakpoints.mobile) ? 1.02 : 1.05
               }}
               whileTap={{ scale: 0.95 }}
             >
@@ -889,9 +888,9 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.5, delay: animParams.contactDelay }}
         >
           <SocialLinksWrapper
-            initial={{ 
-              x: windowWidth <= parseInt(breakpoints.tablet) ? 50 : 100, 
-              opacity: 0 
+            initial={{
+              x: windowWidth <= parseInt(breakpoints.tablet) ? 50 : 100,
+              opacity: 0
             }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: false, amount: 0.5 }}
@@ -901,9 +900,9 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 0.7 }}
               viewport={{ once: false, amount: 0.5 }}
-              transition={{ 
-                duration: 0.5, 
-                delay: animParams.socialDelay + 0.1 
+              transition={{
+                duration: 0.5,
+                delay: animParams.socialDelay + 0.1
               }}
             >
               Connect With Us
@@ -919,9 +918,9 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false, amount: 0.5 }}
-                transition={{ 
-                  duration: 0.4, 
-                  delay: animParams.socialDelay + 0.2 + index * animParams.socialStagger 
+                transition={{
+                  duration: 0.4,
+                  delay: animParams.socialDelay + 0.2 + index * animParams.socialStagger
                 }}
                 whileHover={{
                   scale: windowWidth <= parseInt(breakpoints.mobile) ? 1.05 : 1.1,

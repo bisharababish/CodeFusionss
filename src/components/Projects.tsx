@@ -27,7 +27,6 @@ const SectionHeader = styled.div`
   }
 `;
 
-// Bounce animation for the loading spinner
 const bounce = keyframes`
   0%, 100% {
     transform: translateY(0);
@@ -37,7 +36,6 @@ const bounce = keyframes`
   }
 `;
 
-// Slide-in animation for project cards
 const slideIn = keyframes`
   0% {
     transform: translateX(100%);
@@ -49,7 +47,6 @@ const slideIn = keyframes`
   }
 `;
 
-// Slide-out animation for project cards
 const slideOut = keyframes`
   0% {
     transform: translateX(0);
@@ -92,7 +89,8 @@ const ProjectCard = styled.div<{ isActive: boolean }>`
   border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-  height: 700px;
+  height: auto; /* Changed to auto for better responsiveness */
+  min-height: 500px; /* Minimum height to ensure content fits */
   animation: ${props => props.isActive ? slideIn : slideOut} 0.5s ease-in-out;
 `;
 
@@ -116,7 +114,7 @@ const LoadingText = styled.div`
 
 const ProjectImage = styled.div`
   width: 100%;
-  height: 400px;
+  height: 300px; /* Adjusted height for better mobile view */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -168,6 +166,7 @@ const TechTag = styled.span`
 const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap; /* Allow links to wrap on smaller screens */
   
   a {
     font-size: 0.9rem;

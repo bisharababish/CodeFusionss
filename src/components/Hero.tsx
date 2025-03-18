@@ -133,15 +133,21 @@ const HeroContent = styled(motion.div)`
   max-width: 800px;
   width: 100%;
   
+  
   @media (max-width: ${breakpoints.tablet}) {
     max-width: 90%;
     margin: 0 auto;
+    margin-top: 60px; 
   }
-  
   @media (max-width: ${breakpoints.mobile}) {
     max-width: 100%;
     padding: 0 1rem;
+    margin-top: 80px;
   }
+  @media (max-width: ${breakpoints.smallMobile}) {
+    margin-top: 70px; 
+  }
+
 
   h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);

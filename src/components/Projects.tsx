@@ -7,16 +7,14 @@ import SnakeImage from './projectspics/snake.png';
 import TravelImage from './projectspics/travel.png';
 import DistrubitionImage from './projectspics/Distribution.png';
 
-// Define specific breakpoints for different mobile sizes
 const breakpoints = {
-  smallMobile: '320px',   // Small phones
-  mobile: '480px',        // Standard mobile phones
-  largeMobile: '600px',   // Large phones/small tablets
-  tablet: '768px',        // Tablets
-  laptop: '1024px'        // Laptops/desktops
+  smallMobile: '320px',
+  mobile: '480px',
+  largeMobile: '600px',
+  tablet: '768px',
+  laptop: '1024px'
 };
 
-// Media query helper function
 const media = {
   smallMobile: `@media (max-width: ${breakpoints.smallMobile})`,
   mobile: `@media (max-width: ${breakpoints.mobile})`,
@@ -555,7 +553,6 @@ const NavButton = styled.button`
   }
 `;
 
-// Touch container for swipe gestures
 const TouchContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -567,7 +564,7 @@ interface ProjectsProps {
   autoplayInterval?: number;
 }
 
-const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) => {
+const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) => {
   const projects: Project[] = [
     {
       id: 1,
@@ -627,18 +624,15 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
   const [touchEnd, setTouchEnd] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if device is mobile on component mount and window resize
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= parseInt(breakpoints.tablet));
     };
-    
-    // Initial check
+
     checkMobile();
-    
-    // Add resize listener
+
     window.addEventListener('resize', checkMobile);
-    
+
     return () => {
       window.removeEventListener('resize', checkMobile);
     };
@@ -674,7 +668,6 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 
-  // Touch handlers for mobile swiping
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
     setIsPaused(true);
@@ -685,23 +678,19 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
   };
 
   const handleTouchEnd = () => {
-    // Minimum swipe distance threshold adjusted for different screen sizes
     const minSwipeDistance = isMobile ? 30 : 50;
-    
+
     if (touchStart - touchEnd > minSwipeDistance) {
-      // Swipe left, go to next
       handleNext();
     }
 
     if (touchStart - touchEnd < -minSwipeDistance) {
-      // Swipe right, go to prev
       handlePrev();
     }
 
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 
-  // Adjust button content based on screen size
   const getLinkText = (type: string) => {
     if (window.innerWidth <= parseInt(breakpoints.mobile)) {
       return type === 'live' ? 'View' : 'Code';
@@ -732,7 +721,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
                   <img
                     src={displayedProjects[currentIndex].image}
                     alt={displayedProjects[currentIndex].title}
-                    loading="lazy" // Add lazy loading for better performance
+                    loading="lazy"
                   />
                 ) : (
                   <>

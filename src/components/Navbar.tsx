@@ -13,7 +13,7 @@ const NavContainer = styled.header`
   z-index: 1000;
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
-  height: 64px; /* Fixed height for the header */
+  height: 64px; 
   display: flex;
   align-items: center;
 `;
@@ -43,11 +43,11 @@ const Logo = styled.div`
   }
   
   img {
-    height: 70px; /* Increased logo size */
+    height: 70px; 
     width: auto;
     margin-right: 10px;
     object-fit: contain;
-    transform: translateY(4px); /* Adjust vertical position if needed */
+    transform: translateY(4px); 
   }
 `;
 

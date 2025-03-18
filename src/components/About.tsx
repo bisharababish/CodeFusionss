@@ -265,12 +265,11 @@ const About: React.FC = () => {
   ];
 
   const ref = useRef(null);
-  const isInView = useInView(ref, { 
-    once: false, 
-    amount: 0.1 // Lower threshold for mobile
+  const isInView = useInView(ref, {
+    once: false,
+    amount: 0.1
   });
 
-  // Simplified animations for mobile (less movement = better performance)
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -301,10 +300,10 @@ const About: React.FC = () => {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 exit="exit"
-                transition={{ 
-                  duration: 0.3, 
-                  delay: index * 0.05, // Reduced delay for mobile
-                }} 
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.05,
+                }}
               >
                 <KnowledgeTitle>
                   <i className={area.icon}></i> {area.name}

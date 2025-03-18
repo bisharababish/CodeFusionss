@@ -19,7 +19,6 @@ const TeamSection = styled.section`
   padding: 6rem 0;
   background-color: var(--darker-bg);
   
-  /* Mobile-specific adjustments */
   @media (max-width: 768px) {
     padding: 4rem 0;
   }

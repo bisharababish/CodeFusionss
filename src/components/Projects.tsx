@@ -7,23 +7,99 @@ import SnakeImage from './projectspics/snake.png';
 import TravelImage from './projectspics/travel.png';
 import DistrubitionImage from './projectspics/Distribution.png';
 
+// Define specific breakpoints for different mobile sizes
+const breakpoints = {
+  smallMobile: '320px',   // Small phones
+  mobile: '480px',        // Standard mobile phones
+  largeMobile: '600px',   // Large phones/small tablets
+  tablet: '768px',        // Tablets
+  laptop: '1024px'        // Laptops/desktops
+};
+
+// Media query helper function
+const media = {
+  smallMobile: `@media (max-width: ${breakpoints.smallMobile})`,
+  mobile: `@media (max-width: ${breakpoints.mobile})`,
+  largeMobile: `@media (max-width: ${breakpoints.largeMobile})`,
+  tablet: `@media (max-width: ${breakpoints.tablet})`,
+  laptop: `@media (max-width: ${breakpoints.laptop})`
+};
+
 const ProjectsSection = styled.section`
   padding: 6rem 0;
+  
+  ${media.laptop} {
+    padding: 5rem 0;
+  }
+  
+  ${media.tablet} {
+    padding: 4rem 0;
+  }
+  
+  ${media.largeMobile} {
+    padding: 3rem 0;
+  }
+  
+  ${media.mobile} {
+    padding: 2.5rem 0.5rem;
+  }
+  
+  ${media.smallMobile} {
+    padding: 2rem 0.5rem;
+  }
 `;
 
 const SectionHeader = styled.div`
   text-align: center;
   margin-bottom: 4rem;
   
+  ${media.tablet} {
+    margin-bottom: 3rem;
+  }
+  
+  ${media.mobile} {
+    margin-bottom: 2rem;
+  }
+  
   h2 {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-size: 2.5rem;
     margin-bottom: 0.2rem;
+    
+    ${media.tablet} {
+      font-size: 2.2rem;
+    }
+    
+    ${media.largeMobile} {
+      font-size: 1.8rem;
+    }
+    
+    ${media.mobile} {
+      font-size: 1.6rem;
+    }
+    
+    ${media.smallMobile} {
+      font-size: 1.4rem;
+    }
   }
   
   p {
     max-width: 600px;
     margin: 0 auto;
     opacity: 0.8;
+    font-size: 1rem;
+    
+    ${media.tablet} {
+      max-width: 90%;
+    }
+    
+    ${media.mobile} {
+      font-size: 0.9rem;
+      max-width: 95%;
+    }
+    
+    ${media.smallMobile} {
+      font-size: 0.85rem;
+    }
   }
 `;
 
@@ -63,6 +139,18 @@ const SlideshowContainer = styled.div`
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+  
+  ${media.tablet} {
+    max-width: 90%;
+  }
+  
+  ${media.largeMobile} {
+    max-width: 95%;
+  }
+  
+  ${media.mobile} {
+    max-width: 98%;
+  }
 `;
 
 const SlideIndicators = styled.div`
@@ -70,6 +158,21 @@ const SlideIndicators = styled.div`
   justify-content: center;
   margin-top: 2rem;
   gap: 0.75rem;
+  
+  ${media.tablet} {
+    margin-top: 1.5rem;
+    gap: 0.6rem;
+  }
+  
+  ${media.mobile} {
+    margin-top: 1.2rem;
+    gap: 0.5rem;
+  }
+  
+  ${media.smallMobile} {
+    margin-top: 1rem;
+    gap: 0.4rem;
+  }
 `;
 
 const Indicator = styled.div<{ active: boolean }>`
@@ -79,6 +182,21 @@ const Indicator = styled.div<{ active: boolean }>`
   background-color: ${props => props.active ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.3)'};
   cursor: pointer;
   transition: all 0.3s ease;
+  
+  ${media.tablet} {
+    width: 9px;
+    height: 9px;
+  }
+  
+  ${media.mobile} {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ${media.smallMobile} {
+    width: 6px;
+    height: 6px;
+  }
 `;
 
 const ProjectCard = styled.div<{ isActive: boolean }>`
@@ -89,9 +207,27 @@ const ProjectCard = styled.div<{ isActive: boolean }>`
   border: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
-  height: auto; /* Changed to auto for better responsiveness */
-  min-height: 500px; /* Minimum height to ensure content fits */
+  height: auto;
+  min-height: 500px;
   animation: ${props => props.isActive ? slideIn : slideOut} 0.5s ease-in-out;
+  
+  ${media.tablet} {
+    min-height: 450px;
+    border-radius: 8px;
+  }
+  
+  ${media.largeMobile} {
+    min-height: 420px;
+  }
+  
+  ${media.mobile} {
+    min-height: 380px;
+    border-radius: 6px;
+  }
+  
+  ${media.smallMobile} {
+    min-height: 350px;
+  }
 `;
 
 const LoadingSpinner = styled.div`
@@ -102,6 +238,23 @@ const LoadingSpinner = styled.div`
   height: 40px;
   animation: ${bounce} 0.8s infinite ease-in-out;
   margin: 10px auto;
+  
+  ${media.tablet} {
+    width: 35px;
+    height: 35px;
+    border-width: 3px;
+    border-top-width: 3px;
+  }
+  
+  ${media.mobile} {
+    width: 30px;
+    height: 30px;
+  }
+  
+  ${media.smallMobile} {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 const LoadingText = styled.div`
@@ -110,11 +263,21 @@ const LoadingText = styled.div`
   font-size: 1rem;
   margin-bottom: 10px;
   animation: ${bounce} 0.8s infinite ease-in-out;
+  
+  ${media.mobile} {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+  
+  ${media.smallMobile} {
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+  }
 `;
 
 const ProjectImage = styled.div`
   width: 100%;
-  height: 300px; /* Adjusted height for better mobile view */
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -127,6 +290,22 @@ const ProjectImage = styled.div`
     object-fit: contain;
     transition: transform 0.5s ease;
   }
+  
+  ${media.tablet} {
+    height: 250px;
+  }
+  
+  ${media.largeMobile} {
+    height: 220px;
+  }
+  
+  ${media.mobile} {
+    height: 180px;
+  }
+  
+  ${media.smallMobile} {
+    height: 150px;
+  }
 `;
 
 const ProjectInfo = styled.div`
@@ -135,9 +314,40 @@ const ProjectInfo = styled.div`
   display: flex;
   flex-direction: column;
   
+  ${media.tablet} {
+    padding: 1.25rem;
+  }
+  
+  ${media.mobile} {
+    padding: 1rem;
+  }
+  
+  ${media.smallMobile} {
+    padding: 0.8rem;
+  }
+  
   h3 {
     margin-bottom: 0.75rem;
     font-size: 1.5rem;
+    
+    ${media.tablet} {
+      font-size: 1.4rem;
+      margin-bottom: 0.6rem;
+    }
+    
+    ${media.largeMobile} {
+      font-size: 1.3rem;
+    }
+    
+    ${media.mobile} {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    ${media.smallMobile} {
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
   }
   
   p {
@@ -145,6 +355,26 @@ const ProjectInfo = styled.div`
     opacity: 0.8;
     margin-bottom: 1rem;
     flex-grow: 1;
+    
+    ${media.tablet} {
+      font-size: 0.95rem;
+    }
+    
+    ${media.mobile} {
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.4;
+    }
+    
+    ${media.smallMobile} {
+      font-size: 0.85rem;
+      margin-bottom: 0.7rem;
+      /* Limit description to 4 lines on smallest screens */
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
   }
 `;
 
@@ -153,6 +383,21 @@ const TechTags = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
+  
+  ${media.tablet} {
+    gap: 0.45rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  ${media.mobile} {
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  
+  ${media.smallMobile} {
+    gap: 0.3rem;
+    margin-bottom: 0.8rem;
+  }
 `;
 
 const TechTag = styled.span`
@@ -161,12 +406,53 @@ const TechTag = styled.span`
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
+  
+  ${media.tablet} {
+    padding: 0.22rem 0.45rem;
+  }
+  
+  ${media.mobile} {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+    border-radius: 3px;
+  }
+  
+  ${media.smallMobile} {
+    padding: 0.15rem 0.35rem;
+    font-size: 0.7rem;
+  }
 `;
 
 const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap; /* Allow links to wrap on smaller screens */
+  flex-wrap: wrap;
+  
+  ${media.tablet} {
+    gap: 0.9rem;
+  }
+  
+  ${media.largeMobile} {
+    gap: 0.8rem;
+  }
+  
+  ${media.mobile} {
+    gap: 0.7rem;
+    justify-content: space-between;
+    
+    a {
+      flex: 0 0 calc(50% - 0.35rem);
+      text-align: center;
+    }
+  }
+  
+  ${media.smallMobile} {
+    gap: 0.5rem;
+    
+    a {
+      flex: 0 0 calc(50% - 0.25rem);
+    }
+  }
   
   a {
     font-size: 0.9rem;
@@ -175,6 +461,24 @@ const ProjectLinks = styled.div`
     gap: 0.5rem;
     opacity: 0.8;
     transition: all 0.3s ease;
+    
+    ${media.tablet} {
+      font-size: 0.85rem;
+      gap: 0.45rem;
+    }
+    
+    ${media.mobile} {
+      font-size: 0.8rem;
+      gap: 0.4rem;
+      justify-content: center;
+      padding: 0.35rem 0;
+    }
+    
+    ${media.smallMobile} {
+      font-size: 0.75rem;
+      gap: 0.3rem;
+      padding: 0.25rem 0;
+    }
     
     &:hover {
       opacity: 1;
@@ -191,6 +495,11 @@ const NavigationButtons = styled.div`
   display: flex;
   justify-content: space-between;
   pointer-events: none;
+  padding: 0 10px;
+  
+  ${media.mobile} {
+    padding: 0 5px;
+  }
 `;
 
 const NavButton = styled.button`
@@ -206,10 +515,51 @@ const NavButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   pointer-events: auto;
+  z-index: 10;
+  
+  ${media.tablet} {
+    width: 36px;
+    height: 36px;
+  }
+  
+  ${media.largeMobile} {
+    width: 34px;
+    height: 34px;
+  }
+  
+  ${media.mobile} {
+    width: 32px;
+    height: 32px;
+  }
+  
+  ${media.smallMobile} {
+    width: 28px;
+    height: 28px;
+  }
   
   &:hover {
     background-color: var(--primary-color);
   }
+  
+  /* Enlarged touch area for mobile */
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    min-width: 44px;
+    min-height: 44px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
+
+// Touch container for swipe gestures
+const TouchContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
 `;
 
 interface ProjectsProps {
@@ -256,7 +606,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
     {
       id: 5,
       title: 'Early Prediction of Kidney Dysfunction in Diabetic Patients',
-      description: 'This project investigates the early prediction of kidney dysfunction in diabetic patients by analyzing Fasting Blood Sugar and Creatinine levels using machine learning models. The study leverages a dataset consisting of 499 samples with 13 features, undergoing rigorous preprocessing and analysis to improve model performance.',
+      description: 'This project investigates the early prediction of kidney dysfunction in diabetic patients by analyzing Fasting Blood Sugar and Creatinine levels using machine learning models.',
       image: DistrubitionImage,
       technologies: ['Python'],
       githubLink: 'https://github.com/judahsleibi34/Early-Prediction-of-Kidney-Dysfunction-in-Diabetic-Patients'
@@ -264,7 +614,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
     {
       id: 6,
       title: 'More Projects to come!',
-      description: 'Eearly Production and more developed applications, websites soon!',
+      description: 'Early Production and more developed applications, websites soon!',
       image: "",
       technologies: ['Soon'],
     }
@@ -273,6 +623,26 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile on component mount and window resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= parseInt(breakpoints.tablet));
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -304,6 +674,41 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 
+  // Touch handlers for mobile swiping
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+    setIsPaused(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    // Minimum swipe distance threshold adjusted for different screen sizes
+    const minSwipeDistance = isMobile ? 30 : 50;
+    
+    if (touchStart - touchEnd > minSwipeDistance) {
+      // Swipe left, go to next
+      handleNext();
+    }
+
+    if (touchStart - touchEnd < -minSwipeDistance) {
+      // Swipe right, go to prev
+      handlePrev();
+    }
+
+    setTimeout(() => setIsPaused(false), autoplayInterval);
+  };
+
+  // Adjust button content based on screen size
+  const getLinkText = (type: string) => {
+    if (window.innerWidth <= parseInt(breakpoints.mobile)) {
+      return type === 'live' ? 'View' : 'Code';
+    }
+    return type === 'live' ? 'View Live' : 'Source Code';
+  };
+
   return (
     <ProjectsSection id="projects">
       <div className="container">
@@ -316,48 +721,55 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <ProjectCard isActive={true}>
-            <ProjectImage>
-              {displayedProjects[currentIndex].image ? (
-                <img
-                  src={displayedProjects[currentIndex].image}
-                  alt={displayedProjects[currentIndex].title}
-                />
-              ) : (
-                <>
-                  <LoadingText>Loading...</LoadingText>
-                  <LoadingSpinner />
-                </>
-              )}
-            </ProjectImage>
-            <ProjectInfo>
-              <h3>{displayedProjects[currentIndex].title}</h3>
-              <p>{displayedProjects[currentIndex].description}</p>
-              <TechTags>
-                {displayedProjects[currentIndex].technologies.map((tech, index) => (
-                  <TechTag key={index}>{tech}</TechTag>
-                ))}
-              </TechTags>
-              <ProjectLinks>
-                {displayedProjects[currentIndex].link && (
-                  <a href={displayedProjects[currentIndex].link} target="_blank" rel="noopener noreferrer">
-                    <i className="fas fa-external-link-alt"></i> View Live
-                  </a>
+          <TouchContainer
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            <ProjectCard isActive={true}>
+              <ProjectImage>
+                {displayedProjects[currentIndex].image ? (
+                  <img
+                    src={displayedProjects[currentIndex].image}
+                    alt={displayedProjects[currentIndex].title}
+                    loading="lazy" // Add lazy loading for better performance
+                  />
+                ) : (
+                  <>
+                    <LoadingText>Loading...</LoadingText>
+                    <LoadingSpinner />
+                  </>
                 )}
-                {displayedProjects[currentIndex].githubLink && (
-                  <a href={displayedProjects[currentIndex].githubLink} target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-github"></i> Source Code
-                  </a>
-                )}
-              </ProjectLinks>
-            </ProjectInfo>
-          </ProjectCard>
+              </ProjectImage>
+              <ProjectInfo>
+                <h3>{displayedProjects[currentIndex].title}</h3>
+                <p>{displayedProjects[currentIndex].description}</p>
+                <TechTags>
+                  {displayedProjects[currentIndex].technologies.map((tech, index) => (
+                    <TechTag key={index}>{tech}</TechTag>
+                  ))}
+                </TechTags>
+                <ProjectLinks>
+                  {displayedProjects[currentIndex].link && (
+                    <a href={displayedProjects[currentIndex].link} target="_blank" rel="noopener noreferrer">
+                      <i className="fas fa-external-link-alt"></i> {getLinkText('live')}
+                    </a>
+                  )}
+                  {displayedProjects[currentIndex].githubLink && (
+                    <a href={displayedProjects[currentIndex].githubLink} target="_blank" rel="noopener noreferrer">
+                      <i className="fab fa-github"></i> {getLinkText('github')}
+                    </a>
+                  )}
+                </ProjectLinks>
+              </ProjectInfo>
+            </ProjectCard>
+          </TouchContainer>
 
           <NavigationButtons>
-            <NavButton onClick={handlePrev}>
+            <NavButton onClick={handlePrev} aria-label="Previous project">
               <i className="fas fa-chevron-left"></i>
             </NavButton>
-            <NavButton onClick={handleNext}>
+            <NavButton onClick={handleNext} aria-label="Next project">
               <i className="fas fa-chevron-right"></i>
             </NavButton>
           </NavigationButtons>
@@ -368,6 +780,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 4000 }) =
                 key={index}
                 active={index === currentIndex}
                 onClick={() => handleIndicatorClick(index)}
+                aria-label={`Go to project ${index + 1}`}
               />
             ))}
           </SlideIndicators>

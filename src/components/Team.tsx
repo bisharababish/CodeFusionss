@@ -18,21 +18,65 @@ const flip = keyframes`
 const TeamSection = styled.section`
   padding: 6rem 0;
   background-color: var(--darker-bg);
+  
+  /* Mobile-specific adjustments */
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 3rem 0;
+  }
+  
+  @media (max-width: 320px) {
+    padding: 2rem 0;
+  }
 `;
 
 const SectionHeader = styled.div`
   text-align: center;
   margin-bottom: 4rem;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
+  }
+  
+  @media (max-width: 480px) {
+    margin-bottom: 2rem;
+  }
 
   h2 {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-size: 2.5rem;
     margin-bottom: 1rem;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1.8rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    @media (max-width: 320px) {
+      font-size: 1.5rem;
+    }
   }
 
   p {
     max-width: 600px;
     margin: 0 auto;
     opacity: 0.8;
+    
+    @media (max-width: 768px) {
+      max-width: 90%;
+      font-size: 0.95rem;
+    }
+    
+    @media (max-width: 480px) {
+      max-width: 95%;
+      font-size: 0.9rem;
+    }
   }
 `;
 
@@ -43,12 +87,40 @@ const TeamGrid = styled.div`
   flex-wrap: wrap;
   max-width: 1200px;
   margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 1.25rem;
+  }
+  
+  @media (max-width: 320px) {
+    gap: 1rem;
+  }
 `;
 
 const TeamCard = styled.div`
   width: 300px;
-  height: 500px; 
-  perspective: 1000px; 
+  height: 500px;
+  perspective: 1000px;
+  
+  @media (max-width: 768px) {
+    width: 280px;
+    height: 470px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 450px;
+    max-width: 320px;
+  }
+  
+  @media (max-width: 320px) {
+    height: 400px;
+  }
 `;
 
 const CardInner = styled.div`
@@ -60,8 +132,18 @@ const CardInner = styled.div`
   transform-style: preserve-3d; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
-  ${TeamCard}:hover & {
-    transform: rotateY(180deg); 
+  /* For devices that support hover */
+  @media (hover: hover) {
+    ${TeamCard}:hover & {
+      transform: rotateY(180deg);
+    }
+  }
+
+  /* For touch devices */
+  @media (hover: none) {
+    &:active {
+      transform: rotateY(180deg);
+    }
   }
 `;
 
@@ -91,6 +173,39 @@ const CardBack = styled.div`
   justify-content: center;
   align-items: center;
   padding: 1.5rem;
+  
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+  
+  h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    
+    @media (max-width: 480px) {
+      font-size: 1.1rem;
+    }
+    
+    @media (max-width: 320px) {
+      font-size: 1rem;
+    }
+  }
+  
+  p {
+    font-size: 0.9rem;
+    
+    @media (max-width: 480px) {
+      font-size: 0.85rem;
+    }
+    
+    @media (max-width: 320px) {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 const MemberImage = styled.div`
@@ -98,6 +213,18 @@ const MemberImage = styled.div`
   height: 300px;
   overflow: hidden;
   position: relative;
+  
+  @media (max-width: 768px) {
+    height: 280px;
+  }
+  
+  @media (max-width: 480px) {
+    height: 250px;
+  }
+  
+  @media (max-width: 320px) {
+    height: 220px;
+  }
 
   img {
     width: 100%;
@@ -112,16 +239,54 @@ const MemberImage = styled.div`
 
 const MemberInfo = styled.div`
   padding: 1.5rem;
+  
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem 0.75rem;
+  }
+  
+  @media (max-width: 320px) {
+    padding: 0.75rem 0.5rem;
+  }
 
   h3 {
     margin-bottom: 0.5rem;
     font-size: 1.2rem;
+    
+    @media (max-width: 480px) {
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
+    
+    @media (max-width: 320px) {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
   }
 
   p {
     font-size: 0.9rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
+    
+    @media (max-width: 768px) {
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    
+    @media (max-width: 320px) {
+      font-size: 0.75rem;
+      line-height: 1.3;
+    }
   }
 `;
 
@@ -130,6 +295,21 @@ const SocialLinks = styled.div`
   justify-content: center;
   gap: 1rem;
   margin-top: 1rem;
+  
+  @media (max-width: 768px) {
+    gap: 0.85rem;
+    margin-top: 0.85rem;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  
+  @media (max-width: 320px) {
+    gap: 0.6rem;
+    margin-top: 0.6rem;
+  }
 
   a {
     width: 40px;
@@ -140,10 +320,33 @@ const SocialLinks = styled.div`
     border-radius: 50%;
     background-color: rgba(108, 92, 231, 0.1);
     transition: all 0.3s ease;
+    
+    @media (max-width: 768px) {
+      width: 36px;
+      height: 36px;
+    }
+    
+    @media (max-width: 480px) {
+      width: 32px;
+      height: 32px;
+    }
+    
+    @media (max-width: 320px) {
+      width: 30px;
+      height: 30px;
+    }
 
     i {
       font-size: 0.9rem;
       color: var(--light-text);
+      
+      @media (max-width: 480px) {
+        font-size: 0.85rem;
+      }
+      
+      @media (max-width: 320px) {
+        font-size: 0.8rem;
+      }
     }
 
     &:hover {
@@ -152,6 +355,18 @@ const SocialLinks = styled.div`
 
       i {
         color: white;
+      }
+    }
+    
+    /* For touch devices */
+    @media (hover: none) {
+      &:active {
+        background-color: var(--primary-color);
+        transform: translateY(-3px);
+        
+        i {
+          color: white;
+        }
       }
     }
   }
@@ -223,17 +438,17 @@ const Team: React.FC = () => {
                   <p>{member.bio}</p>
                   <SocialLinks>
                     {member.socialLinks?.github && (
-                      <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer">
+                      <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
                         <i className="fab fa-github"></i>
                       </a>
                     )}
                     {member.socialLinks?.linkedin && (
-                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer">
+                      <a href={member.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
                         <i className="fab fa-linkedin-in"></i>
                       </a>
                     )}
                     {member.socialLinks?.instagram && (
-                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
+                      <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram profile">
                         <i className="fab fa-instagram"></i>
                       </a>
                     )}

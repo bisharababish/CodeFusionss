@@ -3,19 +3,38 @@ import styled from 'styled-components';
 import { motion, useInView } from 'framer-motion';
 
 const AboutSection = styled.section`
-  padding: 6rem 0;
+  padding: 3rem 1rem;
   background-color: var(--darker-bg);
+  
+  /* Mobile-specific padding adjustments */
+  @media (max-width: 480px) {
+    padding: 2.5rem 0.75rem;
+  }
 `;
 
 const AboutContent = styled.div`
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
+  
+  /* Progressive padding reduction for smaller screens */
+  @media (max-width: 768px) {
+    padding: 0 1.25rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 360px) {
+    padding: 0 0.75rem;
+  }
 `;
 
 const AboutText = styled.div`
   h2 {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-size: 2.5rem;
     margin-bottom: 1.5rem;
     position: relative;
 
@@ -28,12 +47,47 @@ const AboutText = styled.div`
       height: 3px;
       background-color: var(--primary-color);
     }
+    
+    /* Responsive font size and alignment for mobile */
+    @media (max-width: 768px) {
+      font-size: 2rem;
+      text-align: center;
+      
+      &::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1.75rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    @media (max-width: 360px) {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
   }
 
   p {
     margin-bottom: 1.5rem;
     line-height: 1.7;
     opacity: 0.9;
+    
+    /* Mobile text adjustments */
+    @media (max-width: 768px) {
+      text-align: center;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
   }
 `;
 
@@ -43,12 +97,31 @@ const KnowledgeGrid = styled.div`
   gap: 2rem;
   margin-top: 2rem;
   
+  /* Progressive grid adjustments for different mobile sizes */
   @media (max-width: 992px) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
   
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  
+  @media (max-width: 600px) {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    margin-top: 1.25rem;
+    gap: 0.875rem;
+  }
+  
+  @media (max-width: 360px) {
+    margin-top: 1rem;
+    gap: 0.75rem;
   }
 `;
 
@@ -58,6 +131,21 @@ const KnowledgeItem = styled(motion.div)`
   background-color: var(--dark-bg);
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+  /* Mobile touch target and padding adjustments */
+  @media (max-width: 768px) {
+    padding: 1.25rem;
+    min-height: 100px; /* Ensure good touch target size */
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+    border-radius: 6px;
+  }
+  
+  @media (max-width: 360px) {
+    padding: 0.875rem;
+  }
 `;
 
 const KnowledgeTitle = styled.h3`
@@ -67,18 +155,59 @@ const KnowledgeTitle = styled.h3`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  
+  /* Mobile font size adjustments */
+  @media (max-width: 768px) {
+    font-size: 1.35rem;
+    margin-bottom: 0.875rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    gap: 0.375rem;
+  }
+  
+  @media (max-width: 360px) {
+    font-size: 1.125rem;
+    margin-bottom: 0.625rem;
+  }
 `;
 
 const TechnologiesList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  
+  /* Adjust gaps for smaller screens */
+  @media (max-width: 480px) {
+    gap: 0.375rem;
+  }
+  
+  @media (max-width: 360px) {
+    gap: 0.25rem;
+  }
 `;
 
 const TechItem = styled.span`
   color: var(--light-color);
   padding: 0.25rem 0.5rem;
   font-size: 0.9rem;
+  
+  /* Adjust font size and padding for better mobile display */
+  @media (max-width: 768px) {
+    padding: 0.2rem 0.4rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+    padding: 0.15rem 0.35rem;
+  }
+  
+  @media (max-width: 360px) {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.3rem;
+  }
 `;
 
 const About: React.FC = () => {
@@ -136,12 +265,16 @@ const About: React.FC = () => {
   ];
 
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.3 }); // Adjust threshold for mobile
+  const isInView = useInView(ref, { 
+    once: false, 
+    amount: 0.1 // Lower threshold for mobile
+  });
 
+  // Simplified animations for mobile (less movement = better performance)
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 }, // Slide up from 50px
-    visible: { opacity: 1, y: 0 }, // Slide to original position
-    exit: { opacity: 0, y: -50 } // Slide up and fade out
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 }
   };
 
   return (
@@ -168,7 +301,10 @@ const About: React.FC = () => {
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
                 exit="exit"
-                transition={{ duration: 0.5, delay: index * 0.1 }} // Staggered delay
+                transition={{ 
+                  duration: 0.3, 
+                  delay: index * 0.05, // Reduced delay for mobile
+                }} 
               >
                 <KnowledgeTitle>
                   <i className={area.icon}></i> {area.name}

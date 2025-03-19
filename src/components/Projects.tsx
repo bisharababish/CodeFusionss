@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-
+import BlogImage from './projectspics/blog.png';
+import MRIImage from './projectspics/mri.png';
+import SnakeImage from './projectspics/snake.png';
+import TravelImage from './projectspics/travel.png';
+import DistrubitionImage from './projectspics/Distribution.png';
 // Define the Project type
-type Project = {
+type ProjectType = {
   id: number;
   title: string;
   description: string;
@@ -568,7 +572,7 @@ interface ProjectsProps {
 }
 
 const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) => {
-  const projects: Project[] = [
+  const projects: ProjectType[] = [
     {
       id: 1,
       title: 'Personal Blog Page',

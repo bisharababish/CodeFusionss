@@ -437,7 +437,7 @@ const ProjectLinks = styled.div`
   ${media.mobile} {
     gap: 0.7rem;
     justify-content: space-between;
-    padding-bottom: 10px; /* Add padding to avoid touch area conflicts */
+    padding-bottom: 10px;
     
     a {
       flex: 0 0 calc(50% - 0.35rem);
@@ -452,43 +452,43 @@ const ProjectLinks = styled.div`
       flex: 0 0 calc(50% - 0.25rem);
     }
   }
+`;
+
+const ProjectLink = styled.a`
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  z-index: 30; /* Higher z-index to ensure it's clickable */
+  position: relative;
   
-  a {
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    opacity: 0.8;
-    transition: all 0.3s ease;
-    
-    ${media.tablet} {
-      font-size: 0.85rem;
-      gap: 0.45rem;
-    }
-    
+  ${media.tablet} {
+    font-size: 0.85rem;
+    gap: 0.45rem;
+  }
+  
+  ${media.mobile} {
+    font-size: 0.8rem;
+    gap: 0.4rem;
+    justify-content: center;
+    padding: 0.45rem 0;
+    background-color: rgba(108, 92, 231, 0.1);
+    border-radius: 4px;
+  }
+  
+  ${media.smallMobile} {
+    font-size: 0.75rem;
+    gap: 0.3rem;
+    padding: 0.4rem 0;
+  }
+  
+  &:hover, &:active {
+    opacity: 1;
+    color: var(--primary-color);
     ${media.mobile} {
-      font-size: 0.8rem;
-      gap: 0.4rem;
-      justify-content: center;
-      padding: 0.45rem 0;  /* Increased padding for better touch target */
-      background-color: rgba(108, 92, 231, 0.1);  /* Add slight background for better visibility */
-      border-radius: 4px;
-      position: relative;
-      z-index: 20; /* Ensure links are above other elements */
-    }
-    
-    ${media.smallMobile} {
-      font-size: 0.75rem;
-      gap: 0.3rem;
-      padding: 0.4rem 0;
-    }
-    
-    &:hover, &:active {
-      opacity: 1;
-      color: var(--primary-color);
-      ${media.mobile} {
-        background-color: rgba(108, 92, 231, 0.2);
-      }
+      background-color: rgba(108, 92, 231, 0.2);
     }
   }
 `;
@@ -617,12 +617,9 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchY, setTouchY] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [swipeDetected, setSwipeDetected] = useState(false);
-  const [touchStartY, setTouchStartY] = useState(0);
-  const [touchEndY, setTouchEndY] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -668,53 +665,56 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 
+  // Fixed touch handling
   const handleTouchStart = (e: React.TouchEvent) => {
+    // Store the initial touch position
     setTouchStart(e.targetTouches[0].clientX);
-    setTouchStartY(e.targetTouches[0].clientY);
-    setSwipeDetected(false);
+    setTouchY(e.targetTouches[0].clientY);
     setIsPaused(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-    setTouchEndY(e.targetTouches[0].clientY);
-
-    // Calculate horizontal and vertical distance
-    const xDiff = Math.abs(touchStart - e.targetTouches[0].clientX);
-    const yDiff = Math.abs(touchStartY - e.targetTouches[0].clientY);
-
-    // If horizontal movement is significantly greater than vertical, 
-    // it's likely a swipe and not a tap attempt
-    if (xDiff > 20 && xDiff > yDiff * 2) {
-      setSwipeDetected(true);
-    }
+    // Do nothing if we didn't start with a touch
+    if (touchStart === null) return;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    // If we detected a swipe movement, handle the swipe
-    if (swipeDetected) {
-      const minSwipeDistance = isMobile ? 30 : 50;
+    // Only handle the swipe if we have a start position
+    if (touchStart !== null && touchY !== null) {
+      const touchEnd = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
 
-      if (touchStart - touchEnd > minSwipeDistance) {
-        handleNext();
-      }
+      // Calculate distances
+      const xDist = touchStart - touchEnd;
+      const yDist = Math.abs(touchY - touchEndY);
 
-      if (touchStart - touchEnd < -minSwipeDistance) {
-        handlePrev();
+      // Set a minimum swipe distance
+      const minSwipeDistance = 50;
+
+      // Only consider it a swipe if:
+      // 1. The horizontal distance is greater than the minimum
+      // 2. The horizontal distance is greater than the vertical distance (to avoid mistaking scrolls for swipes)
+      if (Math.abs(xDist) > minSwipeDistance && Math.abs(xDist) > yDist) {
+        if (xDist > 0) {
+          // Swipe left - next
+          handleNext();
+        } else {
+          // Swipe right - previous
+          handlePrev();
+        }
       }
     }
 
+    // Reset touch positions
+    setTouchStart(null);
+    setTouchY(null);
+
+    // Resume autoplay after delay
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 
-  // Separate click handler for links to prevent conflicts with swipe
-  const handleLinkClick = (e: React.MouseEvent, url: string) => {
-    e.stopPropagation();
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
   const getLinkText = (type: string) => {
-    if (window.innerWidth <= parseInt(breakpoints.mobile)) {
+    if (isMobile) {
       return type === 'live' ? 'View' : 'Code';
     }
     return type === 'live' ? 'View Live' : 'Source Code';
@@ -760,34 +760,24 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
                     <TechTag key={index}>{tech}</TechTag>
                   ))}
                 </TechTags>
-                <ProjectLinks>
+                <ProjectLinks onClick={(e) => e.stopPropagation()}>
                   {displayedProjects[currentIndex].link && (
-                    <a
-                      onClick={(e) => {
-                        if (!swipeDetected) {
-                          handleLinkClick(e, displayedProjects[currentIndex].link!);
-                        }
-                      }}
+                    <ProjectLink
                       href={displayedProjects[currentIndex].link}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <i className="fas fa-external-link-alt"></i> {getLinkText('live')}
-                    </a>
+                    </ProjectLink>
                   )}
                   {displayedProjects[currentIndex].githubLink && (
-                    <a
-                      onClick={(e) => {
-                        if (!swipeDetected) {
-                          handleLinkClick(e, displayedProjects[currentIndex].githubLink!);
-                        }
-                      }}
+                    <ProjectLink
                       href={displayedProjects[currentIndex].githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       <i className="fab fa-github"></i> {getLinkText('github')}
-                    </a>
+                    </ProjectLink>
                   )}
                 </ProjectLinks>
               </ProjectInfo>

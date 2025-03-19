@@ -437,6 +437,7 @@ const ProjectLinks = styled.div`
   ${media.mobile} {
     gap: 0.7rem;
     justify-content: space-between;
+    padding-bottom: 10px; /* Add padding to avoid touch area conflicts */
     
     a {
       flex: 0 0 calc(50% - 0.35rem);
@@ -469,18 +470,25 @@ const ProjectLinks = styled.div`
       font-size: 0.8rem;
       gap: 0.4rem;
       justify-content: center;
-      padding: 0.35rem 0;
+      padding: 0.45rem 0;  /* Increased padding for better touch target */
+      background-color: rgba(108, 92, 231, 0.1);  /* Add slight background for better visibility */
+      border-radius: 4px;
+      position: relative;
+      z-index: 20; /* Ensure links are above other elements */
     }
     
     ${media.smallMobile} {
       font-size: 0.75rem;
       gap: 0.3rem;
-      padding: 0.25rem 0;
+      padding: 0.4rem 0;
     }
     
-    &:hover {
+    &:hover, &:active {
       opacity: 1;
       color: var(--primary-color);
+      ${media.mobile} {
+        background-color: rgba(108, 92, 231, 0.2);
+      }
     }
   }
 `;
@@ -497,6 +505,8 @@ const NavigationButtons = styled.div`
   
   ${media.mobile} {
     padding: 0 5px;
+    /* Move buttons upward on mobile to avoid conflicts with links */
+    top: 35%;
   }
 `;
 
@@ -537,19 +547,6 @@ const NavButton = styled.button`
   
   &:hover {
     background-color: var(--primary-color);
-  }
-  
-  /* Enlarged touch area for mobile */
-  &::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    min-width: 44px;
-    min-height: 44px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
   }
 `;
 
@@ -623,6 +620,9 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [swipeDetected, setSwipeDetected] = useState(false);
+  const [touchStartY, setTouchStartY] = useState(0);
+  const [touchEndY, setTouchEndY] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -670,25 +670,47 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
+    setTouchStartY(e.targetTouches[0].clientY);
+    setSwipeDetected(false);
     setIsPaused(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     setTouchEnd(e.targetTouches[0].clientX);
+    setTouchEndY(e.targetTouches[0].clientY);
+
+    // Calculate horizontal and vertical distance
+    const xDiff = Math.abs(touchStart - e.targetTouches[0].clientX);
+    const yDiff = Math.abs(touchStartY - e.targetTouches[0].clientY);
+
+    // If horizontal movement is significantly greater than vertical, 
+    // it's likely a swipe and not a tap attempt
+    if (xDiff > 20 && xDiff > yDiff * 2) {
+      setSwipeDetected(true);
+    }
   };
 
-  const handleTouchEnd = () => {
-    const minSwipeDistance = isMobile ? 30 : 50;
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    // If we detected a swipe movement, handle the swipe
+    if (swipeDetected) {
+      const minSwipeDistance = isMobile ? 30 : 50;
 
-    if (touchStart - touchEnd > minSwipeDistance) {
-      handleNext();
-    }
+      if (touchStart - touchEnd > minSwipeDistance) {
+        handleNext();
+      }
 
-    if (touchStart - touchEnd < -minSwipeDistance) {
-      handlePrev();
+      if (touchStart - touchEnd < -minSwipeDistance) {
+        handlePrev();
+      }
     }
 
     setTimeout(() => setIsPaused(false), autoplayInterval);
+  };
+
+  // Separate click handler for links to prevent conflicts with swipe
+  const handleLinkClick = (e: React.MouseEvent, url: string) => {
+    e.stopPropagation();
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const getLinkText = (type: string) => {
@@ -740,12 +762,30 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
                 </TechTags>
                 <ProjectLinks>
                   {displayedProjects[currentIndex].link && (
-                    <a href={displayedProjects[currentIndex].link} target="_blank" rel="noopener noreferrer">
+                    <a
+                      onClick={(e) => {
+                        if (!swipeDetected) {
+                          handleLinkClick(e, displayedProjects[currentIndex].link!);
+                        }
+                      }}
+                      href={displayedProjects[currentIndex].link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <i className="fas fa-external-link-alt"></i> {getLinkText('live')}
                     </a>
                   )}
                   {displayedProjects[currentIndex].githubLink && (
-                    <a href={displayedProjects[currentIndex].githubLink} target="_blank" rel="noopener noreferrer">
+                    <a
+                      onClick={(e) => {
+                        if (!swipeDetected) {
+                          handleLinkClick(e, displayedProjects[currentIndex].githubLink!);
+                        }
+                      }}
+                      href={displayedProjects[currentIndex].githubLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <i className="fab fa-github"></i> {getLinkText('github')}
                     </a>
                   )}

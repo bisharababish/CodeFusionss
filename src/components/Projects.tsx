@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Project } from '../types';
-import BlogImage from './projectspics/blog.png';
-import MRIImage from './projectspics/mri.png';
-import SnakeImage from './projectspics/snake.png';
-import TravelImage from './projectspics/travel.png';
-import DistrubitionImage from './projectspics/Distribution.png';
 
+// Define the Project type
+type Project = {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  link?: string;
+  githubLink?: string;
+};
+
+// Define breakpoints for responsive design
 const breakpoints = {
   smallMobile: '320px',
   mobile: '480px',
   largeMobile: '600px',
   tablet: '768px',
-  laptop: '1024px'
+  laptop: '1024px',
 };
 
 const media = {
@@ -20,28 +26,29 @@ const media = {
   mobile: `@media (max-width: ${breakpoints.mobile})`,
   largeMobile: `@media (max-width: ${breakpoints.largeMobile})`,
   tablet: `@media (max-width: ${breakpoints.tablet})`,
-  laptop: `@media (max-width: ${breakpoints.laptop})`
+  laptop: `@media (max-width: ${breakpoints.laptop})`,
 };
 
+// Styled components
 const ProjectsSection = styled.section`
   padding: 6rem 0;
-  
+
   ${media.laptop} {
     padding: 5rem 0;
   }
-  
+
   ${media.tablet} {
     padding: 4rem 0;
   }
-  
+
   ${media.largeMobile} {
     padding: 3rem 0;
   }
-  
+
   ${media.mobile} {
     padding: 2.5rem 0.5rem;
   }
-  
+
   ${media.smallMobile} {
     padding: 2rem 0.5rem;
   }
@@ -50,51 +57,51 @@ const ProjectsSection = styled.section`
 const SectionHeader = styled.div`
   text-align: center;
   margin-bottom: 4rem;
-  
+
   ${media.tablet} {
     margin-bottom: 3rem;
   }
-  
+
   ${media.mobile} {
     margin-bottom: 2rem;
   }
-  
+
   h2 {
     font-size: 2.5rem;
     margin-bottom: 0.2rem;
-    
+
     ${media.tablet} {
       font-size: 2.2rem;
     }
-    
+
     ${media.largeMobile} {
       font-size: 1.8rem;
     }
-    
+
     ${media.mobile} {
       font-size: 1.6rem;
     }
-    
+
     ${media.smallMobile} {
       font-size: 1.4rem;
     }
   }
-  
+
   p {
     max-width: 600px;
     margin: 0 auto;
     opacity: 0.8;
     font-size: 1rem;
-    
+
     ${media.tablet} {
       max-width: 90%;
     }
-    
+
     ${media.mobile} {
       font-size: 0.9rem;
       max-width: 95%;
     }
-    
+
     ${media.smallMobile} {
       font-size: 0.85rem;
     }
@@ -137,15 +144,15 @@ const SlideshowContainer = styled.div`
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  
+
   ${media.tablet} {
     max-width: 90%;
   }
-  
+
   ${media.largeMobile} {
     max-width: 95%;
   }
-  
+
   ${media.mobile} {
     max-width: 98%;
   }
@@ -156,17 +163,17 @@ const SlideIndicators = styled.div`
   justify-content: center;
   margin-top: 2rem;
   gap: 0.75rem;
-  
+
   ${media.tablet} {
     margin-top: 1.5rem;
     gap: 0.6rem;
   }
-  
+
   ${media.mobile} {
     margin-top: 1.2rem;
     gap: 0.5rem;
   }
-  
+
   ${media.smallMobile} {
     margin-top: 1rem;
     gap: 0.4rem;
@@ -177,20 +184,20 @@ const Indicator = styled.div<{ active: boolean }>`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: ${props => props.active ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.3)'};
+  background-color: ${(props) => (props.active ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.3)')};
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   ${media.tablet} {
     width: 9px;
     height: 9px;
   }
-  
+
   ${media.mobile} {
     width: 8px;
     height: 8px;
   }
-  
+
   ${media.smallMobile} {
     width: 6px;
     height: 6px;
@@ -207,22 +214,22 @@ const ProjectCard = styled.div<{ isActive: boolean }>`
   flex-direction: column;
   height: auto;
   min-height: 500px;
-  animation: ${props => props.isActive ? slideIn : slideOut} 0.5s ease-in-out;
-  
+  animation: ${(props) => (props.isActive ? slideIn : slideOut)} 0.5s ease-in-out;
+
   ${media.tablet} {
     min-height: 450px;
     border-radius: 8px;
   }
-  
+
   ${media.largeMobile} {
     min-height: 420px;
   }
-  
+
   ${media.mobile} {
     min-height: 380px;
     border-radius: 6px;
   }
-  
+
   ${media.smallMobile} {
     min-height: 350px;
   }
@@ -236,19 +243,19 @@ const LoadingSpinner = styled.div`
   height: 40px;
   animation: ${bounce} 0.8s infinite ease-in-out;
   margin: 10px auto;
-  
+
   ${media.tablet} {
     width: 35px;
     height: 35px;
     border-width: 3px;
     border-top-width: 3px;
   }
-  
+
   ${media.mobile} {
     width: 30px;
     height: 30px;
   }
-  
+
   ${media.smallMobile} {
     width: 25px;
     height: 25px;
@@ -261,12 +268,12 @@ const LoadingText = styled.div`
   font-size: 1rem;
   margin-bottom: 10px;
   animation: ${bounce} 0.8s infinite ease-in-out;
-  
+
   ${media.mobile} {
     font-size: 0.9rem;
     margin-bottom: 8px;
   }
-  
+
   ${media.smallMobile} {
     font-size: 0.8rem;
     margin-bottom: 6px;
@@ -281,26 +288,26 @@ const ProjectImage = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.1);
-  
+
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     transition: transform 0.5s ease;
   }
-  
+
   ${media.tablet} {
     height: 250px;
   }
-  
+
   ${media.largeMobile} {
     height: 220px;
   }
-  
+
   ${media.mobile} {
     height: 180px;
   }
-  
+
   ${media.smallMobile} {
     height: 150px;
   }
@@ -311,63 +318,62 @@ const ProjectInfo = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  
+
   ${media.tablet} {
     padding: 1.25rem;
   }
-  
+
   ${media.mobile} {
     padding: 1rem;
   }
-  
+
   ${media.smallMobile} {
     padding: 0.8rem;
   }
-  
+
   h3 {
     margin-bottom: 0.75rem;
     font-size: 1.5rem;
-    
+
     ${media.tablet} {
       font-size: 1.4rem;
       margin-bottom: 0.6rem;
     }
-    
+
     ${media.largeMobile} {
       font-size: 1.3rem;
     }
-    
+
     ${media.mobile} {
       font-size: 1.2rem;
       margin-bottom: 0.5rem;
     }
-    
+
     ${media.smallMobile} {
       font-size: 1.1rem;
       margin-bottom: 0.4rem;
     }
   }
-  
+
   p {
     font-size: 1rem;
     opacity: 0.8;
     margin-bottom: 1rem;
     flex-grow: 1;
-    
+
     ${media.tablet} {
       font-size: 0.95rem;
     }
-    
+
     ${media.mobile} {
       font-size: 0.9rem;
       margin-bottom: 0.8rem;
       line-height: 1.4;
     }
-    
+
     ${media.smallMobile} {
       font-size: 0.85rem;
       margin-bottom: 0.7rem;
-      /* Limit description to 4 lines on smallest screens */
       display: -webkit-box;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
@@ -381,17 +387,17 @@ const TechTags = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  
+
   ${media.tablet} {
     gap: 0.45rem;
     margin-bottom: 1.25rem;
   }
-  
+
   ${media.mobile} {
     gap: 0.4rem;
     margin-bottom: 1rem;
   }
-  
+
   ${media.smallMobile} {
     gap: 0.3rem;
     margin-bottom: 0.8rem;
@@ -404,17 +410,17 @@ const TechTag = styled.span`
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
-  
+
   ${media.tablet} {
     padding: 0.22rem 0.45rem;
   }
-  
+
   ${media.mobile} {
     padding: 0.2rem 0.4rem;
     font-size: 0.75rem;
     border-radius: 3px;
   }
-  
+
   ${media.smallMobile} {
     padding: 0.15rem 0.35rem;
     font-size: 0.7rem;
@@ -425,29 +431,29 @@ const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  
+
   ${media.tablet} {
     gap: 0.9rem;
   }
-  
+
   ${media.largeMobile} {
     gap: 0.8rem;
   }
-  
+
   ${media.mobile} {
     gap: 0.7rem;
     justify-content: space-between;
     padding-bottom: 10px;
-    
+
     a {
       flex: 0 0 calc(50% - 0.35rem);
       text-align: center;
     }
   }
-  
+
   ${media.smallMobile} {
     gap: 0.5rem;
-    
+
     a {
       flex: 0 0 calc(50% - 0.25rem);
     }
@@ -461,14 +467,14 @@ const ProjectLink = styled.a`
   gap: 0.5rem;
   opacity: 0.8;
   transition: all 0.3s ease;
-  z-index: 30; /* Higher z-index to ensure it's clickable */
+  z-index: 30;
   position: relative;
-  
+
   ${media.tablet} {
     font-size: 0.85rem;
     gap: 0.45rem;
   }
-  
+
   ${media.mobile} {
     font-size: 0.8rem;
     gap: 0.4rem;
@@ -477,14 +483,15 @@ const ProjectLink = styled.a`
     background-color: rgba(108, 92, 231, 0.1);
     border-radius: 4px;
   }
-  
+
   ${media.smallMobile} {
     font-size: 0.75rem;
     gap: 0.3rem;
     padding: 0.4rem 0;
   }
-  
-  &:hover, &:active {
+
+  &:hover,
+  &:active {
     opacity: 1;
     color: var(--primary-color);
     ${media.mobile} {
@@ -502,10 +509,9 @@ const NavigationButtons = styled.div`
   justify-content: space-between;
   pointer-events: none;
   padding: 0 10px;
-  
+
   ${media.mobile} {
     padding: 0 5px;
-    /* Move buttons upward on mobile to avoid conflicts with links */
     top: 35%;
   }
 `;
@@ -524,27 +530,27 @@ const NavButton = styled.button`
   transition: all 0.3s ease;
   pointer-events: auto;
   z-index: 10;
-  
+
   ${media.tablet} {
     width: 36px;
     height: 36px;
   }
-  
+
   ${media.largeMobile} {
     width: 34px;
     height: 34px;
   }
-  
+
   ${media.mobile} {
     width: 32px;
     height: 32px;
   }
-  
+
   ${media.smallMobile} {
     width: 28px;
     height: 28px;
   }
-  
+
   &:hover {
     background-color: var(--primary-color);
   }
@@ -569,7 +575,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       description: 'A personal Blog that consists of random generated poems or blogs that you can read about when you press Continue Reading.',
       image: BlogImage,
       technologies: ['HTML', 'CSS'],
-      githubLink: 'https://github.com/bisharababish/Personal-Blog'
+      githubLink: 'https://github.com/bisharababish/Personal-Blog',
     },
     {
       id: 2,
@@ -578,7 +584,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       image: MRIImage,
       technologies: ['JavaScript', 'HTML', 'CSS'],
       link: 'https://mridetection.netlify.app/',
-      githubLink: 'https://github.com/bisharababish/MRI-Brain-Tumor'
+      githubLink: 'https://github.com/bisharababish/MRI-Brain-Tumor',
     },
     {
       id: 3,
@@ -587,7 +593,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       image: SnakeImage,
       technologies: ['JavaScript', 'CSS', 'HTML'],
       link: 'https://slitherzone.netlify.app/',
-      githubLink: 'https://github.com/bisharababish/Snake-Game'
+      githubLink: 'https://github.com/bisharababish/Snake-Game',
     },
     {
       id: 4,
@@ -595,7 +601,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       description: 'This project involves building a personal blog website from scratch using HTML and CSS, focusing on custom design, layout, and styling while ensuring proper file structure and code formatting.',
       image: TravelImage,
       technologies: ['JavaScript', 'SCSS', 'HTML'],
-      githubLink: 'https://github.com/bisharababish/TravelApp'
+      githubLink: 'https://github.com/bisharababish/TravelApp',
     },
     {
       id: 5,
@@ -603,22 +609,22 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       description: 'This project investigates the early prediction of kidney dysfunction in diabetic patients by analyzing Fasting Blood Sugar and Creatinine levels using machine learning models.',
       image: DistrubitionImage,
       technologies: ['Python'],
-      githubLink: 'https://github.com/judahsleibi34/Early-Prediction-of-Kidney-Dysfunction-in-Diabetic-Patients'
+      githubLink: 'https://github.com/judahsleibi34/Early-Prediction-of-Kidney-Dysfunction-in-Diabetic-Patients',
     },
     {
       id: 6,
       title: 'More Projects to come!',
       description: 'Early Production and more developed applications, websites soon!',
-      image: "",
+      image: '',
       technologies: ['Soon'],
-    }
+    },
   ];
 
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchY, setTouchY] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -627,7 +633,6 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
     };
 
     checkMobile();
-
     window.addEventListener('resize', checkMobile);
 
     return () => {
@@ -646,9 +651,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
   }, [isPaused, displayedProjects.length, autoplayInterval]);
 
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      (prevIndex - 1 + displayedProjects.length) % displayedProjects.length
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + displayedProjects.length) % displayedProjects.length);
     setIsPaused(true);
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
@@ -665,51 +668,29 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 
-  // Fixed touch handling
   const handleTouchStart = (e: React.TouchEvent) => {
-    // Store the initial touch position
     setTouchStart(e.targetTouches[0].clientX);
-    setTouchY(e.targetTouches[0].clientY);
     setIsPaused(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    // Do nothing if we didn't start with a touch
-    if (touchStart === null) return;
+    setTouchEnd(e.targetTouches[0].clientX);
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    // Only handle the swipe if we have a start position
-    if (touchStart !== null && touchY !== null) {
-      const touchEnd = e.changedTouches[0].clientX;
-      const touchEndY = e.changedTouches[0].clientY;
-
-      // Calculate distances
-      const xDist = touchStart - touchEnd;
-      const yDist = Math.abs(touchY - touchEndY);
-
-      // Set a minimum swipe distance
+  const handleTouchEnd = () => {
+    if (touchStart !== null && touchEnd !== null) {
       const minSwipeDistance = 50;
+      const distance = touchStart - touchEnd;
 
-      // Only consider it a swipe if:
-      // 1. The horizontal distance is greater than the minimum
-      // 2. The horizontal distance is greater than the vertical distance (to avoid mistaking scrolls for swipes)
-      if (Math.abs(xDist) > minSwipeDistance && Math.abs(xDist) > yDist) {
-        if (xDist > 0) {
-          // Swipe left - next
-          handleNext();
-        } else {
-          // Swipe right - previous
-          handlePrev();
-        }
+      if (distance > minSwipeDistance) {
+        handleNext();
+      } else if (distance < -minSwipeDistance) {
+        handlePrev();
       }
     }
 
-    // Reset touch positions
     setTouchStart(null);
-    setTouchY(null);
-
-    // Resume autoplay after delay
+    setTouchEnd(null);
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 

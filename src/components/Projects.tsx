@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { motion, useAnimation } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Project } from '../types';
 import BlogImage from './projectspics/blog.png';
 import MRIImage from './projectspics/mri.png';

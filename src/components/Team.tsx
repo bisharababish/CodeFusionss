@@ -96,6 +96,7 @@ const TeamCard = styled(motion.div)`
   width: 300px;
   height: 500px;
   perspective: 1000px;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     width: 280px;
@@ -360,29 +361,17 @@ const SocialLinks = styled(motion.div)`
   }
 `;
 
-const FlipButton = styled.button`
+const FlipHint = styled.div`
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   right: 10px;
-  background-color: var(--primary-color);
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.7rem;
   z-index: 10;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
   
-  &:hover {
-    opacity: 1;
-  }
-  
-  /* Hide on desktop as we use hover there */
   @media (hover: hover) {
     display: none;
   }
@@ -398,6 +387,11 @@ const Team: React.FC = () => {
       ...prev,
       [id]: !prev[id]
     }));
+  };
+
+  // Function to handle social link clicks without triggering card flip
+  const handleSocialClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
   };
 
   const teamMembers: TeamMember[] = [
@@ -469,6 +463,7 @@ const Team: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.5 }}
+              onClick={() => toggleCardFlip(member.id)}
             >
               <CardInner isFlipped={flippedCards[member.id] || false}>
                 <CardFront>
@@ -478,21 +473,13 @@ const Team: React.FC = () => {
                   <MemberInfo>
                     <h3>{member.name}</h3>
                     <p dangerouslySetInnerHTML={{ __html: member.role }}></p>
-                    <FlipButton
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent event bubbling
-                        toggleCardFlip(member.id);
-                      }}
-                      aria-label="Flip card"
-                    >
-                      <i className="fas fa-sync-alt"></i>
-                    </FlipButton>
                   </MemberInfo>
+                  <FlipHint>Tap to flip</FlipHint>
                 </CardFront>
-                <CardBack onClick={() => toggleCardFlip(member.id)}>
+                <CardBack>
                   <h3>{member.name}</h3>
                   <p>{member.bio}</p>
-                  <SocialLinks onClick={(e) => e.stopPropagation()}>
+                  <SocialLinks onClick={handleSocialClick}>
                     {member.socialLinks?.github && (
                       <motion.a
                         href={member.socialLinks.github}
@@ -533,16 +520,7 @@ const Team: React.FC = () => {
                       </motion.a>
                     )}
                   </SocialLinks>
-                  <FlipButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleCardFlip(member.id);
-                    }}
-                    aria-label="Flip card back"
-                    style={{ transform: 'rotateY(180deg)' }}
-                  >
-                    <i className="fas fa-sync-alt"></i>
-                  </FlipButton>
+                  <FlipHint>Tap to flip back</FlipHint>
                 </CardBack>
               </CardInner>
             </TeamCard>

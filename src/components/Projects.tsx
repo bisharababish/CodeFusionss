@@ -27,19 +27,19 @@ const ProjectsSection = styled.section`
   padding: 6rem 0;
   
   ${media.laptop} {
-    padding: 5rem 0;
+    padding: 6rem 0;
   }
   
   ${media.tablet} {
-    padding: 4rem 0;
+    padding: 5rem 0;
   }
   
   ${media.largeMobile} {
-    padding: 3rem 0;
+    padding: 3.2rem 0;
   }
   
   ${media.mobile} {
-    padding: 2.5rem 0.5rem;
+    padding: 3.2rem 0.5rem;
   }
   
   ${media.smallMobile} {

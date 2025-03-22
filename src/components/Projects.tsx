@@ -25,18 +25,18 @@ const media = {
 };
 
 const ProjectsSection = styled(motion.section)`
-  padding: 6rem 0;
+  padding: 8rem 0 6rem; // Increase top padding from 6rem to 8rem
 
   ${media.laptop} {
-    padding: 6rem 0;
+    padding: 8rem 0 6rem; // Adjust accordingly
   }
 
   ${media.tablet} {
-    padding: 5rem 0;
+    padding: 7rem 0 5rem; // Adjust accordingly
   }
 
   ${media.largeMobile} {
-    padding: 3.2rem 0;
+    padding: 5rem 0 3.2rem; // Adjust accordingly
   }
 
   ${media.mobile} {
@@ -51,13 +51,18 @@ const ProjectsSection = styled(motion.section)`
 const SectionHeader = styled(motion.div)`
   text-align: center;
   margin-bottom: 4rem;
+  padding-top: 2rem; // Add this line to create space above the header
 
   ${media.tablet} {
     margin-bottom: 3rem;
+        padding-top: 1.5rem; // Add responsive padding for tablet
+
   }
 
   ${media.mobile} {
     margin-bottom: 2rem;
+        padding-top: 1rem; // Add responsive padding for mobile
+
   }
 
   h2 {

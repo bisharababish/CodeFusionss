@@ -596,7 +596,6 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchY, setTouchY] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const controls = useAnimation();
 
   useEffect(() => {
     const checkMobile = () => {

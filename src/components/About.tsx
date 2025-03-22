@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { motion, useInView } from 'framer-motion';
 
 const AboutSection = styled(motion.section)`
-  padding: 3rem 1rem;
+  padding: 5rem 1rem 3rem 1rem;  // Increased top padding to 5rem
+
   background-color: var(--darker-bg);
 
   /* Mobile-specific padding adjustments */
   @media (max-width: 480px) {
-    padding: 2.5rem 0.75rem;
+    padding: 4.5rem 0.75rem 2.5rem 0.75rem;  // Increased top padding here too
   }
 `;
 
@@ -35,6 +36,7 @@ const AboutContent = styled.div`
 const AboutText = styled(motion.div)`
   h2 {
     font-size: 2.5rem;
+    margin-top: 2rem;  // Add this line to increase space at the top
     margin-bottom: 1.5rem;
     position: relative;
 

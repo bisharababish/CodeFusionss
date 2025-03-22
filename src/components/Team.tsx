@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { TeamMember } from '../types';
@@ -121,17 +121,11 @@ const CardInner = styled(motion.div)`
   transition: transform 0.6s ease;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: ${props => props.$isFlipped ? 'rotateY(180deg)' : 'rotateY(0)'};
 
   /* For devices that support hover */
   @media (hover: hover) {
     ${TeamCard}:hover & {
-      transform: rotateY(180deg);
-    }
-  }
-
-  /* For touch devices */
-  @media (hover: none) {
-    &:active {
       transform: rotateY(180deg);
     }
   }
@@ -362,7 +356,46 @@ const SocialLinks = styled(motion.div)`
   }
 `;
 
+const FlipButton = styled.button`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  
+  &:hover {
+    opacity: 1;
+  }
+  
+  /* Hide on desktop as we use hover there */
+  @media (hover: hover) {
+    display: none;
+  }
+`;
+
 const Team: React.FC = () => {
+  // State to track flipped status for each card
+  const [flippedCards, setFlippedCards] = useState<{[key: number]: boolean}>({});
+  
+  // Function to toggle flip state for a specific card
+  const toggleCardFlip = (id: number) => {
+    setFlippedCards(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
   const teamMembers: TeamMember[] = [
     {
       id: 1,
@@ -433,7 +466,7 @@ const Team: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.5 }}
             >
-              <CardInner>
+              <CardInner $isFlipped={flippedCards[member.id] || false}>
                 <CardFront>
                   <MemberImage>
                     <img src={member.image} alt={member.name} />
@@ -441,12 +474,21 @@ const Team: React.FC = () => {
                   <MemberInfo>
                     <h3>{member.name}</h3>
                     <p dangerouslySetInnerHTML={{ __html: member.role }}></p>
+                    <FlipButton 
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent event bubbling
+                        toggleCardFlip(member.id);
+                      }}
+                      aria-label="Flip card"
+                    >
+                      <i className="fas fa-sync-alt"></i>
+                    </FlipButton>
                   </MemberInfo>
                 </CardFront>
-                <CardBack>
+                <CardBack onClick={() => toggleCardFlip(member.id)}>
                   <h3>{member.name}</h3>
                   <p>{member.bio}</p>
-                  <SocialLinks>
+                  <SocialLinks onClick={(e) => e.stopPropagation()}>
                     {member.socialLinks?.github && (
                       <motion.a
                         href={member.socialLinks.github}
@@ -487,6 +529,16 @@ const Team: React.FC = () => {
                       </motion.a>
                     )}
                   </SocialLinks>
+                  <FlipButton 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleCardFlip(member.id);
+                    }}
+                    aria-label="Flip card back"
+                    style={{ transform: 'rotateY(180deg)' }}
+                  >
+                    <i className="fas fa-sync-alt"></i>
+                  </FlipButton>
                 </CardBack>
               </CardInner>
             </TeamCard>

@@ -55,15 +55,21 @@ const Logo = styled(motion.div)`
 
 const NavLinks = styled(motion.nav)`
   @media (max-width: 768px) {
+    display: none; /* Hide desktop nav on mobile */
+  }
+`;
+
+const MobileNavLinks = styled(motion.nav)`
+  display: none; /* Hidden by default */
+  
+  @media (max-width: 768px) {
+    display: block; /* Only show on mobile */
     position: fixed;
     top: 0;
     right: 0;
     width: 70%;
     height: 100vh;
     background-color: var(--darker-bg);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     z-index: 999;
   }
 `;
@@ -207,7 +213,6 @@ const Navbar = () => {
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Check if click is outside both the nav and toggle button
       if (
         isOpen &&
         navRef.current &&
@@ -223,6 +228,18 @@ const Navbar = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, [isOpen]);
+
+  // Close menu when screen resizes above mobile breakpoint
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768 && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [isOpen]);
 
   return (
@@ -272,11 +289,26 @@ const Navbar = () => {
             {isOpen ? '✕' : '☰'}
           </MobileToggle>
 
-          <AnimatePresence mode="wait">
+          {/* Desktop Navigation - Always rendered but hidden on mobile via CSS */}
+          <NavLinks>
+            <NavList>
+              <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
+                <Link to="/">Home</Link>
+              </NavItem>
+              <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
+                <Link to="/projects">Projects</Link>
+              </NavItem>
+              <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
+                <Link to="/about">About</Link>
+              </NavItem>
+            </NavList>
+          </NavLinks>
+
+          {/* Mobile Navigation - Only visible when menu is open */}
+          <AnimatePresence>
             {isOpen && (
-              <NavLinks
+              <MobileNavLinks
                 ref={navRef}
-                as={motion.nav}
                 variants={mobileMenuVariants}
                 initial="closed"
                 animate="open"
@@ -299,41 +331,9 @@ const Navbar = () => {
                     </NavItem>
                   ))}
                 </NavList>
-              </NavLinks>
+              </MobileNavLinks>
             )}
           </AnimatePresence>
-
-          {!isOpen && (
-            <NavLinks
-              as={motion.nav}
-              className="desktop-nav"
-              style={{ display: 'block' }}
-            >
-              <NavList>
-                <NavItem
-                  whileHover="hover"
-                  initial="initial"
-                  variants={navItemVariants}
-                >
-                  <Link to="/">Home</Link>
-                </NavItem>
-                <NavItem
-                  whileHover="hover"
-                  initial="initial"
-                  variants={navItemVariants}
-                >
-                  <Link to="/projects">Projects</Link>
-                </NavItem>
-                <NavItem
-                  whileHover="hover"
-                  initial="initial"
-                  variants={navItemVariants}
-                >
-                  <Link to="/about">About</Link>
-                </NavItem>
-              </NavList>
-            </NavLinks>
-          )}
         </NavContent>
       </div>
     </NavContainer>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { motion, useAnimation } from 'framer-motion';
 import { Project } from '../types';
 import BlogImage from './projectspics/blog.png';
 import MRIImage from './projectspics/mri.png';
@@ -12,7 +13,7 @@ const breakpoints = {
   mobile: '480px',
   largeMobile: '600px',
   tablet: '768px',
-  laptop: '1024px'
+  laptop: '1024px',
 };
 
 const media = {
@@ -20,81 +21,81 @@ const media = {
   mobile: `@media (max-width: ${breakpoints.mobile})`,
   largeMobile: `@media (max-width: ${breakpoints.largeMobile})`,
   tablet: `@media (max-width: ${breakpoints.tablet})`,
-  laptop: `@media (max-width: ${breakpoints.laptop})`
+  laptop: `@media (max-width: ${breakpoints.laptop})`,
 };
 
-const ProjectsSection = styled.section`
+const ProjectsSection = styled(motion.section)`
   padding: 6rem 0;
-  
+
   ${media.laptop} {
     padding: 6rem 0;
   }
-  
+
   ${media.tablet} {
     padding: 5rem 0;
   }
-  
+
   ${media.largeMobile} {
     padding: 3.2rem 0;
   }
-  
+
   ${media.mobile} {
     padding: 3.2rem 0.5rem;
   }
-  
+
   ${media.smallMobile} {
     padding: 2rem 0.5rem;
   }
 `;
 
-const SectionHeader = styled.div`
+const SectionHeader = styled(motion.div)`
   text-align: center;
   margin-bottom: 4rem;
-  
+
   ${media.tablet} {
     margin-bottom: 3rem;
   }
-  
+
   ${media.mobile} {
     margin-bottom: 2rem;
   }
-  
+
   h2 {
     font-size: 2.5rem;
     margin-bottom: 0.2rem;
-    
+
     ${media.tablet} {
       font-size: 2.2rem;
     }
-    
+
     ${media.largeMobile} {
       font-size: 1.8rem;
     }
-    
+
     ${media.mobile} {
       font-size: 1.6rem;
     }
-    
+
     ${media.smallMobile} {
       font-size: 1.4rem;
     }
   }
-  
+
   p {
     max-width: 600px;
     margin: 0 auto;
     opacity: 0.8;
     font-size: 1rem;
-    
+
     ${media.tablet} {
       max-width: 90%;
     }
-    
+
     ${media.mobile} {
       font-size: 0.9rem;
       max-width: 95%;
     }
-    
+
     ${media.smallMobile} {
       font-size: 0.85rem;
     }
@@ -110,94 +111,72 @@ const bounce = keyframes`
   }
 `;
 
-const slideIn = keyframes`
-  0% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-`;
-
-const slideOut = keyframes`
-  0% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-`;
-
-const SlideshowContainer = styled.div`
+const SlideshowContainer = styled(motion.div)`
   max-width: 800px;
   margin: 0 auto;
   position: relative;
   overflow: hidden;
-  
+
   ${media.tablet} {
     max-width: 90%;
   }
-  
+
   ${media.largeMobile} {
     max-width: 95%;
   }
-  
+
   ${media.mobile} {
     max-width: 98%;
   }
 `;
 
-const SlideIndicators = styled.div`
+const SlideIndicators = styled(motion.div)`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
   gap: 0.75rem;
-  
+
   ${media.tablet} {
     margin-top: 1.5rem;
     gap: 0.6rem;
   }
-  
+
   ${media.mobile} {
     margin-top: 1.2rem;
     gap: 0.5rem;
   }
-  
+
   ${media.smallMobile} {
     margin-top: 1rem;
     gap: 0.4rem;
   }
 `;
 
-const Indicator = styled.div<{ active: boolean }>`
+const Indicator = styled(motion.div) <{ active: boolean }>`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: ${props => props.active ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.3)'};
+  background-color: ${(props) => (props.active ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.3)')};
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   ${media.tablet} {
     width: 9px;
     height: 9px;
   }
-  
+
   ${media.mobile} {
     width: 8px;
     height: 8px;
   }
-  
+
   ${media.smallMobile} {
     width: 6px;
     height: 6px;
   }
 `;
 
-const ProjectCard = styled.div<{ isActive: boolean }>`
+const ProjectCard = styled(motion.div)`
   background-color: rgba(15, 15, 26, 0.5);
   border-radius: 10px;
   overflow: hidden;
@@ -207,28 +186,27 @@ const ProjectCard = styled.div<{ isActive: boolean }>`
   flex-direction: column;
   height: auto;
   min-height: 500px;
-  animation: ${props => props.isActive ? slideIn : slideOut} 0.5s ease-in-out;
-  
+
   ${media.tablet} {
     min-height: 450px;
     border-radius: 8px;
   }
-  
+
   ${media.largeMobile} {
     min-height: 420px;
   }
-  
+
   ${media.mobile} {
     min-height: 380px;
     border-radius: 6px;
   }
-  
+
   ${media.smallMobile} {
     min-height: 350px;
   }
 `;
 
-const LoadingSpinner = styled.div`
+const LoadingSpinner = styled(motion.div)`
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top: 4px solid var(--primary-color);
@@ -236,44 +214,44 @@ const LoadingSpinner = styled.div`
   height: 40px;
   animation: ${bounce} 0.8s infinite ease-in-out;
   margin: 10px auto;
-  
+
   ${media.tablet} {
     width: 35px;
     height: 35px;
     border-width: 3px;
     border-top-width: 3px;
   }
-  
+
   ${media.mobile} {
     width: 30px;
     height: 30px;
   }
-  
+
   ${media.smallMobile} {
     width: 25px;
     height: 25px;
   }
 `;
 
-const LoadingText = styled.div`
+const LoadingText = styled(motion.div)`
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
   font-size: 1rem;
   margin-bottom: 10px;
   animation: ${bounce} 0.8s infinite ease-in-out;
-  
+
   ${media.mobile} {
     font-size: 0.9rem;
     margin-bottom: 8px;
   }
-  
+
   ${media.smallMobile} {
     font-size: 0.8rem;
     margin-bottom: 6px;
   }
 `;
 
-const ProjectImage = styled.div`
+const ProjectImage = styled(motion.div)`
   width: 100%;
   height: 300px;
   display: flex;
@@ -281,93 +259,92 @@ const ProjectImage = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgba(255, 255, 255, 0.1);
-  
+
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     transition: transform 0.5s ease;
   }
-  
+
   ${media.tablet} {
     height: 250px;
   }
-  
+
   ${media.largeMobile} {
     height: 220px;
   }
-  
+
   ${media.mobile} {
     height: 180px;
   }
-  
+
   ${media.smallMobile} {
     height: 150px;
   }
 `;
 
-const ProjectInfo = styled.div`
+const ProjectInfo = styled(motion.div)`
   padding: 1.5rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  
+
   ${media.tablet} {
     padding: 1.25rem;
   }
-  
+
   ${media.mobile} {
     padding: 1rem;
   }
-  
+
   ${media.smallMobile} {
     padding: 0.8rem;
   }
-  
+
   h3 {
     margin-bottom: 0.75rem;
     font-size: 1.5rem;
-    
+
     ${media.tablet} {
       font-size: 1.4rem;
       margin-bottom: 0.6rem;
     }
-    
+
     ${media.largeMobile} {
       font-size: 1.3rem;
     }
-    
+
     ${media.mobile} {
       font-size: 1.2rem;
       margin-bottom: 0.5rem;
     }
-    
+
     ${media.smallMobile} {
       font-size: 1.1rem;
       margin-bottom: 0.4rem;
     }
   }
-  
+
   p {
     font-size: 1rem;
     opacity: 0.8;
     margin-bottom: 1rem;
     flex-grow: 1;
-    
+
     ${media.tablet} {
       font-size: 0.95rem;
     }
-    
+
     ${media.mobile} {
       font-size: 0.9rem;
       margin-bottom: 0.8rem;
       line-height: 1.4;
     }
-    
+
     ${media.smallMobile} {
       font-size: 0.85rem;
       margin-bottom: 0.7rem;
-      /* Limit description to 4 lines on smallest screens */
       display: -webkit-box;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
@@ -376,99 +353,99 @@ const ProjectInfo = styled.div`
   }
 `;
 
-const TechTags = styled.div`
+const TechTags = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  
+
   ${media.tablet} {
     gap: 0.45rem;
     margin-bottom: 1.25rem;
   }
-  
+
   ${media.mobile} {
     gap: 0.4rem;
     margin-bottom: 1rem;
   }
-  
+
   ${media.smallMobile} {
     gap: 0.3rem;
     margin-bottom: 0.8rem;
   }
 `;
 
-const TechTag = styled.span`
+const TechTag = styled(motion.span)`
   background-color: rgba(108, 92, 231, 0.15);
   color: var(--primary-color);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.8rem;
-  
+
   ${media.tablet} {
     padding: 0.22rem 0.45rem;
   }
-  
+
   ${media.mobile} {
     padding: 0.2rem 0.4rem;
     font-size: 0.75rem;
     border-radius: 3px;
   }
-  
+
   ${media.smallMobile} {
     padding: 0.15rem 0.35rem;
     font-size: 0.7rem;
   }
 `;
 
-const ProjectLinks = styled.div`
+const ProjectLinks = styled(motion.div)`
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  
+
   ${media.tablet} {
     gap: 0.9rem;
   }
-  
+
   ${media.largeMobile} {
     gap: 0.8rem;
   }
-  
+
   ${media.mobile} {
     gap: 0.7rem;
     justify-content: space-between;
     padding-bottom: 10px;
-    
+
     a {
       flex: 0 0 calc(50% - 0.35rem);
       text-align: center;
     }
   }
-  
+
   ${media.smallMobile} {
     gap: 0.5rem;
-    
+
     a {
       flex: 0 0 calc(50% - 0.25rem);
     }
   }
 `;
 
-const ProjectLink = styled.a`
+const ProjectLink = styled(motion.a)`
   font-size: 0.9rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   opacity: 0.8;
   transition: all 0.3s ease;
-  z-index: 30; /* Higher z-index to ensure it's clickable */
+  z-index: 30;
   position: relative;
-  
+
   ${media.tablet} {
     font-size: 0.85rem;
     gap: 0.45rem;
   }
-  
+
   ${media.mobile} {
     font-size: 0.8rem;
     gap: 0.4rem;
@@ -477,13 +454,13 @@ const ProjectLink = styled.a`
     background-color: rgba(108, 92, 231, 0.1);
     border-radius: 4px;
   }
-  
+
   ${media.smallMobile} {
     font-size: 0.75rem;
     gap: 0.3rem;
     padding: 0.4rem 0;
   }
-  
+
   &:hover, &:active {
     opacity: 1;
     color: var(--primary-color);
@@ -493,7 +470,7 @@ const ProjectLink = styled.a`
   }
 `;
 
-const NavigationButtons = styled.div`
+const NavigationButtons = styled(motion.div)`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -502,15 +479,14 @@ const NavigationButtons = styled.div`
   justify-content: space-between;
   pointer-events: none;
   padding: 0 10px;
-  
+
   ${media.mobile} {
     padding: 0 5px;
-    /* Move buttons upward on mobile to avoid conflicts with links */
     top: 35%;
   }
 `;
 
-const NavButton = styled.button`
+const NavButton = styled(motion.button)`
   background-color: rgba(0, 0, 0, 0.3);
   color: white;
   border: none;
@@ -524,33 +500,33 @@ const NavButton = styled.button`
   transition: all 0.3s ease;
   pointer-events: auto;
   z-index: 10;
-  
+
   ${media.tablet} {
     width: 36px;
     height: 36px;
   }
-  
+
   ${media.largeMobile} {
     width: 34px;
     height: 34px;
   }
-  
+
   ${media.mobile} {
     width: 32px;
     height: 32px;
   }
-  
+
   ${media.smallMobile} {
     width: 28px;
     height: 28px;
   }
-  
+
   &:hover {
     background-color: var(--primary-color);
   }
 `;
 
-const TouchContainer = styled.div`
+const TouchContainer = styled(motion.div)`
   width: 100%;
   height: 100%;
   touch-action: pan-y;
@@ -569,7 +545,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       description: 'A personal Blog that consists of random generated poems or blogs that you can read about when you press Continue Reading.',
       image: BlogImage,
       technologies: ['HTML', 'CSS'],
-      githubLink: 'https://github.com/bisharababish/Personal-Blog'
+      githubLink: 'https://github.com/bisharababish/Personal-Blog',
     },
     {
       id: 2,
@@ -578,7 +554,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       image: MRIImage,
       technologies: ['JavaScript', 'HTML', 'CSS'],
       link: 'https://mridetection.netlify.app/',
-      githubLink: 'https://github.com/bisharababish/MRI-Brain-Tumor'
+      githubLink: 'https://github.com/bisharababish/MRI-Brain-Tumor',
     },
     {
       id: 3,
@@ -587,7 +563,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       image: SnakeImage,
       technologies: ['JavaScript', 'CSS', 'HTML'],
       link: 'https://slitherzone.netlify.app/',
-      githubLink: 'https://github.com/bisharababish/Snake-Game'
+      githubLink: 'https://github.com/bisharababish/Snake-Game',
     },
     {
       id: 4,
@@ -595,7 +571,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       description: 'This project involves building a personal blog website from scratch using HTML and CSS, focusing on custom design, layout, and styling while ensuring proper file structure and code formatting.',
       image: TravelImage,
       technologies: ['JavaScript', 'SCSS', 'HTML'],
-      githubLink: 'https://github.com/bisharababish/TravelApp'
+      githubLink: 'https://github.com/bisharababish/TravelApp',
     },
     {
       id: 5,
@@ -603,15 +579,15 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
       description: 'This project investigates the early prediction of kidney dysfunction in diabetic patients by analyzing Fasting Blood Sugar and Creatinine levels using machine learning models.',
       image: DistrubitionImage,
       technologies: ['Python'],
-      githubLink: 'https://github.com/judahsleibi34/Early-Prediction-of-Kidney-Dysfunction-in-Diabetic-Patients'
+      githubLink: 'https://github.com/judahsleibi34/Early-Prediction-of-Kidney-Dysfunction-in-Diabetic-Patients',
     },
     {
       id: 6,
       title: 'More Projects to come!',
       description: 'Early Production and more developed applications, websites soon!',
-      image: "",
+      image: '',
       technologies: ['Soon'],
-    }
+    },
   ];
 
   const displayedProjects = limit ? projects.slice(0, limit) : projects;
@@ -620,6 +596,7 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchY, setTouchY] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const controls = useAnimation();
 
   useEffect(() => {
     const checkMobile = () => {
@@ -665,51 +642,38 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 
-  // Fixed touch handling
   const handleTouchStart = (e: React.TouchEvent) => {
-    // Store the initial touch position
     setTouchStart(e.targetTouches[0].clientX);
     setTouchY(e.targetTouches[0].clientY);
     setIsPaused(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    // Do nothing if we didn't start with a touch
     if (touchStart === null) return;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
-    // Only handle the swipe if we have a start position
     if (touchStart !== null && touchY !== null) {
       const touchEnd = e.changedTouches[0].clientX;
       const touchEndY = e.changedTouches[0].clientY;
 
-      // Calculate distances
       const xDist = touchStart - touchEnd;
       const yDist = Math.abs(touchY - touchEndY);
 
-      // Set a minimum swipe distance
       const minSwipeDistance = 50;
 
-      // Only consider it a swipe if:
-      // 1. The horizontal distance is greater than the minimum
-      // 2. The horizontal distance is greater than the vertical distance (to avoid mistaking scrolls for swipes)
       if (Math.abs(xDist) > minSwipeDistance && Math.abs(xDist) > yDist) {
         if (xDist > 0) {
-          // Swipe left - next
           handleNext();
         } else {
-          // Swipe right - previous
           handlePrev();
         }
       }
     }
 
-    // Reset touch positions
     setTouchStart(null);
     setTouchY(null);
 
-    // Resume autoplay after delay
     setTimeout(() => setIsPaused(false), autoplayInterval);
   };
 
@@ -720,10 +684,20 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
     return type === 'live' ? 'View Live' : 'Source Code';
   };
 
+  const cardVariants = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+    exit: { opacity: 0, x: -100, transition: { duration: 0.5 } },
+  };
+
   return (
     <ProjectsSection id="projects">
       <div className="container">
-        <SectionHeader>
+        <SectionHeader
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h2>Our Projects</h2>
           <p>Here are some of the projects we've worked on.</p>
         </SectionHeader>
@@ -737,7 +711,13 @@ const Projects: React.FC<ProjectsProps> = ({ limit, autoplayInterval = 6000 }) =
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <ProjectCard isActive={true}>
+            <ProjectCard
+              key={currentIndex}
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
               <ProjectImage>
                 {displayedProjects[currentIndex].image ? (
                   <img

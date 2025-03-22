@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -57,14 +57,13 @@ const NavLinks = styled(motion.nav)`
   @media (max-width: 768px) {
     position: fixed;
     top: 0;
-    right: ${props => (props.className === 'active' ? '0' : '-100%')};
+    right: 0;
     width: 70%;
     height: 100vh;
     background-color: var(--darker-bg);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: all 0.5s ease;
     z-index: 999;
   }
 `;
@@ -186,6 +185,8 @@ const listItemVariants = {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -198,6 +199,31 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Check if click is outside both the nav and toggle button
+      if (
+        isOpen &&
+        navRef.current &&
+        buttonRef.current &&
+        !navRef.current.contains(event.target as Node) &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <NavContainer
@@ -239,20 +265,21 @@ const Navbar = () => {
           </Logo>
 
           <MobileToggle
+            ref={buttonRef}
             onClick={toggleMenu}
             whileTap={{ scale: 0.9 }}
           >
             {isOpen ? '✕' : '☰'}
           </MobileToggle>
 
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             {isOpen && (
               <NavLinks
-                className={isOpen ? 'active' : ''}
+                ref={navRef}
                 as={motion.nav}
                 variants={mobileMenuVariants}
                 initial="closed"
-                animate={isOpen ? "open" : "closed"}
+                animate="open"
                 exit="closed"
               >
                 <NavList>
@@ -261,11 +288,11 @@ const Navbar = () => {
                       key={index}
                       whileHover="hover"
                       initial="initial"
-                      variants={navItemVariants}
+                      variants={listItemVariants}
                     >
                       <Link
                         to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                        onClick={() => setIsOpen(false)}
+                        onClick={closeMenu}
                       >
                         {item}
                       </Link>
@@ -277,7 +304,11 @@ const Navbar = () => {
           </AnimatePresence>
 
           {!isOpen && (
-            <NavLinks>
+            <NavLinks
+              as={motion.nav}
+              className="desktop-nav"
+              style={{ display: 'block' }}
+            >
               <NavList>
                 <NavItem
                   whileHover="hover"

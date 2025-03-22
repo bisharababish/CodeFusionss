@@ -361,21 +361,6 @@ const SocialLinks = styled(motion.div)`
   }
 `;
 
-const FlipHint = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 0.7rem;
-  z-index: 10;
-  
-  @media (hover: hover) {
-    display: none;
-  }
-`;
 
 const Team: React.FC = () => {
   // State to track flipped status for each card
@@ -474,7 +459,6 @@ const Team: React.FC = () => {
                     <h3>{member.name}</h3>
                     <p dangerouslySetInnerHTML={{ __html: member.role }}></p>
                   </MemberInfo>
-                  <FlipHint>Tap to flip</FlipHint>
                 </CardFront>
                 <CardBack>
                   <h3>{member.name}</h3>
@@ -520,7 +504,6 @@ const Team: React.FC = () => {
                       </motion.a>
                     )}
                   </SocialLinks>
-                  <FlipHint>Tap to flip back</FlipHint>
                 </CardBack>
               </CardInner>
             </TeamCard>

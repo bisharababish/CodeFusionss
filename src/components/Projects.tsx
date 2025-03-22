@@ -25,26 +25,26 @@ const media = {
 };
 
 const ProjectsSection = styled(motion.section)`
-  padding: 8rem 0 6rem; // Increase top padding from 6rem to 8rem
+  padding: 6rem 0;
 
   ${media.laptop} {
-    padding: 8rem 0 6rem; // Adjust accordingly
+    padding: 6rem 0;
   }
 
   ${media.tablet} {
-    padding: 7rem 0 5rem; // Adjust accordingly
+    padding: 5rem 0;
   }
 
   ${media.largeMobile} {
-    padding: 5rem 0 3.2rem; // Adjust accordingly
+    padding: 4.5rem 0 3.2rem; // Increased top padding from 3.2rem to 4.5rem
   }
 
   ${media.mobile} {
-    padding: 3.2rem 0.5rem;
+    padding: 5rem 0.5rem 3.2rem; // Increased top padding from 3.2rem to 5rem
   }
 
   ${media.smallMobile} {
-    padding: 2rem 0.5rem;
+    padding: 4rem 0.5rem 2rem; // Increased top padding from 2rem to 4rem
   }
 `;
 

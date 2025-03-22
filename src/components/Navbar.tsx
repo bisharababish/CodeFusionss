@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
 import CodeFusion from '../components/images/CodeFusion.png';
 
-const NavContainer = styled.header`
+// Styled components with motion
+const NavContainer = styled(motion.header)`
   position: fixed;
   top: 0;
   left: 0;
@@ -25,7 +27,7 @@ const NavContent = styled.div`
   width: 100%;
 `;
 
-const Logo = styled.div`
+const Logo = styled(motion.div)`
   display: flex;
   align-items: center;
   font-size: 1.5rem;
@@ -51,7 +53,7 @@ const Logo = styled.div`
   }
 `;
 
-const NavLinks = styled.nav`
+const NavLinks = styled(motion.nav)`
   @media (max-width: 768px) {
     position: fixed;
     top: 0;
@@ -67,7 +69,7 @@ const NavLinks = styled.nav`
   }
 `;
 
-const NavList = styled.ul`
+const NavList = styled(motion.ul)`
   display: flex;
   list-style: none;
   gap: 2rem;
@@ -79,7 +81,7 @@ const NavList = styled.ul`
   }
 `;
 
-const NavItem = styled.li`
+const NavItem = styled(motion.li)`
   position: relative;
   font-weight: 500;
   
@@ -99,11 +101,13 @@ const NavItem = styled.li`
   }
 `;
 
-const MobileToggle = styled.button`
+const MobileToggle = styled(motion.button)`
   display: none;
   background: transparent;
   color: var(--light-text);
   font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
   
   @media (max-width: 768px) {
     display: block;
@@ -111,9 +115,9 @@ const MobileToggle = styled.button`
   }
 `;
 
-const LogoContainer = styled.div`
-  height: 40px; /* Fixed height container for the logo */
-  overflow: visible; /* Allow logo to extend outside the container */
+const LogoContainer = styled(motion.div)`
+  height: 40px;
+  overflow: visible;
   display: flex;
   align-items: center;
 `;
@@ -125,6 +129,59 @@ const LogoLink = styled.a`
   color: var(--light-text);
   cursor: pointer;
 `;
+
+// Animation variants
+const navContainerVariants = {
+  hidden: { y: -100, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      duration: 0.5
+    }
+  }
+};
+
+const logoVariants = {
+  initial: { scale: 1 },
+  hover: {
+    scale: 1.05,
+    transition: { type: 'spring', stiffness: 300 }
+  }
+};
+
+const navItemVariants = {
+  initial: { y: 0 },
+  hover: {
+    y: -3,
+    transition: { type: 'spring', stiffness: 300 }
+  }
+};
+
+const mobileMenuVariants = {
+  closed: {
+    x: '100%',
+    opacity: 0,
+    transition: { type: 'tween', duration: 0.3 }
+  },
+  open: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: 'tween',
+      duration: 0.3,
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const listItemVariants = {
+  closed: { x: 20, opacity: 0 },
+  open: { x: 0, opacity: 1 }
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -143,37 +200,109 @@ const Navbar = () => {
   };
 
   return (
-    <NavContainer style={{
-      boxShadow: scrolled ? '0 5px 15px rgba(0, 0, 0, 0.1)' : 'none',
-      backgroundColor: scrolled ? 'rgba(8, 8, 15, 0.98)' : 'rgba(8, 8, 15, 0.85)'
-    }}>
+    <NavContainer
+      initial="hidden"
+      animate="visible"
+      variants={navContainerVariants}
+      style={{
+        boxShadow: scrolled ? '0 5px 15px rgba(0, 0, 0, 0.1)' : 'none',
+        backgroundColor: scrolled ? 'rgba(8, 8, 15, 0.98)' : 'rgba(8, 8, 15, 0.85)'
+      }}
+    >
       <div className="container">
         <NavContent>
-          <Logo>
-            { }
+          <Logo whileHover="hover" initial="initial" variants={logoVariants}>
             <LogoLink href="/">
               <LogoContainer>
-                <img src={CodeFusion} alt="CodeFusion Logo" />
+                <motion.img
+                  src={CodeFusion}
+                  alt="CodeFusion Logo"
+                  animate={{ rotate: [0, 0, 10, -10, 0] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    ease: "easeInOut",
+                    times: [0, 0.2, 0.5, 0.8, 1]
+                  }}
+                />
               </LogoContainer>
-              Code<span>Fusion</span>
+              Code
+              <motion.span
+                initial={{ opacity: 0.8 }}
+                animate={{ opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                Fusion
+              </motion.span>
             </LogoLink>
           </Logo>
-          <MobileToggle onClick={toggleMenu}>
+
+          <MobileToggle
+            onClick={toggleMenu}
+            whileTap={{ scale: 0.9 }}
+          >
             {isOpen ? '✕' : '☰'}
           </MobileToggle>
-          <NavLinks className={isOpen ? 'active' : ''}>
-            <NavList>
-              <NavItem>
-                <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-              </NavItem>
-              <NavItem>
-                <Link to="/projects" onClick={() => setIsOpen(false)}>Projects</Link>
-              </NavItem>
-              <NavItem>
-                <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
-              </NavItem>
-            </NavList>
-          </NavLinks>
+
+          <AnimatePresence>
+            {isOpen && (
+              <NavLinks
+                className={isOpen ? 'active' : ''}
+                as={motion.nav}
+                variants={mobileMenuVariants}
+                initial="closed"
+                animate={isOpen ? "open" : "closed"}
+                exit="closed"
+              >
+                <NavList>
+                  {["Home", "Projects", "About"].map((item, index) => (
+                    <NavItem
+                      key={index}
+                      whileHover="hover"
+                      initial="initial"
+                      variants={navItemVariants}
+                    >
+                      <Link
+                        to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item}
+                      </Link>
+                    </NavItem>
+                  ))}
+                </NavList>
+              </NavLinks>
+            )}
+          </AnimatePresence>
+
+          {!isOpen && (
+            <NavLinks>
+              <NavList>
+                <NavItem
+                  whileHover="hover"
+                  initial="initial"
+                  variants={navItemVariants}
+                >
+                  <Link to="/">Home</Link>
+                </NavItem>
+                <NavItem
+                  whileHover="hover"
+                  initial="initial"
+                  variants={navItemVariants}
+                >
+                  <Link to="/projects">Projects</Link>
+                </NavItem>
+                <NavItem
+                  whileHover="hover"
+                  initial="initial"
+                  variants={navItemVariants}
+                >
+                  <Link to="/about">About</Link>
+                </NavItem>
+              </NavList>
+            </NavLinks>
+          )}
         </NavContent>
       </div>
     </NavContainer>

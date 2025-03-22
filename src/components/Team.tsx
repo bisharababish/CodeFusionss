@@ -113,7 +113,11 @@ const TeamCard = styled(motion.div)`
   }
 `;
 
-const CardInner = styled(motion.div)`
+interface CardInnerProps {
+  isFlipped: boolean;
+}
+
+const CardInner = styled(motion.div) <CardInnerProps>`
   position: relative;
   width: 100%;
   height: 100%;
@@ -121,7 +125,7 @@ const CardInner = styled(motion.div)`
   transition: transform 0.6s ease;
   transform-style: preserve-3d;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transform: ${props => props.$isFlipped ? 'rotateY(180deg)' : 'rotateY(0)'};
+  transform: ${props => props.isFlipped ? 'rotateY(180deg)' : 'rotateY(0)'};
 
   /* For devices that support hover */
   @media (hover: hover) {
@@ -386,8 +390,8 @@ const FlipButton = styled.button`
 
 const Team: React.FC = () => {
   // State to track flipped status for each card
-  const [flippedCards, setFlippedCards] = useState<{[key: number]: boolean}>({});
-  
+  const [flippedCards, setFlippedCards] = useState<{ [key: number]: boolean }>({});
+
   // Function to toggle flip state for a specific card
   const toggleCardFlip = (id: number) => {
     setFlippedCards(prev => ({
@@ -466,7 +470,7 @@ const Team: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.5 }}
             >
-              <CardInner $isFlipped={flippedCards[member.id] || false}>
+              <CardInner isFlipped={flippedCards[member.id] || false}>
                 <CardFront>
                   <MemberImage>
                     <img src={member.image} alt={member.name} />
@@ -474,7 +478,7 @@ const Team: React.FC = () => {
                   <MemberInfo>
                     <h3>{member.name}</h3>
                     <p dangerouslySetInnerHTML={{ __html: member.role }}></p>
-                    <FlipButton 
+                    <FlipButton
                       onClick={(e) => {
                         e.stopPropagation(); // Prevent event bubbling
                         toggleCardFlip(member.id);
@@ -529,7 +533,7 @@ const Team: React.FC = () => {
                       </motion.a>
                     )}
                   </SocialLinks>
-                  <FlipButton 
+                  <FlipButton
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleCardFlip(member.id);

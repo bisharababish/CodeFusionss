@@ -1,19 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import CodeFusion from '../components/images/CodeFusion.png';
+import { motion } from 'framer-motion';
 
-// Breakpoints for responsive design
+// Comprehensive breakpoints for different mobile devices
 const breakpoints = {
-  smallMobile: '320px', // Small phones like iPhone SE
-  mobile: '480px', // Standard mobile phones
-  largeMobile: '600px', // Large phones
-  tablet: '768px', // Tablets and large phones
-  largeTablet: '992px', // Large tablets and small laptops
+  smallMobile: '320px',    // Small phones like iPhone SE
+  mobile: '480px',         // Standard mobile phones
+  largeMobile: '600px',    // Large phones
+  tablet: '768px',         // Tablets and large phones
+  largeTablet: '992px'     // Large tablets and small laptops
 };
 
-// Styled components for the Hero section
 const HeroSection = styled.section`
   min-height: 100vh;
   display: flex;
@@ -22,20 +21,21 @@ const HeroSection = styled.section`
   overflow: hidden;
   padding: 8rem 0 6rem;
 
-  @media (max-width: ${breakpoints.tablet}) {
-    padding: 6rem 0;
+@media (max-width: ${breakpoints.tablet}) {
+    padding: 6rem 0; 
     min-height: calc(100vh - 60px);
   }
 
   @media (max-width: ${breakpoints.mobile}) {
-    padding: 5rem 0.5rem;
+    padding: 5rem 0.5rem; 
     align-items: flex-start;
   }
 
   @media (max-width: ${breakpoints.smallMobile}) {
-    padding: 4rem 0.5rem;
+    padding: 4rem 0.5rem; 
   }
 
+  /* Background image adjustments */
   &::before {
     content: '';
     position: absolute;
@@ -51,18 +51,18 @@ const HeroSection = styled.section`
     opacity: 0.15;
     z-index: -2;
     animation: floatBackground 20s ease-in-out infinite;
-
+    
     @media (max-width: ${breakpoints.tablet}) {
       width: 160%;
       opacity: 0.12;
       animation: floatBackground 15s ease-in-out infinite;
     }
-
+    
     @media (max-width: ${breakpoints.mobile}) {
       width: 180%;
       opacity: 0.1;
     }
-
+    
     @media (max-width: ${breakpoints.smallMobile}) {
       width: 200%;
       opacity: 0.08;
@@ -81,6 +81,7 @@ const HeroSection = styled.section`
     }
   }
 
+  /* Gradient background adjustments */
   &::after {
     content: '';
     position: absolute;
@@ -94,13 +95,13 @@ const HeroSection = styled.section`
     filter: blur(70px);
     z-index: -1;
     animation: floatGradient 15s ease-in-out infinite alternate;
-
+    
     @media (max-width: ${breakpoints.tablet}) {
       width: 300px;
       height: 300px;
       filter: blur(60px);
     }
-
+    
     @media (max-width: ${breakpoints.mobile}) {
       width: 200px;
       height: 200px;
@@ -108,7 +109,7 @@ const HeroSection = styled.section`
       left: -50px;
       filter: blur(40px);
     }
-
+    
     @media (max-width: ${breakpoints.smallMobile}) {
       width: 150px;
       height: 150px;
@@ -131,41 +132,41 @@ const HeroContent = styled(motion.div)`
   flex-direction: column;
   max-width: 800px;
   width: 100%;
-
+  
+  
   @media (max-width: ${breakpoints.tablet}) {
     max-width: 90%;
     margin: 0 auto;
-    margin-top: 60px;
+    margin-top: 60px; 
   }
-
   @media (max-width: ${breakpoints.mobile}) {
     max-width: 100%;
     padding: 0 1rem;
     margin-top: 80px;
   }
-
   @media (max-width: ${breakpoints.smallMobile}) {
-    margin-top: 70px;
+    margin-top: 70px; 
   }
+
 
   h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);
     margin-bottom: 1.5rem;
     line-height: 1.1;
     overflow: hidden;
-
+    
     @media (max-width: ${breakpoints.tablet}) {
       font-size: clamp(2.2rem, 5vw, 3.5rem);
       margin-bottom: 1.2rem;
       line-height: 1.2;
     }
-
+    
     @media (max-width: ${breakpoints.mobile}) {
       font-size: clamp(1.8rem, 7vw, 2.8rem);
       margin-bottom: 1rem;
       line-height: 1.3;
     }
-
+    
     @media (max-width: ${breakpoints.smallMobile}) {
       font-size: clamp(1.6rem, 7vw, 2.2rem);
       margin-bottom: 0.8rem;
@@ -177,11 +178,11 @@ const WordContainer = styled(motion.div)`
   display: inline-block;
   margin-right: 0.5rem;
   overflow: hidden;
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     margin-right: 0.3rem;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     margin-right: 0.2rem;
   }
@@ -202,11 +203,11 @@ const HighlightedWord = styled(motion.span)`
   font-weight: 700;
   display: inline-block;
   margin-right: 0.5rem;
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     margin-right: 0.3rem;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     margin-right: 0.2rem;
   }
@@ -221,7 +222,7 @@ const ButtonGroup = styled(motion.div)`
   @media (max-width: ${breakpoints.largeMobile}) {
     gap: 0.8rem;
   }
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     flex-direction: column;
     align-items: flex-start;
@@ -238,14 +239,14 @@ const AnimatedButton = styled(motion.div)`
     position: relative;
     overflow: hidden;
     z-index: 1;
-
+    
     @media (max-width: ${breakpoints.mobile}) {
       display: block;
       width: 100%;
       text-align: center;
       padding: 0.8rem 1rem;
     }
-
+    
     @media (max-width: ${breakpoints.smallMobile}) {
       padding: 0.7rem 0.8rem;
       font-size: 0.9rem;
@@ -266,7 +267,7 @@ const AnimatedButton = styled(motion.div)`
     &:hover::before {
       left: 100%;
     }
-
+    
     &:active {
       transform: scale(0.98);
     }
@@ -297,13 +298,13 @@ const SocialLinksWrapper = styled(motion.div)`
     gap: 1.2rem;
     width: 100%;
   }
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     margin-top: 2rem;
     gap: 1rem;
     justify-content: space-around;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     margin-top: 1.5rem;
     gap: 0.8rem;
@@ -371,10 +372,10 @@ const SocialLink = styled(motion.a)`
     }
 
     span {
-      display: none; // Hide tooltips on mobile
+      display: none; /* Hide tooltips on mobile */
     }
   }
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     width: 40px;
     height: 40px;
@@ -383,7 +384,7 @@ const SocialLink = styled(motion.a)`
       font-size: 1.1rem;
     }
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     width: 36px;
     height: 36px;
@@ -407,13 +408,13 @@ const ContactLabel = styled(motion.div)`
     text-align: center;
     margin-bottom: 0.8rem;
   }
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     font-size: 0.85rem;
     letter-spacing: 0.8px;
     margin-bottom: 0.7rem;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     font-size: 0.8rem;
     letter-spacing: 0.6px;
@@ -428,11 +429,11 @@ const ContactSection = styled(motion.div)`
     margin-top: 1.8rem;
     width: 100%;
   }
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     margin-top: 1.5rem;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     margin-top: 1.2rem;
   }
@@ -446,15 +447,15 @@ const ParticlesContainer = styled.div`
   height: 100%;
   overflow: hidden;
   z-index: -1;
-
+  
   @media (max-width: ${breakpoints.tablet}) {
     opacity: 0.8;
   }
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     opacity: 0.7;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     opacity: 0.6;
   }
@@ -470,31 +471,31 @@ interface ParticleStyleProps {
 
 const Particle = styled.div<ParticleStyleProps>`
   position: absolute;
-  width: ${(props) => props.size}px;
-  height: ${(props) => props.size}px;
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
   border-radius: 50%;
   background: var(--primary-color);
   opacity: 0.5;
-  top: ${(props) => props.top};
-  left: ${(props) => props.left};
-  animation: float ${(props) => props.duration}s linear infinite;
-  animation-delay: ${(props) => props.delay}s;
+  top: ${props => props.top};
+  left: ${props => props.left};
+  animation: float ${props => props.duration}s linear infinite;
+  animation-delay: ${props => props.delay}s;
 
   @media (max-width: ${breakpoints.tablet}) {
-    width: ${(props) => props.size * 0.8}px;
-    height: ${(props) => props.size * 0.8}px;
+    width: ${props => props.size * 0.8}px;
+    height: ${props => props.size * 0.8}px;
     opacity: 0.45;
   }
-
+  
   @media (max-width: ${breakpoints.mobile}) {
-    width: ${(props) => props.size * 0.7}px;
-    height: ${(props) => props.size * 0.7}px;
+    width: ${props => props.size * 0.7}px;
+    height: ${props => props.size * 0.7}px;
     opacity: 0.4;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
-    width: ${(props) => props.size * 0.6}px;
-    height: ${(props) => props.size * 0.6}px;
+    width: ${props => props.size * 0.6}px;
+    height: ${props => props.size * 0.6}px;
     opacity: 0.35;
   }
 
@@ -518,9 +519,8 @@ interface ParticleProps {
 }
 
 const Particles: React.FC<ParticleProps> = ({ count }) => {
-  const [windowWidth, setWindowWidth] = React.useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0
-  );
+  // Get the current viewport width for responsive adjustments
+  const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -531,6 +531,7 @@ const Particles: React.FC<ParticleProps> = ({ count }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Adjust particle count based on screen size
   let particleCount = count;
   if (windowWidth <= parseInt(breakpoints.smallMobile)) {
     particleCount = Math.max(8, Math.floor(count * 0.3));
@@ -564,29 +565,29 @@ const Particles: React.FC<ParticleProps> = ({ count }) => {
 
 const socialLinks = [
   {
-    label: 'Instagram',
-    href: 'https://www.instagram.com/codefusionn/',
-    icon: 'fab fa-instagram',
-    text: 'Follow us on Instagram',
+    label: "Instagram",
+    href: "https://www.instagram.com/codefusionn/",
+    icon: "fab fa-instagram",
+    text: "Follow us on Instagram"
   },
   {
-    label: 'Email',
-    href: 'mailto:codefusion218@gmail.com',
-    icon: 'fas fa-envelope',
-    text: 'codefusion218@gmail.com',
+    label: "Email",
+    href: "mailto:codefusion218@gmail.com",
+    icon: "fas fa-envelope",
+    text: "codefusion218@gmail.com"
   },
   {
-    label: 'WhatsApp',
-    href: 'https://wa.me/+972568302915',
-    icon: 'fab fa-whatsapp',
-    text: '+972 56-830-2915',
+    label: "WhatsApp",
+    href: "https://wa.me/+972568302915",
+    icon: "fab fa-whatsapp",
+    text: "+972 56-830-2915"
   },
   {
-    label: 'Twitter/X',
-    href: 'https://x.com/codefusion218',
-    icon: 'fab fa-twitter',
-    text: 'Follow us on Twitter/X',
-  },
+    label: "Twitter/X",
+    href: "https://x.com/codefusion218",
+    icon: "fab fa-twitter",
+    text: "Follow us on Twitter/X"
+  }
 ];
 
 const AnimatedParagraphContainer = styled.p`
@@ -594,20 +595,20 @@ const AnimatedParagraphContainer = styled.p`
   margin-bottom: 2rem;
   opacity: 0.8;
   max-width: 600px;
-
+  
   @media (max-width: ${breakpoints.tablet}) {
     font-size: clamp(0.95rem, 2.5vw, 1.1rem);
     margin-bottom: 1.8rem;
     max-width: 100%;
     line-height: 1.6;
   }
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     font-size: clamp(0.9rem, 3vw, 1rem);
     margin-bottom: 1.5rem;
     line-height: 1.5;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     font-size: clamp(0.85rem, 3.5vw, 0.95rem);
     margin-bottom: 1.2rem;
@@ -618,11 +619,11 @@ const AnimatedParagraphContainer = styled.p`
 const AnimatedWord = styled(motion.span)`
   display: inline-block;
   margin-right: 0.25rem;
-
+  
   @media (max-width: ${breakpoints.mobile}) {
     margin-right: 0.2rem;
   }
-
+  
   @media (max-width: ${breakpoints.smallMobile}) {
     margin-right: 0.15rem;
   }
@@ -637,11 +638,10 @@ interface AnimatedParagraphProps {
 const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
   text,
   startDelay = 1.5,
-  wordDelay = 0.05,
+  wordDelay = 0.05
 }) => {
-  const [windowWidth, setWindowWidth] = React.useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0
-  );
+  // Get the current viewport width for responsive adjustments
+  const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -652,6 +652,7 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Adjust animation timing based on screen size
   let adjustedStartDelay = startDelay;
   let adjustedWordDelay = wordDelay;
 
@@ -666,7 +667,7 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
     adjustedWordDelay = wordDelay * 0.8;
   }
 
-  const words = text.split(' ');
+  const words = text.split(" ");
 
   const paragraphWordVariants = {
     hidden: { opacity: 0, y: 10 },
@@ -676,9 +677,9 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
       transition: {
         duration: 0.4,
         delay: adjustedStartDelay + custom * adjustedWordDelay,
-        ease: 'easeOut',
-      },
-    }),
+        ease: "easeOut"
+      }
+    })
   };
 
   return (
@@ -699,30 +700,13 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
   );
 };
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-};
-
-const wordVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-const highlightedWordVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 const Hero: React.FC = () => {
-  const regularWords = ['Driving', 'innovation', 'and', 'creating', 'a'];
-  const highlightedWords = ['brighter', 'digital', 'future.'];
-  const paragraphText =
-    'Welcome to Code Fusion, a passionate team of developers specialized in building custom solutions for businesses and startups. From web applications to AI integration, we bring your ideas to life.';
+  const regularWords = ["Driving", "innovation", "and", "creating", "a"];
+  const highlightedWords = ["brighter", "digital", "future."];
+  const paragraphText = "Welcome to Code Fusion, a passionate team of developers specialized in building custom solutions for businesses and startups. From web applications to AI integration, we bring your ideas to life.";
 
-  const [windowWidth, setWindowWidth] = React.useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0
-  );
+  // Get the current viewport width for responsive adjustments
+  const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -733,43 +717,106 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const highlightedWordAnimation = {
-    initial: { rotate: 0, y: 0, x: 0 },
-    wiggle: {
-      rotate: [0, -5, 5, -5, 5, 0],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        repeatType: 'reverse',
-        ease: 'easeInOut',
-      },
-    },
-    bounce: {
-      y: [0, -10, 0],
-      transition: {
-        duration: 1.5,
-        repeat: Infinity,
-        repeatType: 'mirror',
-        ease: 'easeInOut',
-      },
-    },
-    float: {
-      y: [0, -10, 0],
-      x: [0, 5, -5, 5, -5, 0],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        repeatType: 'mirror',
-        ease: 'easeInOut',
-      },
-    },
+  // Adjust animation parameters based on screen size
+  const getAnimationParams = () => {
+    if (windowWidth <= parseInt(breakpoints.smallMobile)) {
+      return {
+        wordStagger: 0.05,
+        highlightedStagger: 0.08,
+        highlightedDelay: 0.4,
+        buttonDelay: 1,
+        contactDelay: 1.2,
+        socialDelay: 1.3,
+        socialStagger: 0.05,
+        highlightedDistance: 200
+      };
+    } else if (windowWidth <= parseInt(breakpoints.mobile)) {
+      return {
+        wordStagger: 0.06,
+        highlightedStagger: 0.1,
+        highlightedDelay: 0.5,
+        buttonDelay: 1.2,
+        contactDelay: 1.4,
+        socialDelay: 1.5,
+        socialStagger: 0.06,
+        highlightedDistance: 250
+      };
+    } else if (windowWidth <= parseInt(breakpoints.tablet)) {
+      return {
+        wordStagger: 0.08,
+        highlightedStagger: 0.12,
+        highlightedDelay: 0.6,
+        buttonDelay: 1.5,
+        contactDelay: 1.7,
+        socialDelay: 1.8,
+        socialStagger: 0.08,
+        highlightedDistance: 500
+      };
+    } else {
+      return {
+        wordStagger: 0.1,
+        highlightedStagger: 0.15,
+        highlightedDelay: 0.8,
+        buttonDelay: 1.8,
+        contactDelay: 2,
+        socialDelay: 2.2,
+        socialStagger: 0.1,
+        highlightedDistance: 1000
+      };
+    }
   };
 
-  const animParams = {
-    buttonDelay: 0.5,
-    contactDelay: 1,
-    socialDelay: 1.5,
-    socialStagger: 0.2,
+  const animParams = getAnimationParams();
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: animParams.wordStagger }
+    }
+  };
+
+  const wordVariants = {
+    hidden: {
+      y: 50,
+      opacity: 0
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        damping: 12,
+        stiffness: 100
+      }
+    }
+  };
+
+  const highlightedContainerVariants = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: animParams.highlightedStagger,
+        delayChildren: animParams.highlightedDelay
+      }
+    }
+  };
+
+  const highlightedWordVariants = {
+    hidden: {
+      x: animParams.highlightedDistance,
+      opacity: 0
+    },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        damping: 10,
+        stiffness: 70
+      }
+    }
   };
 
   return (
@@ -789,7 +836,7 @@ const Hero: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, amount: 0.5 }}
-              style={{ display: 'inline' }}
+              style={{ display: "inline" }}
             >
               {regularWords.map((word, index) => (
                 <WordContainer key={index} variants={wordVariants}>
@@ -799,17 +846,15 @@ const Hero: React.FC = () => {
             </motion.div>
 
             <motion.div
-              variants={containerVariants}
+              variants={highlightedContainerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, amount: 0.5 }}
-              style={{ display: 'inline' }}
+              style={{ display: "inline" }}
             >
               {highlightedWords.map((word, index) => (
                 <HighlightedWordContainer key={index} variants={highlightedWordVariants}>
-                  <HighlightedWord
-                    animate={{ ...highlightedWordAnimation.float, transition: { ...highlightedWordAnimation.wiggle.transition, repeatType: 'reverse' } }}
-                  >
+                  <HighlightedWord>
                     {word}
                   </HighlightedWord>
                 </HighlightedWordContainer>
@@ -831,7 +876,7 @@ const Hero: React.FC = () => {
           >
             <AnimatedButton
               whileHover={{
-                scale: windowWidth <= parseInt(breakpoints.mobile) ? 1.02 : 1.05,
+                scale: windowWidth <= parseInt(breakpoints.mobile) ? 1.02 : 1.05
               }}
               whileTap={{ scale: 0.95 }}
             >
@@ -851,7 +896,7 @@ const Hero: React.FC = () => {
           <SocialLinksWrapper
             initial={{
               x: windowWidth <= parseInt(breakpoints.tablet) ? 50 : 100,
-              opacity: 0,
+              opacity: 0
             }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: false, amount: 0.5 }}
@@ -863,7 +908,7 @@ const Hero: React.FC = () => {
               viewport={{ once: false, amount: 0.5 }}
               transition={{
                 duration: 0.5,
-                delay: animParams.socialDelay + 0.1,
+                delay: animParams.socialDelay + 0.1
               }}
             >
               Connect With Us
@@ -881,12 +926,12 @@ const Hero: React.FC = () => {
                 viewport={{ once: false, amount: 0.5 }}
                 transition={{
                   duration: 0.4,
-                  delay: animParams.socialDelay + 0.2 + index * animParams.socialStagger,
+                  delay: animParams.socialDelay + 0.2 + index * animParams.socialStagger
                 }}
                 whileHover={{
                   scale: windowWidth <= parseInt(breakpoints.mobile) ? 1.05 : 1.1,
-                  backgroundColor: 'rgba(70, 70, 90, 0.9)',
-                  transition: { duration: 0.3 },
+                  backgroundColor: "rgba(70, 70, 90, 0.9)",
+                  transition: { duration: 0.3 }
                 }}
                 whileTap={{ scale: 0.95 }}
               >

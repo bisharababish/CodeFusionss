@@ -10,11 +10,10 @@ const Home: React.FC = () => {
         <>
             <Hero />
             <About />
-            <Projects limit={6} />
+            <Projects />
             <Team />
         </>
     );
 };
 
 export default Home;
-

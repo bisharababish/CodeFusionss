@@ -21,4 +21,16 @@ export interface Project {
   technologies: string[];
   link?: string;
   githubLink?: string;
+  category: string;
+}
+
+export interface ProjectCategory {
+  id: string;
+  name: string;
+  projects: Project[];
+}
+
+export interface ProjectsProps {
+  limit?: number;
+  autoplayInterval?: number;
 }

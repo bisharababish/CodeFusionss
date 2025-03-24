@@ -243,9 +243,9 @@ const HeartIcon = styled(motion.span)`
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { 
+  visible: {
     opacity: 1,
-    transition: { 
+    transition: {
       when: "beforeChildren",
       staggerChildren: 0.1,
       duration: 0.8,
@@ -256,11 +256,11 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
-  visible: { 
-    y: 0, 
+  visible: {
+    y: 0,
     opacity: 1,
-    transition: { 
-      type: "spring", 
+    transition: {
+      type: "spring",
       stiffness: 100,
       damping: 10
     }
@@ -269,12 +269,12 @@ const itemVariants = {
 
 const dividerVariants = {
   hidden: { scaleX: 0 },
-  visible: { 
+  visible: {
     scaleX: 1,
-    transition: { 
-      duration: 1, 
-      ease: [0.43, 0.13, 0.23, 0.96], 
-      delay: 0.3 
+    transition: {
+      duration: 1,
+      ease: [0.43, 0.13, 0.23, 0.96],
+      delay: 0.3
     }
   }
 };
@@ -284,7 +284,7 @@ const Footer = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const dividerAnimation = useAnimation();
-  
+
   // Track mouse position for the glow effect
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -293,7 +293,7 @@ const Footer = () => {
       y: e.clientY - rect.top
     });
   };
-  
+
   // Run divider glow animation
   useEffect(() => {
     const animateDivider = async () => {
@@ -314,9 +314,9 @@ const Footer = () => {
         console.error("Animation error:", error);
       }
     };
-    
+
     animateDivider();
-    
+
     // Cleanup function to prevent memory leaks
     return () => {
       dividerAnimation.stop();
@@ -331,7 +331,7 @@ const Footer = () => {
       onMouseMove={handleMouseMove}
     >
       {/* Background glow that follows mouse */}
-      <BackgroundGlow 
+      <BackgroundGlow
         animate={{
           x: mousePosition.x - 75,
           y: mousePosition.y - 75,
@@ -340,22 +340,26 @@ const Footer = () => {
         initial={{ opacity: 0 }}
         transition={{ type: "spring", damping: 15 }}
       />
-      
+
       <FooterContent>
         <FooterLinks variants={itemVariants}>
-          {["Home", "Projects", "About"].map((item) => (
-            <FooterLink 
-              key={item}
-              href={item === "Home" ? "/" : `/${item}`}
-              aria-label={item}
+          {[
+            { name: "Home", href: "#" }, 
+            { name: "Projects", href: "#projects" },  
+            { name: "About", href: "#about" }  
+          ].map((item) => (
+            <FooterLink
+              key={item.name}
+              href={item.href}
+              aria-label={item.name}
               variants={itemVariants}
-              onMouseEnter={() => setActiveLink(item)}
+              onMouseEnter={() => setActiveLink(item.name)}
               onMouseLeave={() => setActiveLink(null)}
               whileTap={{ scale: 0.95 }}
             >
-              {item}
+              {item.name}
               <AnimatePresence>
-                {activeLink === item && (
+                {activeLink === item.name && (
                   <LinkUnderline
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
@@ -380,37 +384,37 @@ const Footer = () => {
               rel="noopener noreferrer"
               aria-label={social.label}
               variants={itemVariants}
-              whileHover={{ 
-                y: -5, 
+              whileHover={{
+                y: -5,
                 backgroundColor: primaryColor,
                 boxShadow: `0 5px 15px rgba(${primaryRgb}, 0.3)`,
                 transition: { type: "spring", stiffness: 300 }
               }}
               whileTap={{ scale: 0.9 }}
             >
-              <motion.i 
-                className={social.icon} 
+              <motion.i
+                className={social.icon}
                 aria-hidden="true"
-                animate={{ 
+                animate={{
                   rotate: [0, 5, -5, 0],
                   scale: [1, 1.1, 1]
                 }}
-                transition={{ 
-                  duration: 1.5, 
-                  repeat: Infinity, 
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
                   repeatDelay: 3 + index,
                   ease: "easeInOut"
                 }}
               />
               <SocialRipple
                 initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ 
-                  opacity: [0, 0.5, 0], 
+                animate={{
+                  opacity: [0, 0.5, 0],
                   scale: [0.8, 1.3, 1.5],
                 }}
-                transition={{ 
-                  duration: 1.5, 
-                  repeat: Infinity, 
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
                   repeatDelay: 2,
                   ease: "easeOut"
                 }}
@@ -419,7 +423,7 @@ const Footer = () => {
           ))}
         </SocialLinks>
 
-        <Divider 
+        <Divider
           variants={dividerVariants}
           initial="hidden"
           animate="visible"
@@ -445,12 +449,12 @@ const Footer = () => {
           >
             <motion.span>Designed and developed with </motion.span>
             <HeartIcon
-              animate={{ 
+              animate={{
                 scale: [1, 1.2, 1],
                 color: ["rgba(255, 255, 255, 0.5)", "#ff6b6b", "rgba(255, 255, 255, 0.5)"]
               }}
-              transition={{ 
-                duration: 1.5, 
+              transition={{
+                duration: 1.5,
                 repeat: Infinity,
                 repeatDelay: 1
               }}

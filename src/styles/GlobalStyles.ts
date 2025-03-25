@@ -68,6 +68,14 @@ const GlobalStyles = createGlobalStyle`
   .accent-text {
     color: var(--primary-color);
   }
+
+  mark {
+  background-color: rgba(255, 255, 0, 0.5);
+  color: inherit;
+  padding: 0 2px;
+  border-radius: 2px;
+}
 `;
+
 
 export default GlobalStyles;

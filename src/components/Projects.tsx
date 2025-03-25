@@ -93,6 +93,10 @@ const SectionHeader = styled(motion.div)`
   }
 `;
 
+const AnimatedText = styled(motion.span)`
+  display: inline-block;
+`;
+
 const CategoryTabs = styled(motion.div)`
   display: flex;
   justify-content: center;
@@ -265,6 +269,35 @@ const itemVariants = {
   }
 };
 
+// Text animation variants
+const textVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20
+  },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.8,
+      ease: [0.2, 0.65, 0.3, 0.9]
+    }
+  })
+};
+
+const paragraphVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.6,
+      duration: 1,
+      ease: "easeOut"
+    }
+  }
+};
+
 // Project Data
 const allProjects: Project[] = [
   {
@@ -372,6 +405,9 @@ const Projects: React.FC = () => {
     { size: 350, color: '#00cec9', x: '80%', y: '70%' }
   ];
 
+  // Split the title into words for animation
+  const titleWords = "Featured Projects".split(" ");
+
   return (
     <ProjectsSection id="projects">
       <FloatingOrbs>
@@ -398,8 +434,27 @@ const Projects: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h2>Featured Projects</h2>
-          <p>Explore our work across different domains and technologies</p>
+          <h2>
+            {titleWords.map((word, i) => (
+              <AnimatedText
+                key={i}
+                custom={i}
+                variants={textVariants}
+                initial="hidden"
+                animate="visible"
+                style={{ marginRight: i < titleWords.length - 1 ? '0.5rem' : 0 }}
+              >
+                {word}
+              </AnimatedText>
+            ))}
+          </h2>
+          <motion.p
+            variants={paragraphVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            Explore our work across different domains and technologies
+          </motion.p>
         </SectionHeader>
 
         <CategoryTabs>

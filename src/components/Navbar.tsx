@@ -153,8 +153,6 @@ const SearchContainer = styled(motion.div)`
   align-items: center;
   margin-left: auto;
   width: 220px;
-
- 
 `;
 
 const SearchInput = styled(motion.input)`
@@ -221,6 +219,79 @@ const Overlay = styled(motion.div) <OverlayProps>`
   }
 `;
 
+// Search Results Components
+const SearchResultsOverlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2000;
+  padding: 100px 20px 20px;
+  overflow-y: auto;
+  backdrop-filter: blur(5px);
+`;
+
+const SearchResultsContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(15, 15, 26, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid rgba(108, 92, 231, 0.3);
+`;
+
+const SearchResultItem = styled.div`
+  padding: 15px;
+  margin-bottom: 15px;
+  background: rgba(30, 30, 45, 0.7);
+  border-radius: 5px;
+  border-left: 3px solid var(--primary-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(40, 40, 60, 0.9);
+    transform: translateX(5px);
+  }
+`;
+
+const SearchResultTitle = styled.h3`
+  color: var(--primary-color);
+  margin-bottom: 8px;
+`;
+
+const SearchResultText = styled.div`
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  
+  mark {
+    background-color: rgba(255, 255, 0, 0.5);
+    color: white;
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+`;
+
+const CloseSearchButton = styled(motion.button)`
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 2001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 // Animation variants
 const navContainerVariants = {
   hidden: { y: -100, opacity: 0 },
@@ -277,10 +348,19 @@ const overlayVariants = {
   visible: { opacity: 1 }
 };
 
+interface SearchResult {
+  id: string;
+  section: string;
+  text: string;
+  element: HTMLElement;
+}
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -301,19 +381,137 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      console.log('Searching for:', searchQuery);
-      if ((window as any).find) {
-        const bodyText = document.body.innerText || document.body.textContent || '';
-        const found = bodyText.toLowerCase().includes(searchQuery.toLowerCase());
-        if (!found) {
-          alert('No results found');
+  const highlightMatches = (node: Node, query: string): number => {
+    if (!query) return 0;
+
+    let matchCount = 0;
+    const regex = new RegExp(query, 'gi');
+
+    if (node.nodeType === Node.TEXT_NODE) {
+      const parent = node.parentNode;
+      if (!parent || parent.nodeName === 'SCRIPT' || parent.nodeName === 'STYLE') {
+        return 0;
+      }
+
+      const content = node.textContent || '';
+      const matches = content.match(regex);
+      if (matches && parent) {
+        matchCount += matches.length;
+
+        const span = document.createElement('span');
+        span.innerHTML = content.replace(regex, match => `<mark>${match}</mark>`);
+        parent.replaceChild(span, node);
+      }
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      for (let i = 0; i < node.childNodes.length; i++) {
+        matchCount += highlightMatches(node.childNodes[i], query);
+      }
+    }
+
+    return matchCount;
+  };
+
+  const removeHighlights = () => {
+    const marks = document.querySelectorAll('mark');
+    marks.forEach(mark => {
+      const parent = mark.parentNode;
+      if (parent) {
+        parent.replaceChild(document.createTextNode(mark.textContent || ''), mark);
+      }
+    });
+  };
+
+  const performSearch = (query: string) => {
+    removeHighlights();
+    setSearchResults([]);
+
+    if (!query.trim()) {
+      setShowSearchResults(false);
+      return;
+    }
+
+    // Highlight text in the main content
+    const mainContent = document.getElementById('root');
+    if (mainContent) {
+      highlightMatches(mainContent, query);
+    }
+
+    // Collect search results from sections
+    const results: SearchResult[] = [];
+    const sections = ['hero', 'about', 'projects', 'team'];
+
+    sections.forEach(sectionId => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        const textContent = section.textContent || '';
+        const regex = new RegExp(query, 'gi');
+        if (regex.test(textContent)) {
+          // Get all matches in this section
+          const matches: RegExpExecArray[] = [];
+          let match;
+          while ((match = regex.exec(textContent)) !== null) {
+            matches.push(match);
+          }
+          if (matches.length > 0) {
+            // Get context around the first match
+            const firstMatch = matches[0];
+            const index = firstMatch.index || 0;
+            const start = Math.max(0, index - 50);
+            const end = Math.min(textContent.length, index + query.length + 50);
+            const snippet = textContent.substring(start, end);
+
+            // Highlight matches in the snippet
+            const highlightedSnippet = snippet.replace(
+              regex,
+              match => `<mark>${match}</mark>`
+            );
+
+            results.push({
+              id: `${sectionId}-${results.length}`,
+              section: sectionId.charAt(0).toUpperCase() + sectionId.slice(1),
+              text: highlightedSnippet,
+              element: section
+            });
+          }
         }
       }
-      searchRef.current?.blur();
+    });
+
+    setSearchResults(results);
+    setShowSearchResults(true);
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    performSearch(searchQuery);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    if (!e.target.value) {
+      removeHighlights();
+      setShowSearchResults(false);
     }
+  };
+
+  const closeSearchResults = () => {
+    removeHighlights();
+    setShowSearchResults(false);
+    setSearchQuery('');
+    if (searchRef.current) {
+      searchRef.current.value = '';
+    }
+  };
+
+  const scrollToResult = (element: HTMLElement) => {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Add temporary highlight effect
+    const originalBoxShadow = element.style.boxShadow;
+    element.style.boxShadow = '0 0 0 3px var(--primary-color)';
+    element.style.transition = 'box-shadow 0.3s ease';
+    setTimeout(() => {
+      element.style.boxShadow = originalBoxShadow;
+    }, 2000);
   };
 
   // Close menu when clicking outside
@@ -360,7 +558,7 @@ const Navbar = () => {
       }}
     >
       <NavContent>
-        {/* Logo - Always visible */}
+        {/* Logo */}
         <Logo whileHover="hover" initial="initial" variants={logoVariants}>
           <Link to="/" onClick={closeMenu}>
             <img src={CodeFusion} alt="CodeFusion Logo" />
@@ -368,7 +566,7 @@ const Navbar = () => {
           </Link>
         </Logo>
 
-        {/* Desktop Navigation Links - Centered */}
+        {/* Desktop Navigation Links */}
         <NavLinks>
           <NavList>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
@@ -383,14 +581,14 @@ const Navbar = () => {
           </NavList>
         </NavLinks>
 
-        {/* Search Bar - Right side */}
+        {/* Search Bar */}
         <SearchContainer>
           <form onSubmit={handleSearch} style={{ width: '100%' }}>
             <SearchInput
               type="text"
               placeholder="Search..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
               ref={searchRef}
             />
             <SearchButton
@@ -456,6 +654,52 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </NavContent>
+
+      {/* Search Results Overlay */}
+      <AnimatePresence>
+        {showSearchResults && (
+          <>
+            <CloseSearchButton
+              onClick={closeSearchResults}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              ×
+            </CloseSearchButton>
+            <SearchResultsOverlay
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <SearchResultsContainer>
+                <h2 style={{ color: 'white', marginBottom: '20px' }}>
+                  Search Results for: "{searchQuery}"
+                </h2>
+                {searchResults.length > 0 ? (
+                  searchResults.map(result => (
+                    <SearchResultItem
+                      key={result.id}
+                      onClick={() => scrollToResult(result.element)}
+                    >
+                      <SearchResultTitle>{result.section} Section</SearchResultTitle>
+                      <SearchResultText
+                        dangerouslySetInnerHTML={{ __html: result.text }}
+                      />
+                    </SearchResultItem>
+                  ))
+                ) : (
+                  <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                    No results found for "{searchQuery}"
+                  </p>
+                )}
+              </SearchResultsContainer>
+            </SearchResultsOverlay>
+          </>
+        )}
+      </AnimatePresence>
     </NavContainer>
   );
 };

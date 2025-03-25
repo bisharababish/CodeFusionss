@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.search-highlight {
+  background-color: yellow;
+  transition: background-color 0.3s ease;
+}

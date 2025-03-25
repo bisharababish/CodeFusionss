@@ -284,7 +284,7 @@ const allProjects: Project[] = [
     technologies: ['JavaScript', 'HTML', 'CSS'],
     link: 'https://mridetection.netlify.app/',
     githubLink: 'https://github.com/bisharababish/MRI-Brain-Tumor',
-    category: 'ai'
+    category: 'web'
   },
   {
     id: 3,

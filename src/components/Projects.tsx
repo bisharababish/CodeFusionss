@@ -7,7 +7,10 @@ import MRIImage from './projectspics/mri.png';
 import SnakeImage from './projectspics/snake.png';
 import TravelImage from './projectspics/travel.png';
 import DistrubitionImage from './projectspics/Distribution.png';
-
+import DungeonGame from './projectspics/dungeongame.png';
+import TreasureHunter from './projectspics/treasurehunter.png';
+import SpaceExplorer from './projectspics/spaceexplorer.png';
+import FruitBasketFrenzy from './projectspics/fruitbasketfrenzy.png';
 const breakpoints = {
   smallMobile: '320px',
   mobile: '480px',
@@ -342,12 +345,52 @@ const allProjects: Project[] = [
   },
   {
     id: 6,
+    title: 'Dungeon Escape',
+    description: 'Dungeon Escape is a thrilling 2D game where you explore dark dungeons, solve puzzles, battle enemies, and collect items to escape. Can you survive? ',
+    image: DungeonGame,
+    technologies: ['JavaScript', 'SCSS', 'HTML'],
+    link: 'https://dungeonescapee.netlify.app/',
+    githubLink: 'https://github.com/bisharababish/Dungeon-Escape',
+    category: 'games'
+  },
+  {
+    id: 7,
+    title: 'Treasure Hunter',
+    description: 'Dungeon Escape is a maze-based game with dynamic levels. Collect treasures, dodge traps, and survive as challenges intensify. How far can you go?',
+    image: TreasureHunter,
+    technologies: ['JavaScript', 'SCSS', 'HTML'],
+    link: 'https://treasurehunterr.netlify.app/',
+    githubLink: 'https://github.com/bisharababish/Treasure-Hunter',
+    category: 'games'
+  },
+  {
+    id: 8,
+    title: 'Space Explorer',
+    description: 'A browser-based arcade space game where you collect energy crystals, dodge debris, and find wormholes to explore new galaxies.',
+    image: SpaceExplorer,
+    technologies: ['JavaScript', 'SCSS', 'HTML'],
+    link: 'https://spaceexplorerr.netlify.app/',
+    githubLink: 'https://github.com/bisharababish/Space-Explorer',
+    category: 'games'
+  },
+  {
+    id: 9,
+    title: 'Fruit Basket Frenzy',
+    description: 'Fruit Basket Frenzy is a fun game where you catch falling fruits to score points before time runs out. With smooth animations and a vibrant design, it is perfect for all ages!',
+    image: FruitBasketFrenzy,
+    technologies: ['JavaScript', 'SCSS', 'HTML'],
+    link: 'https://fruitbasketfrenzy.netlify.app/',
+    githubLink: 'https://github.com/bisharababish/Fruit-Basket-Frenzy',
+    category: 'games'
+  },
+  {
+    id: 10,
     title: 'More Projects Coming Soon!',
     description: 'Early Production and more developed applications, websites soon!',
     image: '',
     technologies: ['Soon'],
     category: 'upcoming'
-  }
+  },
 ];
 
 const projectCategories: ProjectCategory[] = [
@@ -517,7 +560,7 @@ const Projects: React.FC = () => {
                           color: 'white',
                           fontSize: '1.2rem'
                         }}>
-                          Coming Soon
+                          Coming Soon!
                         </div>
                       )}
                     </ProjectImage>

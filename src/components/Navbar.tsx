@@ -402,9 +402,8 @@ const Navbar = () => {
     removeHighlights();
     const results: SearchResult[] = [];
     const regex = new RegExp(query, 'gi');
+    const navbar = document.querySelector('.navbar-content');
 
-    // Search through all text nodes in the document
-    const textNodes: Node[] = [];
     const walker = document.createTreeWalker(
       document.body,
       NodeFilter.SHOW_TEXT,
@@ -415,52 +414,53 @@ const Navbar = () => {
     let firstMatch: HTMLElement | null = null;
 
     while ((node = walker.nextNode())) {
-      if (node.nodeType === Node.TEXT_NODE &&
-        node.textContent &&
-        node.textContent.trim().length > 0 &&
-        regex.test(node.textContent)) {
-        textNodes.push(node);
+      if (!node.textContent || !node.textContent.trim() || !regex.test(node.textContent)) {
+        continue;
+      }
+
+      const parent = node.parentNode as HTMLElement;
+
+      if (!parent ||
+        parent.nodeName === 'SCRIPT' ||
+        parent.nodeName === 'STYLE' ||
+        (navbar && navbar.contains(parent))) {
+        continue;
+      }
+
+      const span = document.createElement('span');
+      span.innerHTML = node.textContent.replace(
+        regex,
+        match => `<mark class="search-highlight" style="background-color: yellow; color: black;">${match}</mark>`
+      );
+      parent.replaceChild(span, node);
+
+      let sectionElement = parent.closest('section') || parent.closest('div[id]');
+      let sectionName = 'Content';
+
+      if (sectionElement && sectionElement.id) {
+        sectionName = sectionElement.id.charAt(0).toUpperCase() + sectionElement.id.slice(1);
+      }
+
+      const fullText = node.textContent;
+      const matchIndex = fullText.toLowerCase().indexOf(query.toLowerCase());
+      const start = Math.max(0, matchIndex - 30);
+      const end = Math.min(fullText.length, matchIndex + query.length + 30);
+      const snippet = fullText.substring(start, end);
+
+      results.push({
+        id: `${sectionName}-${results.length}-${matchIndex}`,
+        section: sectionName,
+        text: snippet.replace(
+          regex,
+          match => `<mark style="background-color: yellow; color: black;">${match}</mark>`
+        ),
+        element: parent
+      });
+
+      if (!firstMatch) {
+        firstMatch = parent;
       }
     }
-
-    textNodes.forEach((textNode) => {
-      const parent = textNode.parentNode as HTMLElement;
-      if (parent && parent.nodeName !== 'SCRIPT' && parent.nodeName !== 'STYLE') {
-        const span = document.createElement('span');
-        span.innerHTML = textNode.textContent!.replace(
-          regex,
-          match => `<mark class="search-highlight" style="background-color: yellow; color: black;">${match}</mark>`
-        );
-        parent.replaceChild(span, textNode);
-
-        let sectionElement = parent.closest('section') || parent.closest('div[id]');
-        let sectionName = 'Content';
-
-        if (sectionElement && sectionElement.id) {
-          sectionName = sectionElement.id.charAt(0).toUpperCase() + sectionElement.id.slice(1);
-        }
-
-        const fullText = textNode.textContent || '';
-        const matchIndex = fullText.toLowerCase().indexOf(query.toLowerCase());
-        const start = Math.max(0, matchIndex - 30);
-        const end = Math.min(fullText.length, matchIndex + query.length + 30);
-        const snippet = fullText.substring(start, end);
-
-        results.push({
-          id: `${sectionName}-${results.length}-${matchIndex}`,
-          section: sectionName,
-          text: snippet.replace(
-            regex,
-            match => `<mark style="background-color: yellow; color: black;">${match}</mark>`
-          ),
-          element: parent
-        });
-
-        if (!firstMatch) {
-          firstMatch = parent;
-        }
-      }
-    });
 
     setSearchResults(results);
     setShowSearchResults(true);
@@ -547,6 +547,7 @@ const Navbar = () => {
 
   return (
     <NavContainer
+      className="navbar-content"
       initial="hidden"
       animate="visible"
       variants={navContainerVariants}
@@ -556,7 +557,6 @@ const Navbar = () => {
       }}
     >
       <NavContent>
-        {/* Logo */}
         <Logo whileHover="hover" initial="initial" variants={logoVariants}>
           <Link to="/" onClick={(e) => {
             e.preventDefault();
@@ -568,7 +568,6 @@ const Navbar = () => {
           </Link>
         </Logo>
 
-        { }
         <NavLinks>
           <NavList>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
@@ -583,7 +582,6 @@ const Navbar = () => {
           </NavList>
         </NavLinks>
 
-        { }
         <SearchContainer>
           <form onSubmit={handleSearch} style={{ width: '100%' }}>
             <SearchInput
@@ -606,7 +604,6 @@ const Navbar = () => {
           </form>
         </SearchContainer>
 
-        { }
         <MobileToggle
           ref={buttonRef}
           onClick={toggleMenu}
@@ -616,7 +613,6 @@ const Navbar = () => {
           {isOpen ? '✕' : '☰'}
         </MobileToggle>
 
-        { }
         <Overlay
           $isOpen={isOpen}
           variants={overlayVariants}
@@ -625,7 +621,6 @@ const Navbar = () => {
           onClick={closeMenu}
         />
 
-        { }
         <AnimatePresence>
           {isOpen && (
             <MobileNavLinks
@@ -657,7 +652,6 @@ const Navbar = () => {
         </AnimatePresence>
       </NavContent>
 
-      { }
       <AnimatePresence>
         {showSearchResults && (
           <>

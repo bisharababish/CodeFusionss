@@ -9,7 +9,7 @@ import TravelImage from './projectspics/travel.png';
 import DistrubitionImage from './projectspics/Distribution.png';
 import DungeonGame from './projectspics/dungeon.jpeg';
 import TreasureHunter from './projectspics/treasure.jpeg';
-import SpaceExplorer from '.projectspics/space.jpeg';
+import SpaceExplorer from './projectspics/space.jpeg';
 import FruitBasketFrenzy from './projectspics/fruit.jpeg';
 
 const breakpoints = {

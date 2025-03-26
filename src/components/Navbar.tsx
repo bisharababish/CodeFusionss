@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import CodeFusion from '../components/images/CodeFusion.png';
 
-// Styled components
+// Styled components (keep your existing styles)
 const NavContainer = styled(motion.header)`
   position: fixed;
   top: 0;
@@ -219,7 +219,6 @@ const Overlay = styled(motion.div) <OverlayProps>`
   }
 `;
 
-// Search Results Components
 const SearchResultsOverlay = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -265,13 +264,6 @@ const SearchResultTitle = styled.h3`
 const SearchResultText = styled.div`
   color: rgba(255, 255, 255, 0.8);
   line-height: 1.6;
-  
-  mark {
-    background-color: rgba(255, 255, 0, 0.5);
-    color: white;
-    padding: 0 2px;
-    border-radius: 2px;
-  }
 `;
 
 const CloseSearchButton = styled(motion.button)`
@@ -381,114 +373,141 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const highlightMatches = (node: Node, query: string): number => {
-    if (!query) return 0;
-
-    let matchCount = 0;
-    const regex = new RegExp(query, 'gi');
-
-    if (node.nodeType === Node.TEXT_NODE) {
-      const parent = node.parentNode;
-      if (!parent || parent.nodeName === 'SCRIPT' || parent.nodeName === 'STYLE') {
-        return 0;
-      }
-
-      const content = node.textContent || '';
-      const matches = content.match(regex);
-      if (matches && parent) {
-        matchCount += matches.length;
-
-        const span = document.createElement('span');
-        span.innerHTML = content.replace(regex, match => `<mark>${match}</mark>`);
-        parent.replaceChild(span, node);
-      }
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      for (let i = 0; i < node.childNodes.length; i++) {
-        matchCount += highlightMatches(node.childNodes[i], query);
-      }
-    }
-
-    return matchCount;
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   const removeHighlights = () => {
-    const marks = document.querySelectorAll('mark');
-    marks.forEach(mark => {
-      const parent = mark.parentNode;
+    const highlights = document.querySelectorAll('.search-highlight');
+    highlights.forEach(highlight => {
+      const parent = highlight.parentNode;
       if (parent) {
-        parent.replaceChild(document.createTextNode(mark.textContent || ''), mark);
+        parent.replaceChild(
+          document.createTextNode(highlight.textContent || ''),
+          highlight
+        );
       }
     });
   };
 
-  const performSearch = (query: string) => {
-    removeHighlights();
-    setSearchResults([]);
-
+  const highlightAndScrollToMatches = (query: string) => {
     if (!query.trim()) {
+      removeHighlights();
+      setSearchResults([]);
       setShowSearchResults(false);
       return;
     }
 
-    // Highlight text in the main content
-    const mainContent = document.getElementById('root');
-    if (mainContent) {
-      highlightMatches(mainContent, query);
+    removeHighlights();
+    const results: SearchResult[] = [];
+    const regex = new RegExp(query, 'gi');
+
+    // Search through all text nodes in the document
+    const textNodes: Node[] = [];
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      null
+    );
+
+    let node;
+    let firstMatch: HTMLElement | null = null;
+
+    while ((node = walker.nextNode())) {
+      if (node.nodeType === Node.TEXT_NODE &&
+        node.textContent &&
+        node.textContent.trim().length > 0 &&
+        regex.test(node.textContent)) {
+        textNodes.push(node);
+      }
     }
 
-    // Collect search results from sections
-    const results: SearchResult[] = [];
-    const sections = ['hero', 'about', 'projects', 'team'];
+    // Process matches
+    textNodes.forEach((textNode) => {
+      const parent = textNode.parentNode as HTMLElement;
+      if (parent && parent.nodeName !== 'SCRIPT' && parent.nodeName !== 'STYLE') {
+        // Highlight the match
+        const span = document.createElement('span');
+        span.innerHTML = textNode.textContent!.replace(
+          regex,
+          match => `<mark class="search-highlight" style="background-color: yellow; color: black;">${match}</mark>`
+        );
+        parent.replaceChild(span, textNode);
 
-    sections.forEach(sectionId => {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        const textContent = section.textContent || '';
-        const regex = new RegExp(query, 'gi');
-        if (regex.test(textContent)) {
-          // Get all matches in this section
-          const matches: RegExpExecArray[] = [];
-          let match;
-          while ((match = regex.exec(textContent)) !== null) {
-            matches.push(match);
-          }
-          if (matches.length > 0) {
-            // Get context around the first match
-            const firstMatch = matches[0];
-            const index = firstMatch.index || 0;
-            const start = Math.max(0, index - 50);
-            const end = Math.min(textContent.length, index + query.length + 50);
-            const snippet = textContent.substring(start, end);
+        // Find the closest section
+        let sectionElement = parent.closest('section') || parent.closest('div[id]');
+        let sectionName = 'Content';
 
-            // Highlight matches in the snippet
-            const highlightedSnippet = snippet.replace(
-              regex,
-              match => `<mark>${match}</mark>`
-            );
+        if (sectionElement && sectionElement.id) {
+          sectionName = sectionElement.id.charAt(0).toUpperCase() + sectionElement.id.slice(1);
+        }
 
-            results.push({
-              id: `${sectionId}-${results.length}`,
-              section: sectionId.charAt(0).toUpperCase() + sectionId.slice(1),
-              text: highlightedSnippet,
-              element: section
-            });
-          }
+        // Get text snippet around the match
+        const fullText = textNode.textContent || '';
+        const matchIndex = fullText.toLowerCase().indexOf(query.toLowerCase());
+        const start = Math.max(0, matchIndex - 30);
+        const end = Math.min(fullText.length, matchIndex + query.length + 30);
+        const snippet = fullText.substring(start, end);
+
+        results.push({
+          id: `${sectionName}-${results.length}-${matchIndex}`,
+          section: sectionName,
+          text: snippet.replace(
+            regex,
+            match => `<mark style="background-color: yellow; color: black;">${match}</mark>`
+          ),
+          element: parent
+        });
+
+        if (!firstMatch) {
+          firstMatch = parent;
         }
       }
     });
 
     setSearchResults(results);
     setShowSearchResults(true);
+
+    if (firstMatch) {
+      setTimeout(() => {
+        scrollToResult(firstMatch);
+      }, 100);
+    }
+  };
+
+  const scrollToResult = (element: HTMLElement | null) => {
+    if (!element) return;
+
+    // Scroll to the element
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+
+    // Add temporary highlight effect
+    const originalBorder = element.style.border;
+    element.style.transition = 'all 0.5s ease';
+    element.style.border = '2px solid rgba(108, 92, 231, 0.8)';
+    element.style.borderRadius = '4px';
+    element.style.padding = '2px';
+
+    setTimeout(() => {
+      element.style.border = originalBorder;
+      element.style.padding = '';
+    }, 2000);
   };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    performSearch(searchQuery);
+    highlightAndScrollToMatches(searchQuery);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-    if (!e.target.value) {
+    if (!e.target.value.trim()) {
       removeHighlights();
       setShowSearchResults(false);
     }
@@ -501,17 +520,6 @@ const Navbar = () => {
     if (searchRef.current) {
       searchRef.current.value = '';
     }
-  };
-
-  const scrollToResult = (element: HTMLElement) => {
-    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    // Add temporary highlight effect
-    const originalBoxShadow = element.style.boxShadow;
-    element.style.boxShadow = '0 0 0 3px var(--primary-color)';
-    element.style.transition = 'box-shadow 0.3s ease';
-    setTimeout(() => {
-      element.style.boxShadow = originalBoxShadow;
-    }, 2000);
   };
 
   // Close menu when clicking outside
@@ -560,7 +568,11 @@ const Navbar = () => {
       <NavContent>
         {/* Logo */}
         <Logo whileHover="hover" initial="initial" variants={logoVariants}>
-          <Link to="/" onClick={closeMenu}>
+          <Link to="/" onClick={(e) => {
+            e.preventDefault();
+            closeMenu();
+            scrollToTop();
+          }}>
             <img src={CodeFusion} alt="CodeFusion Logo" />
             Code<span>Fusion</span>
           </Link>
@@ -570,13 +582,13 @@ const Navbar = () => {
         <NavLinks>
           <NavList>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/">Home</Link>
+              <Link to="/" onClick={closeMenu}>Home</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/projects">Projects</Link>
+              <Link to="/projects" onClick={closeMenu}>Projects</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/about">About</Link>
+              <Link to="/about" onClick={closeMenu}>About</Link>
             </NavItem>
           </NavList>
         </NavLinks>
@@ -679,10 +691,13 @@ const Navbar = () => {
                   Search Results for: "{searchQuery}"
                 </h2>
                 {searchResults.length > 0 ? (
-                  searchResults.map(result => (
+                  searchResults.map((result, index) => (
                     <SearchResultItem
-                      key={result.id}
-                      onClick={() => scrollToResult(result.element)}
+                      key={`${result.id}-${index}`}
+                      onClick={() => {
+                        scrollToResult(result.element);
+                        setShowSearchResults(false);
+                      }}
                     >
                       <SearchResultTitle>{result.section} Section</SearchResultTitle>
                       <SearchResultText

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Project, ProjectCategory } from '../types';
-import BlogImage from '../images/projectspics/blog.png';
-import MRIImage from '../images/projectspics/mri.png';
-import SnakeImage from '../images/projectspics/snake.png';
-import TravelImage from '../images/projectspics/travel.png';
-import DistrubitionImage from '../images/projectspics/Distribution.png';
-import DungeonGame from '../images/projectspics/dungeon.jpeg';
-import TreasureHunter from '../images/projectspics/treasure.jpeg';
-import SpaceExplorer from '../images/projectspics/space.jpeg';
-import FruitBasketFrenzy from '../images/projectspics/fruit.jpeg';
+import BlogImage from './projectspics/blog.png';
+import MRIImage from './projectspics/mri.png';
+import SnakeImage from './projectspics/snake.png';
+import TravelImage from './projectspics/travel.png';
+import DistrubitionImage from './projectspics/Distribution.png';
+import DungeonGame from './projectspics/dungeon.jpeg';
+import TreasureHunter from './projectspics/treasure.jpeg';
+import SpaceExplorer from '.projectspics/space.jpeg';
+import FruitBasketFrenzy from './projectspics/fruit.jpeg';
 
 const breakpoints = {
   smallMobile: '320px',

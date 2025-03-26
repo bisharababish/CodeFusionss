@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import CodeFusion from '../components/images/CodeFusion.png';
 
-// Styled components (keep your existing styles)
 const NavContainer = styled(motion.header)`
   position: fixed;
   top: 0;
@@ -284,7 +283,6 @@ const CloseSearchButton = styled(motion.button)`
   justify-content: center;
 `;
 
-// Animation variants
 const navContainerVariants = {
   hidden: { y: -100, opacity: 0 },
   visible: {
@@ -425,11 +423,9 @@ const Navbar = () => {
       }
     }
 
-    // Process matches
     textNodes.forEach((textNode) => {
       const parent = textNode.parentNode as HTMLElement;
       if (parent && parent.nodeName !== 'SCRIPT' && parent.nodeName !== 'STYLE') {
-        // Highlight the match
         const span = document.createElement('span');
         span.innerHTML = textNode.textContent!.replace(
           regex,
@@ -437,7 +433,6 @@ const Navbar = () => {
         );
         parent.replaceChild(span, textNode);
 
-        // Find the closest section
         let sectionElement = parent.closest('section') || parent.closest('div[id]');
         let sectionName = 'Content';
 
@@ -445,7 +440,6 @@ const Navbar = () => {
           sectionName = sectionElement.id.charAt(0).toUpperCase() + sectionElement.id.slice(1);
         }
 
-        // Get text snippet around the match
         const fullText = textNode.textContent || '';
         const matchIndex = fullText.toLowerCase().indexOf(query.toLowerCase());
         const start = Math.max(0, matchIndex - 30);
@@ -481,13 +475,11 @@ const Navbar = () => {
   const scrollToResult = (element: HTMLElement | null) => {
     if (!element) return;
 
-    // Scroll to the element
     element.scrollIntoView({
       behavior: 'smooth',
       block: 'center'
     });
 
-    // Add temporary highlight effect
     const originalBorder = element.style.border;
     element.style.transition = 'all 0.5s ease';
     element.style.border = '2px solid rgba(108, 92, 231, 0.8)';
@@ -522,7 +514,6 @@ const Navbar = () => {
     }
   };
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -543,7 +534,6 @@ const Navbar = () => {
     };
   }, [isOpen]);
 
-  // Close menu when screen resizes above mobile breakpoint
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768 && isOpen) {
@@ -578,7 +568,7 @@ const Navbar = () => {
           </Link>
         </Logo>
 
-        {/* Desktop Navigation Links */}
+        { }
         <NavLinks>
           <NavList>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
@@ -593,7 +583,7 @@ const Navbar = () => {
           </NavList>
         </NavLinks>
 
-        {/* Search Bar */}
+        { }
         <SearchContainer>
           <form onSubmit={handleSearch} style={{ width: '100%' }}>
             <SearchInput
@@ -616,7 +606,7 @@ const Navbar = () => {
           </form>
         </SearchContainer>
 
-        {/* Mobile Hamburger Menu */}
+        { }
         <MobileToggle
           ref={buttonRef}
           onClick={toggleMenu}
@@ -626,7 +616,7 @@ const Navbar = () => {
           {isOpen ? '✕' : '☰'}
         </MobileToggle>
 
-        {/* Mobile Navigation Overlay */}
+        { }
         <Overlay
           $isOpen={isOpen}
           variants={overlayVariants}
@@ -635,7 +625,7 @@ const Navbar = () => {
           onClick={closeMenu}
         />
 
-        {/* Mobile Navigation Menu */}
+        { }
         <AnimatePresence>
           {isOpen && (
             <MobileNavLinks
@@ -667,7 +657,7 @@ const Navbar = () => {
         </AnimatePresence>
       </NavContent>
 
-      {/* Search Results Overlay */}
+      { }
       <AnimatePresence>
         {showSearchResults && (
           <>

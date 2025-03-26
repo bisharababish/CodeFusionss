@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import { motion, useInView } from 'framer-motion';
 
 const AboutSection = styled(motion.section)`
-  padding: 5rem 1rem 3rem 1rem;  // Increased top padding to 5rem
+  padding: 5rem 1rem 3rem 1rem; 
 
   background-color: var(--darker-bg);
 
-  /* Mobile-specific padding adjustments */
   @media (max-width: 480px) {
-    padding: 4.5rem 0.75rem 2.5rem 0.75rem;  // Increased top padding here too
+    padding: 4.5rem 0.75rem 2.5rem 0.75rem;  
   }
 `;
 
@@ -19,7 +18,6 @@ const AboutContent = styled.div`
   margin: 0 auto;
   padding: 0 1.5rem;
 
-  /* Progressive padding reduction for smaller screens */
   @media (max-width: 768px) {
     padding: 0 1.25rem;
   }
@@ -36,7 +34,7 @@ const AboutContent = styled.div`
 const AboutText = styled(motion.div)`
   h2 {
     font-size: 2.5rem;
-    margin-top: 2rem;  // Add this line to increase space at the top
+    margin-top: 2rem;  
     margin-bottom: 1.5rem;
     position: relative;
 
@@ -50,7 +48,7 @@ const AboutText = styled(motion.div)`
       background-color: var(--primary-color);
     }
 
-    /* Responsive font size and alignment for mobile */
+   
     @media (max-width: 768px) {
       font-size: 2rem;
       text-align: center;
@@ -77,7 +75,7 @@ const AboutText = styled(motion.div)`
     line-height: 1.7;
     opacity: 0.9;
 
-    /* Mobile text adjustments */
+   
     @media (max-width: 768px) {
       text-align: center;
       font-size: 0.95rem;
@@ -99,7 +97,7 @@ const KnowledgeGrid = styled(motion.div)`
   gap: 2rem;
   margin-top: 2rem;
 
-  /* Progressive grid adjustments for different mobile sizes */
+ 
   @media (max-width: 992px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
@@ -134,10 +132,10 @@ const KnowledgeItem = styled(motion.div)`
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-  /* Mobile touch target and padding adjustments */
+ 
   @media (max-width: 768px) {
     padding: 1.25rem;
-    min-height: 100px; /* Ensure good touch target size */
+    min-height: 100px;
   }
 
   @media (max-width: 480px) {
@@ -158,7 +156,7 @@ const KnowledgeTitle = styled.h3`
   align-items: center;
   gap: 0.5rem;
 
-  /* Mobile font size adjustments */
+ 
   @media (max-width: 768px) {
     font-size: 1.35rem;
     margin-bottom: 0.875rem;
@@ -181,7 +179,7 @@ const TechnologiesList = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
 
-  /* Adjust gaps for smaller screens */
+ 
   @media (max-width: 480px) {
     gap: 0.375rem;
   }
@@ -196,7 +194,7 @@ const TechItem = styled(motion.span)`
   padding: 0.25rem 0.5rem;
   font-size: 0.9rem;
 
-  /* Adjust font size and padding for better mobile display */
+ 
   @media (max-width: 768px) {
     padding: 0.2rem 0.4rem;
   }

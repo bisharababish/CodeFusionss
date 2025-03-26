@@ -363,10 +363,8 @@ const SocialLinks = styled(motion.div)`
 
 
 const Team: React.FC = () => {
-  // State to track flipped status for each card
   const [flippedCards, setFlippedCards] = useState<{ [key: number]: boolean }>({});
 
-  // Function to toggle flip state for a specific card
   const toggleCardFlip = (id: number) => {
     setFlippedCards(prev => ({
       ...prev,
@@ -374,7 +372,6 @@ const Team: React.FC = () => {
     }));
   };
 
-  // Function to handle social link clicks without triggering card flip
   const handleSocialClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };

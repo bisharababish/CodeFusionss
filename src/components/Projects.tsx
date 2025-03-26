@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Project, ProjectCategory } from '../types';
-
-// Image imports - paths kept exactly as in your project
 import BlogImage from './projectspics/blog.png';
 import MRIImage from './projectspics/mri.png';
 import SnakeImage from './projectspics/snake.png';
 import TravelImage from './projectspics/travel.png';
 import DistrubitionImage from './projectspics/Distribution.png';
 
-// Breakpoints and media queries
 const breakpoints = {
   smallMobile: '320px',
   mobile: '480px',
@@ -27,7 +24,6 @@ const media = {
   laptop: `@media (max-width: ${breakpoints.laptop})`,
 };
 
-// Styled Components
 const ProjectsSection = styled(motion.section)`
   padding: 6rem 0;
   background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
@@ -234,7 +230,6 @@ const CodeLink = styled(motion.a)`
   text-align: center;
 `;
 
-// Animation Variants
 const orbVariants = {
   animate: (i: number) => ({
     x: [0, 100 * (i % 2 === 0 ? 1 : -1)],
@@ -269,7 +264,6 @@ const itemVariants = {
   }
 };
 
-// Text animation variants
 const textVariants = {
   hidden: {
     opacity: 0,
@@ -298,7 +292,6 @@ const paragraphVariants = {
   }
 };
 
-// Project Data
 const allProjects: Project[] = [
   {
     id: 1,
@@ -405,7 +398,6 @@ const Projects: React.FC = () => {
     { size: 350, color: '#00cec9', x: '80%', y: '70%' }
   ];
 
-  // Split the title into words for animation
   const titleWords = "Featured Projects".split(" ");
 
   return (

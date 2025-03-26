@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import CodeFusion from '../components/images/CodeFusion.png';
 import { motion } from 'framer-motion';
 
-// Comprehensive breakpoints for different mobile devices
+
 const breakpoints = {
-  smallMobile: '320px',    // Small phones like iPhone SE
-  mobile: '480px',         // Standard mobile phones
-  largeMobile: '600px',    // Large phones
-  tablet: '768px',         // Tablets and large phones
-  largeTablet: '992px'     // Large tablets and small laptops
+  smallMobile: '320px',     
+  mobile: '480px',        
+  largeMobile: '600px',   
+  tablet: '768px',         
+  largeTablet: '992px'     
 };
 
 const HeroSection = styled.section`
@@ -35,7 +35,6 @@ const HeroSection = styled.section`
     padding: 4rem 0.5rem; 
   }
 
-  /* Background image adjustments */
   &::before {
     content: '';
     position: absolute;
@@ -81,7 +80,6 @@ const HeroSection = styled.section`
     }
   }
 
-  /* Gradient background adjustments */
   &::after {
     content: '';
     position: absolute;
@@ -372,7 +370,7 @@ const SocialLink = styled(motion.a)`
     }
 
     span {
-      display: none; /* Hide tooltips on mobile */
+      display: none; 
     }
   }
   
@@ -519,7 +517,6 @@ interface ParticleProps {
 }
 
 const Particles: React.FC<ParticleProps> = ({ count }) => {
-  // Get the current viewport width for responsive adjustments
   const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   React.useEffect(() => {
@@ -531,7 +528,6 @@ const Particles: React.FC<ParticleProps> = ({ count }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Adjust particle count based on screen size
   let particleCount = count;
   if (windowWidth <= parseInt(breakpoints.smallMobile)) {
     particleCount = Math.max(8, Math.floor(count * 0.3));
@@ -640,7 +636,6 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
   startDelay = 1.5,
   wordDelay = 0.05
 }) => {
-  // Get the current viewport width for responsive adjustments
   const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   React.useEffect(() => {
@@ -652,7 +647,6 @@ const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Adjust animation timing based on screen size
   let adjustedStartDelay = startDelay;
   let adjustedWordDelay = wordDelay;
 
@@ -705,7 +699,6 @@ const Hero: React.FC = () => {
   const highlightedWords = ["brighter", "digital", "future."];
   const paragraphText = "Welcome to Code Fusion, a passionate team of developers specialized in building custom solutions for businesses and startups. From web applications to AI integration, we bring your ideas to life.";
 
-  // Get the current viewport width for responsive adjustments
   const [windowWidth, setWindowWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   React.useEffect(() => {
@@ -717,7 +710,6 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Adjust animation parameters based on screen size
   const getAnimationParams = () => {
     if (windowWidth <= parseInt(breakpoints.smallMobile)) {
       return {

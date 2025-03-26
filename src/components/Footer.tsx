@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 
-// Define CSS variables directly in styled-components to avoid errors
-const primaryColor = '#6C63FF'; // Your primary color
-const primaryRgb = '108, 99, 255'; // RGB values of your primary color
+const primaryColor = '#6C63FF';
+const primaryRgb = '108, 99, 255';
 
-// Convert styled components to use motion
 const FooterContainer = styled(motion.footer)`
   background-color: rgba(10, 10, 20, 0.95);
   padding: 3rem 0 1.5rem;
@@ -240,7 +238,6 @@ const HeartIcon = styled(motion.span)`
   margin-right: 5px;
 `;
 
-// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -285,7 +282,6 @@ const Footer = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const dividerAnimation = useAnimation();
 
-  // Track mouse position for the glow effect
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePosition({
@@ -294,7 +290,6 @@ const Footer = () => {
     });
   };
 
-  // Run divider glow animation
   useEffect(() => {
     const animateDivider = async () => {
       try {
@@ -307,7 +302,6 @@ const Footer = () => {
             x: "-30px",
             transition: { duration: 0 }
           });
-          // Wait before the next animation
           await new Promise(resolve => setTimeout(resolve, 3000));
         }
       } catch (error) {
@@ -317,7 +311,6 @@ const Footer = () => {
 
     animateDivider();
 
-    // Cleanup function to prevent memory leaks
     return () => {
       dividerAnimation.stop();
     };
@@ -330,7 +323,7 @@ const Footer = () => {
       variants={containerVariants}
       onMouseMove={handleMouseMove}
     >
-      {/* Background glow that follows mouse */}
+      { }
       <BackgroundGlow
         animate={{
           x: mousePosition.x - 75,
@@ -344,9 +337,9 @@ const Footer = () => {
       <FooterContent>
         <FooterLinks variants={itemVariants}>
           {[
-            { name: "Home", href: "#" }, 
-            { name: "Projects", href: "#projects" },  
-            { name: "About", href: "#about" }  
+            { name: "Home", href: "#" },
+            { name: "Projects", href: "#projects" },
+            { name: "About", href: "#about" }
           ].map((item) => (
             <FooterLink
               key={item.name}

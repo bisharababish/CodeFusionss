@@ -11,6 +11,7 @@ import DungeonGame from './projectspics/dungeongame.png';
 import TreasureHunter from './projectspics/treasurehunter.png';
 import SpaceExplorer from './projectspics/spaceexplorer.png';
 import FruitBasketFrenzy from './projectspics/fruitbasketfrenzy.png';
+
 const breakpoints = {
   smallMobile: '320px',
   mobile: '480px',

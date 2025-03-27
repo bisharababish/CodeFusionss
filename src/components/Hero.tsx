@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import CodeFusion from '../components/images/CodeFusion.png';
+import CodeFusion from '../components/images/Logo/CodeFusion.png';
 import { motion } from 'framer-motion';
 
 
 const breakpoints = {
-  smallMobile: '320px',     
-  mobile: '480px',        
-  largeMobile: '600px',   
-  tablet: '768px',         
-  largeTablet: '992px'     
+  smallMobile: '320px',
+  mobile: '480px',
+  largeMobile: '600px',
+  tablet: '768px',
+  largeTablet: '992px'
 };
 
 const HeroSection = styled.section`

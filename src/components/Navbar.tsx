@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import CodeFusion from '../components/images/CodeFusion.png';
+import CodeFusion from '../components/images/Logo/CodeFusion.png';
 
 const NavContainer = styled(motion.header)`
   position: fixed;

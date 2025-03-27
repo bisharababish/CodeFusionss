@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { TeamMember } from '../types';
-import bisharaImage from '../components/images/Bish.png';
-import JudahImage from '../components/images/Judah.png';
-import SalibaImage from '../components/images/Saliba.png';
+import bisharaImage from '../components/images/Team/Bish.png';
+import JudahImage from '../components/images/Team/Judah.png';
+import SalibaImage from '../components/images/Team/Saliba.png';
 
 const TeamSection = styled(motion.section)`
   padding: 6rem 0;

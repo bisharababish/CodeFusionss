@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Project, ProjectCategory } from '../types';
-import BlogImage from './projectspics/blog.png';
-import MRIImage from './projectspics/mri.png';
-import SnakeImage from './projectspics/snake.png';
-import TravelImage from './projectspics/travel.png';
-import DistrubitionImage from './projectspics/Distribution.png';
-import DungeonGame from './projectspics/dungeon.jpeg';
-import TreasureHunter from './projectspics/treasure.jpeg';
-import SpaceExplorer from './projectspics/space.jpeg';
-import FruitBasketFrenzy from './projectspics/fruit.jpeg';
+import BlogImage from '../components/images/projectspics/web/blog.png';
+import MRIImage from '../components/images/projectspics/web/mri.png';
+import SnakeImage from '../components/images/projectspics/games/snake.png';
+import TravelImage from '../components/images/projectspics/web/travel.png';
+import DistrubitionImage from '../components/images/projectspics/AIML/Distribution.png';
+import DungeonGame from '../components/images/projectspics/games/dungeon.jpeg';
+import TreasureHunter from '../components/images/projectspics/games/treasure.jpeg';
+import SpaceExplorer from '../components/images/projectspics/games/space.jpeg';
+import FruitBasketFrenzy from '../components/images/projectspics/games/fruit.jpeg';
 
 const breakpoints = {
   smallMobile: '320px',

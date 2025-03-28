@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import CodeFusion from '../components/images/Logo/CodeFusion.png';
 import { motion } from 'framer-motion';
 
-
 const breakpoints = {
   smallMobile: '320px',
   mobile: '480px',
@@ -21,7 +20,7 @@ const HeroSection = styled.section`
   overflow: hidden;
   padding: 8rem 0 6rem;
 
-@media (max-width: ${breakpoints.tablet}) {
+  @media (max-width: ${breakpoints.tablet}) {
     padding: 6rem 0; 
     min-height: calc(100vh - 60px);
   }
@@ -131,7 +130,6 @@ const HeroContent = styled(motion.div)`
   max-width: 800px;
   width: 100%;
   
-  
   @media (max-width: ${breakpoints.tablet}) {
     max-width: 90%;
     margin: 0 auto;
@@ -145,7 +143,6 @@ const HeroContent = styled(motion.div)`
   @media (max-width: ${breakpoints.smallMobile}) {
     margin-top: 70px; 
   }
-
 
   h1 {
     font-size: clamp(2.5rem, 6vw, 4rem);

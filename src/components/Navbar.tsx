@@ -678,7 +678,7 @@ const Navbar = () => {
           </form>
         </SearchContainer>
 
-        {/* Mobile toggle with dynamic positioning based on search focus */}
+        { }
         <MobileToggle
           ref={buttonRef}
           onClick={toggleMenu}

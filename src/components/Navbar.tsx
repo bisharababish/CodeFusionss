@@ -157,6 +157,7 @@ const MobileToggle = styled(motion.button) <MobileToggleProps>`
 
 interface SearchContainerProps {
   $isSearchFocused: boolean;
+  $isMobile: boolean;
 }
 
 const SearchContainer = styled(motion.div) <SearchContainerProps>`
@@ -164,11 +165,11 @@ const SearchContainer = styled(motion.div) <SearchContainerProps>`
   display: flex;
   align-items: center;
   margin-left: auto;
-  width: 220px;
+  width: ${props => props.$isSearchFocused ? (props.$isMobile ? '100%' : '300px') : '220px'};
   transition: width 0.3s ease;
   
   @media (max-width: 768px) {
-    width: ${props => props.$isSearchFocused ? 'calc(100% - 60px)' : '180px'};
+    width: ${props => props.$isSearchFocused ? '100%' : '180px'};
     margin-right: ${props => props.$isSearchFocused ? '0' : '10px'};
   }
 `;
@@ -204,7 +205,7 @@ const SearchButton = styled(motion.button)`
   color: white;
   cursor: pointer;
   position: absolute;
-  right: 12px;
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -212,13 +213,13 @@ const SearchButton = styled(motion.button)`
   justify-content: center;
   z-index: 1;
   padding: 0;
-  
- 
-  margin-top: -1px;
-  margin-right: -1px;
+  margin: 0; 
+
 
   @media (max-width: 768px) {
     right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 `;
 
@@ -375,6 +376,7 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -386,6 +388,22 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile && isOpen) {
+        setIsOpen(false);
+      }
+      if (!mobile && isSearchFocused) {
+        setIsSearchFocused(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen, isSearchFocused]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -549,7 +567,6 @@ const Navbar = () => {
   };
 
   const handleSearchBlur = () => {
-
     setTimeout(() => {
       if (document.activeElement !== searchRef.current) {
         setIsSearchFocused(false);
@@ -588,20 +605,6 @@ const Navbar = () => {
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768 && isOpen) {
-        setIsOpen(false);
-      }
-      if (window.innerWidth > 768 && isSearchFocused) {
-        setIsSearchFocused(false);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [isOpen, isSearchFocused]);
-
   return (
     <NavContainer
       className="navbar-content"
@@ -619,10 +622,7 @@ const Navbar = () => {
           initial="initial"
           variants={logoVariants}
           style={{
-            opacity: isSearchFocused ? 0 : 1,
-            visibility: isSearchFocused ? 'hidden' : 'visible',
-            width: isSearchFocused ? 0 : 'auto',
-            margin: isSearchFocused ? 0 : undefined,
+            display: isMobile && isSearchFocused ? 'none' : 'flex'
           }}
         >
           <Link to="/" onClick={(e) => {
@@ -651,9 +651,7 @@ const Navbar = () => {
 
         <SearchContainer
           $isSearchFocused={isSearchFocused}
-          style={{
-            marginLeft: isSearchFocused ? '10px' : 'auto',
-          }}
+          $isMobile={isMobile}
         >
           <form onSubmit={handleSearch} style={{ width: '100%' }}>
             <SearchInput
@@ -678,7 +676,6 @@ const Navbar = () => {
           </form>
         </SearchContainer>
 
-        { }
         <MobileToggle
           ref={buttonRef}
           onClick={toggleMenu}
@@ -710,7 +707,6 @@ const Navbar = () => {
               animate="open"
               exit="closed"
               style={{
-
                 top: '64px',
                 height: 'calc(100vh - 64px)',
                 paddingTop: '20px',

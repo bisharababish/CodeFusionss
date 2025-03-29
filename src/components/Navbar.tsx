@@ -98,7 +98,7 @@ const NavList = styled(motion.ul)`
   
   @media (max-width: 768px) {
     flex-direction: column;
-    align-items: center; /* Center menu items horizontally */
+    align-items: center;
     padding: 20px;
     gap: 1.5rem;
   }
@@ -126,7 +126,7 @@ const NavItem = styled(motion.li)`
   @media (max-width: 768px) {
     width: 100%;
     padding: 10px 0;
-    text-align: center; /* Center text in mobile */
+    text-align: center;
     
     a {
       display: block;
@@ -204,18 +204,18 @@ const SearchButton = styled(motion.button)`
   color: white;
   cursor: pointer;
   position: absolute;
-  right: 12px; /* Fixed position at the right */
+  right: 12px;
   top: 50%;
-  transform: translateY(-50%); /* Center vertically */
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
   padding: 0;
   
-  /* You can fine-tune these values to match exactly */
-  margin-top: -1px; /* Slight adjustment upward */
-  margin-right: -1px; /* Slight adjustment to the right */
+ 
+  margin-top: -1px;
+  margin-right: -1px;
 
   @media (max-width: 768px) {
     right: 8px;
@@ -389,7 +389,7 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    // If search is focused and menu is toggled, unfocus search
+
     if (isSearchFocused) {
       setIsSearchFocused(false);
       if (searchRef.current) {
@@ -542,14 +542,14 @@ const Navbar = () => {
 
   const handleSearchFocus = () => {
     setIsSearchFocused(true);
-    // Close menu if search is focused
+
     if (isOpen) {
       setIsOpen(false);
     }
   };
 
   const handleSearchBlur = () => {
-    // Small delay to allow click events to process before removing focus state
+
     setTimeout(() => {
       if (document.activeElement !== searchRef.current) {
         setIsSearchFocused(false);
@@ -621,8 +621,8 @@ const Navbar = () => {
           style={{
             opacity: isSearchFocused ? 0 : 1,
             visibility: isSearchFocused ? 'hidden' : 'visible',
-            width: isSearchFocused ? 0 : 'auto', // Add width 0 when not visible
-            margin: isSearchFocused ? 0 : undefined, // Remove margin when not visible
+            width: isSearchFocused ? 0 : 'auto',
+            margin: isSearchFocused ? 0 : undefined,
           }}
         >
           <Link to="/" onClick={(e) => {
@@ -652,7 +652,7 @@ const Navbar = () => {
         <SearchContainer
           $isSearchFocused={isSearchFocused}
           style={{
-            marginLeft: isSearchFocused ? '10px' : 'auto', // Adjust left margin when focused
+            marginLeft: isSearchFocused ? '10px' : 'auto',
           }}
         >
           <form onSubmit={handleSearch} style={{ width: '100%' }}>
@@ -710,10 +710,10 @@ const Navbar = () => {
               animate="open"
               exit="closed"
               style={{
-                // Ensure menu stays below the navbar and doesn't overlap search
-                top: '64px', // Match navbar height
-                height: 'calc(100vh - 64px)', // Adjust height accordingly
-                paddingTop: '20px', // Reduce from 80px to avoid overlapping
+
+                top: '64px',
+                height: 'calc(100vh - 64px)',
+                paddingTop: '20px',
               }}
             >
               <NavList>

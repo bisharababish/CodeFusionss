@@ -638,17 +638,31 @@ const Navbar = () => {
         <NavLinks>
           <NavList>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/" onClick={closeMenu}>Home</Link>
+              <Link to="/" onClick={(e) => {
+                e.preventDefault();
+                closeMenu();
+                scrollToTop();
+                window.location.href = '/';
+              }}>Home</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/projects" onClick={closeMenu}>Projects</Link>
+              <Link to="/projects" onClick={(e) => {
+                e.preventDefault();
+                closeMenu();
+                scrollToTop();
+                window.location.href = '/projects';
+              }}>Projects</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/about" onClick={closeMenu}>About</Link>
+              <Link to="/about" onClick={(e) => {
+                e.preventDefault();
+                closeMenu();
+                scrollToTop();
+                window.location.href = '/about';
+              }}>About</Link>
             </NavItem>
           </NavList>
         </NavLinks>
-
         <SearchContainer
           $isSearchFocused={isSearchFocused}
           $isMobile={isMobile}
@@ -722,7 +736,12 @@ const Navbar = () => {
                   >
                     <Link
                       to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                      onClick={closeMenu}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        closeMenu();
+                        scrollToTop();
+                        window.location.href = item === "Home" ? "/" : `/${item.toLowerCase()}`;
+                      }}
                     >
                       {item}
                     </Link>

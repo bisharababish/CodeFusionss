@@ -22,7 +22,7 @@ const FooterContainer = styled(motion.footer)`
   }
 `;
 
-const BackgroundGlow = styled(motion.div)`
+const BackgroundGlow = styled(motion.div)` 
   position: absolute;
   width: 150px;
   height: 150px;

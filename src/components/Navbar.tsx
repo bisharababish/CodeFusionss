@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import CodeFusion from '../components/images/Logo/CodeFusion.png';
@@ -215,7 +215,6 @@ const SearchButton = styled(motion.button)`
   padding: 0;
   margin: 0; 
 
-
   @media (max-width: 768px) {
     right: 8px;
     top: 50%;
@@ -380,6 +379,7 @@ const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -625,8 +625,7 @@ const Navbar = () => {
             display: isMobile && isSearchFocused ? 'none' : 'flex'
           }}
         >
-          <Link to="/" onClick={(e) => {
-            e.preventDefault();
+          <Link to="/" onClick={() => {
             closeMenu();
             scrollToTop();
           }}>
@@ -638,31 +637,17 @@ const Navbar = () => {
         <NavLinks>
           <NavList>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/" onClick={(e) => {
-                e.preventDefault();
-                closeMenu();
-                scrollToTop();
-                window.location.href = '/';
-              }}>Home</Link>
+              <Link to="/" onClick={closeMenu}>Home</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/projects" onClick={(e) => {
-                e.preventDefault();
-                closeMenu();
-                scrollToTop();
-                window.location.href = '/projects';
-              }}>Projects</Link>
+              <Link to="/projects" onClick={closeMenu}>Projects</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/about" onClick={(e) => {
-                e.preventDefault();
-                closeMenu();
-                scrollToTop();
-                window.location.href = '/about';
-              }}>About</Link>
+              <Link to="/about" onClick={closeMenu}>About</Link>
             </NavItem>
           </NavList>
         </NavLinks>
+
         <SearchContainer
           $isSearchFocused={isSearchFocused}
           $isMobile={isMobile}
@@ -736,12 +721,7 @@ const Navbar = () => {
                   >
                     <Link
                       to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        closeMenu();
-                        scrollToTop();
-                        window.location.href = item === "Home" ? "/" : `/${item.toLowerCase()}`;
-                      }}
+                      onClick={closeMenu}
                     >
                       {item}
                     </Link>

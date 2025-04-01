@@ -11,7 +11,7 @@ import DungeonGame from '../components/images/projectspics/games/dungeon.jpeg';
 import TreasureHunter from '../components/images/projectspics/games/treasure.jpeg';
 import SpaceExplorer from '../components/images/projectspics/games/space.jpeg';
 import FruitBasketFrenzy from '../components/images/projectspics/games/fruit.jpeg';
-
+import ReleaseYear from '../components/images/projectspics/AIML/ReleaseYear.png';
 const breakpoints = {
   smallMobile: '320px',
   mobile: '480px',
@@ -386,6 +386,15 @@ const allProjects: Project[] = [
   },
   {
     id: 10,
+    title: 'Histogram of Release Year',
+    description: 'This project analyzes the TMDb Movies Dataset to explore trends in the film industry. It examines the relationship between movie attributes (e.g., budget, genre, runtime) and financial success (revenue) while focusing on data cleaning, handling missing values, and visualizing key insights.',
+    image: ReleaseYear,
+    technologies: ['Python'],
+    githubLink: 'https://github.com/judahsleibi34/TMDB-project',
+    category: 'ai'
+  },
+  {
+    id: 11,
     title: 'More Projects Coming Soon!',
     description: 'Early Production and more developed applications, websites soon!',
     image: '',

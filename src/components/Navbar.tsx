@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import CodeFusion from '../components/images/Logo/CodeFusion.png';
@@ -66,6 +66,14 @@ const NavLinks = styled(motion.nav)`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  
+
+  @media (min-width: 769px) and (max-width: 1100px) {
+    position: relative;
+    left: 0;
+    transform: none;
+    margin: 0 20px;
+  }
 
   @media (max-width: 768px) {
     display: none;
@@ -161,17 +169,18 @@ interface SearchContainerProps {
 }
 
 const SearchContainer = styled(motion.div) <SearchContainerProps>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  width: ${props => props.$isSearchFocused ? (props.$isMobile ? '100%' : '300px') : '220px'};
-  transition: width 0.3s ease;
-  
-  @media (max-width: 768px) {
-    width: ${props => props.$isSearchFocused ? '100%' : '180px'};
-    margin-right: ${props => props.$isSearchFocused ? '0' : '10px'};
-  }
+position: relative;
+display: flex;
+align-items: center;
+margin-left: auto;
+width: ${props => props.$isSearchFocused ? (props.$isMobile ? '100%' : '300px') : '220px'};
+transition: width 0.3s ease;
+z-index: 100; 
+
+@media (max-width: 768px) {
+  width: ${props => props.$isSearchFocused ? '100%' : '180px'};
+  margin-right: ${props => props.$isSearchFocused ? '0' : '10px'};
+}
 `;
 
 const SearchInput = styled(motion.input)`
@@ -184,6 +193,7 @@ const SearchInput = styled(motion.input)`
   transition: all 0.3s ease;
   width: 100%;
   font-size: 0.9rem;
+  height: 40px;
 
   &:focus {
     background-color: rgba(255, 255, 255, 0.2);
@@ -195,17 +205,16 @@ const SearchInput = styled(motion.input)`
   }
 
   @media (max-width: 768px) {
-    padding: 0.5rem 2rem 0.5rem 1rem;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
   }
 `;
-
 const SearchButton = styled(motion.button)`
   background: transparent;
   border: none;
   color: white;
   cursor: pointer;
   position: absolute;
-  right: 8px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -213,15 +222,24 @@ const SearchButton = styled(motion.button)`
   justify-content: center;
   z-index: 1;
   padding: 0;
-  margin: 0; 
+  margin: 0;
+  height: 20px;
+  width: 20px;
+  line-height: 0; 
+
+  svg {
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); ly
+    width: 18px;
+    height: 18px;
+  }
 
   @media (max-width: 768px) {
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 12px;
   }
 `;
-
 interface OverlayProps {
   $isOpen: boolean;
 }
@@ -379,9 +397,20 @@ const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    closeMenu();
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
+    /*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Set scrolled state based on window scroll position.
+     * @function
+     * @returns {void}
+     */
+    /******  5934f085-2a22-4c4f-8d0d-2e6d54ae303c  *******/
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
@@ -418,13 +447,6 @@ const Navbar = () => {
 
   const closeMenu = () => {
     setIsOpen(false);
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
   };
 
   const removeHighlights = () => {
@@ -625,10 +647,7 @@ const Navbar = () => {
             display: isMobile && isSearchFocused ? 'none' : 'flex'
           }}
         >
-          <Link to="/" onClick={() => {
-            closeMenu();
-            scrollToTop();
-          }}>
+          <Link to="/" onClick={handleNavigation}>
             <img src={CodeFusion} alt="CodeFusion Logo" />
             Code<span>Fusion</span>
           </Link>
@@ -637,13 +656,13 @@ const Navbar = () => {
         <NavLinks>
           <NavList>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/" onClick={closeMenu}>Home</Link>
+              <Link to="/" onClick={handleNavigation}>Home</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/projects" onClick={closeMenu}>Projects</Link>
+              <Link to="/projects" onClick={handleNavigation}>Projects</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/about" onClick={closeMenu}>About</Link>
+              <Link to="/about" onClick={handleNavigation}>About</Link>
             </NavItem>
           </NavList>
         </NavLinks>
@@ -652,7 +671,7 @@ const Navbar = () => {
           $isSearchFocused={isSearchFocused}
           $isMobile={isMobile}
         >
-          <form onSubmit={handleSearch} style={{ width: '100%' }}>
+          <form onSubmit={handleSearch} style={{ width: '100%', position: 'relative' }}>
             <SearchInput
               type="text"
               placeholder="Search..."
@@ -721,7 +740,7 @@ const Navbar = () => {
                   >
                     <Link
                       to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                      onClick={closeMenu}
+                      onClick={handleNavigation}
                     >
                       {item}
                     </Link>

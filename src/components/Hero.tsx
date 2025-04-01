@@ -568,7 +568,7 @@ const socialLinks = [
   },
   {
     label: "Email",
-    href: "mailto:codefusion218@gmail.com",
+    href: "mailto:info@codefusion.me",
     icon: "fas fa-envelope",
     text: "codefusion218@gmail.com"
   },

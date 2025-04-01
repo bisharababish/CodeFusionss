@@ -368,7 +368,7 @@ const Footer = () => {
         <SocialLinks variants={itemVariants}>
           {[
             { icon: "fab fa-twitter", url: "https://x.com/codefusion218", label: "Twitter" },
-            { icon: "fas fa-envelope", url: "mailto:codefusion218@gmail.com", label: "Email" }
+            { icon: "fas fa-envelope", url: "mailto:info@codefusion.me", label: "Email" }
           ].map((social, index) => (
             <SocialLink
               key={index}

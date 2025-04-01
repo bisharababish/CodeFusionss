@@ -386,7 +386,7 @@ const allProjects: Project[] = [
   },
   {
     id: 10,
-    title: 'Histogram of Release Year',
+    title: 'TMDB Movie Dataset Analysis ',
     description: 'This project analyzes the TMDb Movies Dataset to explore trends in the film industry. It examines the relationship between movie attributes (e.g., budget, genre, runtime) and financial success (revenue) while focusing on data cleaning, handling missing values, and visualizing key insights.',
     image: ReleaseYear,
     technologies: ['Python'],

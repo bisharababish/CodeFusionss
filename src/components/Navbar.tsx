@@ -215,23 +215,19 @@ const SearchButton = styled(motion.button)`
   cursor: pointer;
   position: absolute;
   right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
   padding: 0;
-  margin: 0;
-  height: 20px;
-  width: 20px;
-  line-height: 0; 
+  width: 24px;
+  height: 24px;
 
   svg {
-    position: absolute; 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); ly
+    position: absolute;
     width: 18px;
     height: 18px;
   }

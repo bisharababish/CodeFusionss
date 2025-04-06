@@ -576,7 +576,7 @@ const socialLinks = [
     label: "WhatsApp",
     href: "https://wa.me/+970568302915",
     icon: "fab fa-whatsapp",
-    text: "+972 56-830-2915"
+    text: "+970 56-830-2915"
   },
   {
     label: "Twitter/X",

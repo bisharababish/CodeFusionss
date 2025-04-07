@@ -220,7 +220,7 @@ const About: React.FC = () => {
     {
       name: 'Database',
       icon: 'fas fa-database',
-      technologies: ['SQL', 'PhpMyAdmin', 'MongoDB', '.NET', 'Firebase'],
+      technologies: ['SQL', 'MongoDB', 'Firebase'],
     },
     {
       name: 'Exploratory Data Analysis',

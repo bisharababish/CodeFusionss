@@ -380,7 +380,7 @@ const Team: React.FC = () => {
     {
       id: 1,
       name: 'Judah Sleibi',
-      role: 'Co-Founder<br>Quality assurance Team Leader<br>Quality Assurance Engineer<br>Artificial Intelligence Specialist<br>Data Scientist Specialist<br>SQL Developer',
+      role: 'Co-Founder<br>Quality assurance Team Lead<br>Quality Assurance Engineer<br>Artificial Intelligence Specialist<br>Data Scientist Specialist<br>SQL Developer',
       image: JudahImage,
       bio: 'Judah Sleibi ensures top-quality products through meticulous QA expertise.',
       socialLinks: {

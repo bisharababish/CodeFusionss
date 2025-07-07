@@ -562,7 +562,7 @@ const Particles: React.FC<ParticleProps> = ({ count }) => {
 const socialLinks = [
   {
     label: "Instagram",
-    href: "https://www.instagram.com/codefusionn/",
+    href: "https://www.instagram.com/codefusionn.ps",
     icon: "fab fa-instagram",
     text: "Follow us on Instagram"
   },

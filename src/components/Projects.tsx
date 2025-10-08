@@ -53,10 +53,31 @@ const ProjectsSection = styled(motion.section)`
     z-index: 1;
   }
 
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 10% 90%, rgba(102, 126, 234, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 10%, rgba(118, 75, 162, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 30%);
+    animation: backgroundFloat2 25s ease-in-out infinite reverse;
+    z-index: 1;
+  }
+
   @keyframes backgroundFloat {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     33% { transform: translateY(-20px) rotate(1deg); }
     66% { transform: translateY(10px) rotate(-1deg); }
+  }
+
+  @keyframes backgroundFloat2 {
+    0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+    25% { transform: translateY(-15px) rotate(-0.5deg) scale(1.05); }
+    50% { transform: translateY(5px) rotate(0.5deg) scale(0.95); }
+    75% { transform: translateY(-10px) rotate(-0.3deg) scale(1.02); }
   }
 `;
 
@@ -715,35 +736,59 @@ const ThreeScene = () => {
 
     // Create side particles for left and right areas
     const sideParticlesGeometry = new THREE.BufferGeometry();
-    const sideParticlesCount = 400;
+    const sideParticlesCount = 600;
     const sidePosArray = new Float32Array(sideParticlesCount * 3);
 
     for (let i = 0; i < sideParticlesCount * 3; i += 3) {
       // Left side particles
       if (i % 6 === 0) {
-        sidePosArray[i] = (Math.random() - 1.2) * 60; // Left side
-        sidePosArray[i + 1] = (Math.random() - 0.5) * 80;
-        sidePosArray[i + 2] = (Math.random() - 0.5) * 60;
+        sidePosArray[i] = (Math.random() - 1.5) * 80; // Further left
+        sidePosArray[i + 1] = (Math.random() - 0.5) * 100;
+        sidePosArray[i + 2] = (Math.random() - 0.5) * 80;
       } else {
         // Right side particles
-        sidePosArray[i] = (Math.random() + 0.2) * 60; // Right side
-        sidePosArray[i + 1] = (Math.random() - 0.5) * 80;
-        sidePosArray[i + 2] = (Math.random() - 0.5) * 60;
+        sidePosArray[i] = (Math.random() + 0.5) * 80; // Further right
+        sidePosArray[i + 1] = (Math.random() - 0.5) * 100;
+        sidePosArray[i + 2] = (Math.random() - 0.5) * 80;
       }
     }
 
     sideParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(sidePosArray, 3));
 
     const sideParticlesMaterial = new THREE.PointsMaterial({
-      size: 0.15,
+      size: 0.2,
       color: '#764ba2',
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.7,
       blending: THREE.AdditiveBlending
     });
 
     const sideParticlesMesh = new THREE.Points(sideParticlesGeometry, sideParticlesMaterial);
     scene.add(sideParticlesMesh);
+
+    // Create additional floating particles for more density
+    const floatingParticlesGeometry = new THREE.BufferGeometry();
+    const floatingParticlesCount = 300;
+    const floatingPosArray = new Float32Array(floatingParticlesCount * 3);
+
+    for (let i = 0; i < floatingParticlesCount * 3; i += 3) {
+      floatingPosArray[i] = (Math.random() - 0.5) * 120; // Spread across entire width
+      floatingPosArray[i + 1] = (Math.random() - 0.5) * 100;
+      floatingPosArray[i + 2] = (Math.random() - 0.5) * 80;
+    }
+
+    floatingParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(floatingPosArray, 3));
+
+    const floatingParticlesMaterial = new THREE.PointsMaterial({
+      size: 0.1,
+      color: '#ffffff',
+      transparent: true,
+      opacity: 0.4,
+      blending: THREE.AdditiveBlending
+    });
+
+    const floatingParticlesMesh = new THREE.Points(floatingParticlesGeometry, floatingParticlesMaterial);
+    scene.add(floatingParticlesMesh);
 
     // Create geometric shapes
     const geometry1 = new THREE.TorusGeometry(10, 3, 16, 100);
@@ -803,27 +848,72 @@ const ThreeScene = () => {
     scene.add(rightIcosahedron);
 
     // Add corner geometric shapes
-    const leftTopSphereGeometry = new THREE.SphereGeometry(3, 16, 16);
+    const leftTopSphereGeometry = new THREE.SphereGeometry(4, 16, 16);
     const leftTopSphereMaterial = new THREE.MeshPhongMaterial({
       color: '#ffffff',
       wireframe: true,
       transparent: true,
-      opacity: 0.2
+      opacity: 0.3
     });
     const leftTopSphere = new THREE.Mesh(leftTopSphereGeometry, leftTopSphereMaterial);
-    leftTopSphere.position.set(-30, 15, -5);
+    leftTopSphere.position.set(-35, 18, -5);
     scene.add(leftTopSphere);
 
-    const rightBottomCubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+    const rightBottomCubeGeometry = new THREE.BoxGeometry(5, 5, 5);
     const rightBottomCubeMaterial = new THREE.MeshPhongMaterial({
+      color: '#667eea',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.3
+    });
+    const rightBottomCube = new THREE.Mesh(rightBottomCubeGeometry, rightBottomCubeMaterial);
+    rightBottomCube.position.set(35, -18, -8);
+    scene.add(rightBottomCube);
+
+    // Add more side geometric shapes for better visibility
+    const leftMiddleTorusGeometry = new THREE.TorusGeometry(8, 2, 12, 50);
+    const leftMiddleTorusMaterial = new THREE.MeshPhongMaterial({
+      color: '#764ba2',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.25
+    });
+    const leftMiddleTorus = new THREE.Mesh(leftMiddleTorusGeometry, leftMiddleTorusMaterial);
+    leftMiddleTorus.position.set(-40, 0, -12);
+    scene.add(leftMiddleTorus);
+
+    const rightTopIcosahedronGeometry = new THREE.IcosahedronGeometry(6, 0);
+    const rightTopIcosahedronMaterial = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.25
+    });
+    const rightTopIcosahedron = new THREE.Mesh(rightTopIcosahedronGeometry, rightTopIcosahedronMaterial);
+    rightTopIcosahedron.position.set(40, 12, -6);
+    scene.add(rightTopIcosahedron);
+
+    const leftBottomConeGeometry = new THREE.ConeGeometry(4, 8, 8);
+    const leftBottomConeMaterial = new THREE.MeshPhongMaterial({
       color: '#667eea',
       wireframe: true,
       transparent: true,
       opacity: 0.2
     });
-    const rightBottomCube = new THREE.Mesh(rightBottomCubeGeometry, rightBottomCubeMaterial);
-    rightBottomCube.position.set(30, -15, -8);
-    scene.add(rightBottomCube);
+    const leftBottomCone = new THREE.Mesh(leftBottomConeGeometry, leftBottomConeMaterial);
+    leftBottomCone.position.set(-45, -20, -10);
+    scene.add(leftBottomCone);
+
+    const rightMiddleOctahedronGeometry = new THREE.OctahedronGeometry(5);
+    const rightMiddleOctahedronMaterial = new THREE.MeshPhongMaterial({
+      color: '#764ba2',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.25
+    });
+    const rightMiddleOctahedron = new THREE.Mesh(rightMiddleOctahedronGeometry, rightMiddleOctahedronMaterial);
+    rightMiddleOctahedron.position.set(42, -8, -14);
+    scene.add(rightMiddleOctahedron);
 
     // Enhanced lighting
     const light1 = new THREE.PointLight('#667eea', 2, 100);
@@ -863,6 +953,10 @@ const ThreeScene = () => {
       sideParticlesMesh.rotation.y -= 0.001;
       sideParticlesMesh.rotation.z += 0.0005;
 
+      // Floating particles animation
+      floatingParticlesMesh.rotation.x += 0.0008;
+      floatingParticlesMesh.rotation.y += 0.0012;
+
       // Center geometric shapes
       torus.rotation.x += 0.008;
       torus.rotation.y += 0.008;
@@ -887,6 +981,20 @@ const ThreeScene = () => {
       rightBottomCube.rotation.x += 0.005;
       rightBottomCube.rotation.y += 0.004;
       rightBottomCube.rotation.z += 0.003;
+
+      // Additional side shapes
+      leftMiddleTorus.rotation.x += 0.003;
+      leftMiddleTorus.rotation.y += 0.002;
+
+      rightTopIcosahedron.rotation.x -= 0.002;
+      rightTopIcosahedron.rotation.y -= 0.003;
+
+      leftBottomCone.rotation.x += 0.004;
+      leftBottomCone.rotation.z += 0.002;
+
+      rightMiddleOctahedron.rotation.x += 0.003;
+      rightMiddleOctahedron.rotation.y += 0.002;
+      rightMiddleOctahedron.rotation.z -= 0.001;
 
       camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
       camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;

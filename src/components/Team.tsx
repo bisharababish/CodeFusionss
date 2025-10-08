@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { TeamMember } from '../types';
 import * as THREE from 'three';
 import bisharaImage from '../components/images/Team/Bishara.jpeg';
-import JudahImage from '../components/images/Team/Judah.jpg';
+import JudahImage from '../components/images/Team/JudahPic.jpg';
 import SalibaImage from '../components/images/Team/Saliba.jpeg';
 
 const breakpoints = {

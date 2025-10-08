@@ -323,6 +323,9 @@ const Navbar = () => {
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
               <Link to="/about" onClick={handleNavigation}>About</Link>
             </NavItem>
+            <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
+              <Link to="/teams" onClick={handleNavigation}>Teams</Link>
+            </NavItem>
           </NavList>
         </NavLinks>
 
@@ -358,7 +361,7 @@ const Navbar = () => {
               }}
             >
               <NavList>
-                {["Home", "Projects", "About"].map((item, index) => (
+                {["Home", "Projects", "About", "Teams"].map((item, index) => (
                   <NavItem
                     key={index}
                     whileHover="hover"

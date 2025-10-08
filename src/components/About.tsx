@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { motion, useInView } from 'framer-motion';
 import * as THREE from 'three';
@@ -87,15 +87,81 @@ const Subtitle = styled(motion.p)`
   ${media.mobile} { font-size: 1rem; }
 `;
 
-const KnowledgeGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2.5rem;
+const MasonryContainer = styled(motion.div)`
   margin-top: 3rem;
+  position: relative;
+  width: 100%;
+`;
 
-  ${media.laptop} { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-  ${media.tablet} { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-  ${media.mobile} { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
+const MasonryColumn = styled.div<{ columns: number }>`
+  display: grid;
+  grid-template-columns: repeat(${props => props.columns}, 1fr);
+  gap: 1rem;
+  align-items: start;
+  position: relative;
+
+  /* Connecting lines between columns */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(33.333% - 0.5px);
+    width: 1px;
+    background: linear-gradient(to bottom, 
+      transparent 0%, 
+      rgba(102, 126, 234, 0.3) 20%, 
+      rgba(102, 126, 234, 0.1) 50%, 
+      rgba(102, 126, 234, 0.3) 80%, 
+      transparent 100%
+    );
+    z-index: 0;
+    animation: connectPulse 3s ease-in-out infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(66.666% - 0.5px);
+    width: 1px;
+    background: linear-gradient(to bottom, 
+      transparent 0%, 
+      rgba(118, 75, 162, 0.3) 20%, 
+      rgba(118, 75, 162, 0.1) 50%, 
+      rgba(118, 75, 162, 0.3) 80%, 
+      transparent 100%
+    );
+    z-index: 0;
+    animation: connectPulse 3s ease-in-out infinite reverse;
+  }
+
+  @keyframes connectPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  ${media.laptop} { 
+    grid-template-columns: repeat(${props => Math.min(props.columns, 3)}, 1fr); 
+    gap: 0.8rem; 
+    
+    &::after {
+      display: none; /* Hide second line on smaller screens */
+    }
+  }
+  ${media.tablet} { 
+    grid-template-columns: repeat(${props => Math.min(props.columns, 2)}, 1fr); 
+    gap: 0.6rem; 
+    
+    &::before, &::after {
+      display: none; /* Hide connecting lines on mobile */
+    }
+  }
+  ${media.mobile} { 
+    grid-template-columns: 1fr; 
+    gap: 0.5rem; 
+  }
 `;
 
 const KnowledgeItem = styled(motion.div)`
@@ -112,6 +178,26 @@ const KnowledgeItem = styled(motion.div)`
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+
+  /* Connection glow effect */
+  &::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+    border-radius: 22px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 
   &:before {
     content: '';
@@ -129,10 +215,25 @@ const KnowledgeItem = styled(motion.div)`
     box-shadow: 
       0 30px 80px rgba(0, 0, 0, 0.15),
       0 15px 50px rgba(102, 126, 234, 0.25);
+    
+    &::after {
+      opacity: 1;
+    }
   }
 
-  ${media.tablet} { padding: 1.5rem; }
-  ${media.mobile} { padding: 1.25rem; }
+  /* Adjacent card connection effect */
+  &:hover + & {
+    transform: translateY(-4px);
+  }
+
+  ${media.tablet} { 
+    padding: 1.5rem; 
+    margin-bottom: 0.8rem; 
+  }
+  ${media.mobile} { 
+    padding: 1.25rem; 
+    margin-bottom: 0.6rem; 
+  }
 `;
 
 const KnowledgeTitle = styled.h3`
@@ -324,7 +425,35 @@ const ThreeScene = () => {
   return <ThreeBackground ref={mountRef} />;
 };
 
+// Custom hook for masonry layout
+const useMasonry = (items: any[], columns: number) => {
+  const [columnData, setColumnData] = useState<any[][]>([]);
+
+  useEffect(() => {
+    const distributeItems = () => {
+      const newColumns: any[][] = Array.from({ length: columns }, () => []);
+
+      items.forEach((item, index) => {
+        // Calculate which column has the least items or is shortest
+        const shortestColumnIndex = newColumns.reduce((shortest, column, index) => {
+          return column.length < newColumns[shortest].length ? index : shortest;
+        }, 0);
+
+        newColumns[shortestColumnIndex].push(item);
+      });
+
+      setColumnData(newColumns);
+    };
+
+    distributeItems();
+  }, [items, columns]);
+
+  return columnData;
+};
+
 const About: React.FC = () => {
+  const [columns, setColumns] = useState(3);
+
   const knowledgeAreas = [
     {
       name: 'Web & App Development',
@@ -383,6 +512,25 @@ const About: React.FC = () => {
     once: false,
     amount: 0.1,
   });
+
+  // Update columns based on screen size
+  useEffect(() => {
+    const updateColumns = () => {
+      if (window.innerWidth >= 1024) {
+        setColumns(3);
+      } else if (window.innerWidth >= 768) {
+        setColumns(2);
+      } else {
+        setColumns(1);
+      }
+    };
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
+  const columnData = useMasonry(knowledgeAreas, columns);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -449,38 +597,44 @@ const About: React.FC = () => {
             Whether you need a custom website, a complex web application, or an innovative AI solution,
             we have the skills and knowledge to bring your ideas to life.
           </Subtitle>
-          <KnowledgeGrid
+          <MasonryContainer
             ref={ref}
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
           >
-            {knowledgeAreas.map((area, index) => (
-              <KnowledgeItem
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-              >
-                <KnowledgeTitle>
-                  <i className={area.icon}></i> {area.name}
-                </KnowledgeTitle>
-                <TechnologiesList>
-                  {area.technologies.map((tech, techIndex) => (
-                    <TechItem
-                      key={techIndex}
-                      variants={techItemVariants}
-                      initial="hidden"
-                      animate={isInView ? 'visible' : 'hidden'}
-                      transition={{ delay: techIndex * 0.05 }}
+            <MasonryColumn columns={columns}>
+              {columnData.map((column, columnIndex) => (
+                <div key={columnIndex} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {column.map((area, itemIndex) => (
+                    <KnowledgeItem
+                      key={`${columnIndex}-${itemIndex}`}
+                      variants={itemVariants}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
                     >
-                      {tech}
-                    </TechItem>
+                      <KnowledgeTitle>
+                        <i className={area.icon}></i> {area.name}
+                      </KnowledgeTitle>
+                      <TechnologiesList>
+                        {area.technologies.map((tech: string, techIndex: number) => (
+                          <TechItem
+                            key={techIndex}
+                            variants={techItemVariants}
+                            initial="hidden"
+                            animate={isInView ? 'visible' : 'hidden'}
+                            transition={{ delay: techIndex * 0.05 }}
+                          >
+                            {tech}
+                          </TechItem>
+                        ))}
+                      </TechnologiesList>
+                    </KnowledgeItem>
                   ))}
-                </TechnologiesList>
-              </KnowledgeItem>
-            ))}
-          </KnowledgeGrid>
+                </div>
+              ))}
+            </MasonryColumn>
+          </MasonryContainer>
         </AboutText>
       </AboutContent>
     </AboutSection>

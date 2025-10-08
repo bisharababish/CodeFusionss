@@ -38,6 +38,26 @@ const ProjectsSection = styled(motion.section)`
   overflow: hidden;
   min-height: 100vh;
   display: flex;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+    animation: backgroundFloat 20s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  @keyframes backgroundFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-20px) rotate(1deg); }
+    66% { transform: translateY(10px) rotate(-1deg); }
+  }
 `;
 
 const ThreeBackground = styled.div`
@@ -47,7 +67,7 @@ const ThreeBackground = styled.div`
   width: 100%;
   height: 100%;
   z-index: 0;
-  opacity: 0.3;
+  opacity: 0.6;
 `;
 
 const LeftSidebar = styled(motion.div)`
@@ -194,41 +214,44 @@ const ProjectSlide = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
+  perspective: 1200px;
+  transform-style: preserve-3d;
 `;
 
 const ProjectCard = styled(motion.div)`
   background: white;
-  border-radius: 30px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
-  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
-  width: 85%;
+  width: 75%;
   max-width: 650px;
   height: 75%;
-  max-height: 550px;
+  max-height: 600px;
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transform-style: preserve-3d;
 
   &:hover {
-    transform: translateY(-10px) scale(1.01);
-    box-shadow: 0 30px 90px rgba(102, 126, 234, 0.25);
+    transform: translateY(-8px) rotateX(2deg);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
   }
 
   ${media.tablet} {
-    width: 90%;
-    max-width: 500px;
+    width: 80%;
+    max-width: 550px;
     height: 70%;
-    max-height: 450px;
+    max-height: 500px;
   }
 
   ${media.mobile} {
-    width: 95%;
+    width: 85%;
     max-width: none;
     height: 65%;
-    max-height: 400px;
+    max-height: 450px;
   }
 `;
 
@@ -238,16 +261,18 @@ const ProjectImage = styled(motion.div)`
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  flex-shrink: 0;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.4s ease;
+    object-position: center;
   }
 
   ${ProjectCard}:hover & img {
-    transform: scale(1.1) rotate(2deg);
+    transform: scale(1.05);
   }
 `;
 
@@ -257,7 +282,7 @@ const ImageOverlay = styled(motion.div)`
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,52 +290,61 @@ const ImageOverlay = styled(motion.div)`
   transition: opacity 0.4s ease;
 
   ${ProjectCard}:hover & {
-    opacity: 1;
+    opacity: 0;
   }
 `;
 
 const ProjectInfo = styled.div`
-  padding: 2.5rem;
-  flex: 1;
+  padding: 1.5rem;
+  height: 50%;
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(15px);
-  gap: 1.5rem;
+  background: white;
+  gap: 1rem;
+  flex-shrink: 0;
+  overflow-y: auto;
 
   ${media.tablet} { 
-    padding: 2rem;
-    gap: 1.2rem;
+    padding: 1.2rem;
+    gap: 0.8rem;
   }
 
   ${media.mobile} { 
-    padding: 1.8rem;
-    gap: 1rem;
+    padding: 1rem;
+    gap: 0.6rem;
   }
 `;
 
 const ProjectTitle = styled.h3`
-  font-size: 2.2rem;
+  font-size: 1.5rem;
   color: #2d3748;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 
   ${media.tablet} { 
-    font-size: 1.8rem; 
+    font-size: 1.3rem; 
   }
 
   ${media.mobile} { 
-    font-size: 1.6rem; 
+    font-size: 1.2rem; 
   }
 `;
 
 const ProjectDescription = styled.p`
   color: #718096;
-  line-height: 1.7;
+  line-height: 1.5;
   flex: 1;
-  font-size: 1.05rem;
+  font-size: 0.9rem;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
 
 const TechTags = styled.div`
@@ -321,27 +355,24 @@ const TechTags = styled.div`
 `;
 
 const TechTag = styled(motion.span)`
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-  color: #667eea;
-  padding: 0.5rem 1.2rem;
-  border-radius: 25px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: 2px solid rgba(102, 126, 234, 0.2);
+  background: #667eea;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
 
   &:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    background: #5a6fd8;
+    transform: translateY(-2px);
   }
 `;
 
 const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
+  margin-top: auto;
 
   ${media.mobile} { 
     flex-direction: column; 
@@ -372,21 +403,20 @@ const CodeLink = styled(motion.a)`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white !important;
   border: none;
-  padding: 1rem 2rem;
-  border-radius: 15px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
   font-weight: 600;
   text-decoration: none;
   flex: 1;
   text-align: center;
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 
   &:hover {
     background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
     color: white !important;
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
   }
 `;
 
@@ -405,32 +435,53 @@ const SlideControls = styled.div`
 `;
 
 const ControlButton = styled(motion.button)`
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.9);
-  color: #667eea;
-  font-size: 1.2rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-size: 1.4rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+  }
 
   &:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: scale(1.05) rotate(2deg);
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.3;
     cursor: not-allowed;
-    transform: none;
+    transform: scale(0.9);
   }
 `;
 
@@ -438,6 +489,23 @@ const SlideIndicator = styled.div`
   display: flex;
   gap: 0.5rem;
   align-items: center;
+`;
+
+const ProgressBar = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+  border-radius: 3px;
+  transition: width 0.05s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+  animation: progressGlow 2s ease-in-out infinite alternate;
+
+  @keyframes progressGlow {
+    0% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.3); }
+    100% { box-shadow: 0 0 15px rgba(102, 126, 234, 0.7); }
+  }
 `;
 
 interface IndicatorDotProps {
@@ -623,60 +691,154 @@ const ThreeScene = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     (currentMount as HTMLDivElement).appendChild(renderer.domElement);
 
-    // Create particles
+    // Create main particles
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 600;
+    const particlesCount = 800;
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 80;
+      posArray[i] = (Math.random() - 0.5) * 100;
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.1,
+      size: 0.2,
       color: '#667eea',
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.8,
       blending: THREE.AdditiveBlending
     });
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
 
+    // Create side particles for left and right areas
+    const sideParticlesGeometry = new THREE.BufferGeometry();
+    const sideParticlesCount = 400;
+    const sidePosArray = new Float32Array(sideParticlesCount * 3);
+
+    for (let i = 0; i < sideParticlesCount * 3; i += 3) {
+      // Left side particles
+      if (i % 6 === 0) {
+        sidePosArray[i] = (Math.random() - 1.2) * 60; // Left side
+        sidePosArray[i + 1] = (Math.random() - 0.5) * 80;
+        sidePosArray[i + 2] = (Math.random() - 0.5) * 60;
+      } else {
+        // Right side particles
+        sidePosArray[i] = (Math.random() + 0.2) * 60; // Right side
+        sidePosArray[i + 1] = (Math.random() - 0.5) * 80;
+        sidePosArray[i + 2] = (Math.random() - 0.5) * 60;
+      }
+    }
+
+    sideParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(sidePosArray, 3));
+
+    const sideParticlesMaterial = new THREE.PointsMaterial({
+      size: 0.15,
+      color: '#764ba2',
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending
+    });
+
+    const sideParticlesMesh = new THREE.Points(sideParticlesGeometry, sideParticlesMaterial);
+    scene.add(sideParticlesMesh);
+
     // Create geometric shapes
-    const geometry1 = new THREE.TorusGeometry(8, 2, 16, 100);
+    const geometry1 = new THREE.TorusGeometry(10, 3, 16, 100);
     const material1 = new THREE.MeshPhongMaterial({
+      color: '#667eea',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.4
+    });
+    const torus = new THREE.Mesh(geometry1, material1);
+    scene.add(torus);
+
+    const geometry2 = new THREE.IcosahedronGeometry(8, 0);
+    const material2 = new THREE.MeshPhongMaterial({
+      color: '#764ba2',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.4
+    });
+    const icosahedron = new THREE.Mesh(geometry2, material2);
+    icosahedron.position.set(-20, 10, -10);
+    scene.add(icosahedron);
+
+    // Add more geometric shapes
+    const geometry3 = new THREE.SphereGeometry(5, 32, 32);
+    const material3 = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.3
+    });
+    const sphere = new THREE.Mesh(geometry3, material3);
+    sphere.position.set(15, -10, -5);
+    scene.add(sphere);
+
+    // Add side geometric shapes
+    const leftTorusGeometry = new THREE.TorusGeometry(6, 2, 12, 50);
+    const leftTorusMaterial = new THREE.MeshPhongMaterial({
+      color: '#667eea',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.3
+    });
+    const leftTorus = new THREE.Mesh(leftTorusGeometry, leftTorusMaterial);
+    leftTorus.position.set(-25, 5, -8);
+    scene.add(leftTorus);
+
+    const rightIcosahedronGeometry = new THREE.IcosahedronGeometry(4, 0);
+    const rightIcosahedronMaterial = new THREE.MeshPhongMaterial({
+      color: '#764ba2',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.3
+    });
+    const rightIcosahedron = new THREE.Mesh(rightIcosahedronGeometry, rightIcosahedronMaterial);
+    rightIcosahedron.position.set(25, -5, -10);
+    scene.add(rightIcosahedron);
+
+    // Add corner geometric shapes
+    const leftTopSphereGeometry = new THREE.SphereGeometry(3, 16, 16);
+    const leftTopSphereMaterial = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.2
+    });
+    const leftTopSphere = new THREE.Mesh(leftTopSphereGeometry, leftTopSphereMaterial);
+    leftTopSphere.position.set(-30, 15, -5);
+    scene.add(leftTopSphere);
+
+    const rightBottomCubeGeometry = new THREE.BoxGeometry(4, 4, 4);
+    const rightBottomCubeMaterial = new THREE.MeshPhongMaterial({
       color: '#667eea',
       wireframe: true,
       transparent: true,
       opacity: 0.2
     });
-    const torus = new THREE.Mesh(geometry1, material1);
-    scene.add(torus);
+    const rightBottomCube = new THREE.Mesh(rightBottomCubeGeometry, rightBottomCubeMaterial);
+    rightBottomCube.position.set(30, -15, -8);
+    scene.add(rightBottomCube);
 
-    const geometry2 = new THREE.IcosahedronGeometry(6, 0);
-    const material2 = new THREE.MeshPhongMaterial({
-      color: '#764ba2',
-      wireframe: true,
-      transparent: true,
-      opacity: 0.2
-    });
-    const icosahedron = new THREE.Mesh(geometry2, material2);
-    icosahedron.position.set(-15, 8, -8);
-    scene.add(icosahedron);
-
-    // Lighting
-    const light1 = new THREE.PointLight('#667eea', 1.5, 100);
-    light1.position.set(15, 15, 15);
+    // Enhanced lighting
+    const light1 = new THREE.PointLight('#667eea', 2, 100);
+    light1.position.set(20, 20, 20);
     scene.add(light1);
 
-    const light2 = new THREE.PointLight('#764ba2', 1.5, 100);
-    light2.position.set(-15, -15, -15);
+    const light2 = new THREE.PointLight('#764ba2', 2, 100);
+    light2.position.set(-20, -20, -20);
     scene.add(light2);
 
-    camera.position.z = 40;
+    const light3 = new THREE.PointLight('#ffffff', 1, 100);
+    light3.position.set(0, 0, 30);
+    scene.add(light3);
+
+    camera.position.z = 45;
 
     // Mouse movement
     let mouseX = 0;
@@ -689,21 +851,45 @@ const ThreeScene = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Animation
+    // Enhanced animation
     const animate = () => {
       requestAnimationFrame(animate);
 
-      particlesMesh.rotation.y += 0.0008;
-      particlesMesh.rotation.x += 0.0004;
+      // Main particles animation
+      particlesMesh.rotation.y += 0.002;
+      particlesMesh.rotation.x += 0.001;
 
-      torus.rotation.x += 0.003;
-      torus.rotation.y += 0.003;
+      // Side particles animation
+      sideParticlesMesh.rotation.y -= 0.001;
+      sideParticlesMesh.rotation.z += 0.0005;
 
-      icosahedron.rotation.x -= 0.002;
-      icosahedron.rotation.y -= 0.002;
+      // Center geometric shapes
+      torus.rotation.x += 0.008;
+      torus.rotation.y += 0.008;
 
-      camera.position.x += (mouseX * 3 - camera.position.x) * 0.03;
-      camera.position.y += (mouseY * 3 - camera.position.y) * 0.03;
+      icosahedron.rotation.x -= 0.005;
+      icosahedron.rotation.y -= 0.005;
+
+      sphere.rotation.x += 0.003;
+      sphere.rotation.y += 0.003;
+
+      // Side geometric shapes
+      leftTorus.rotation.x += 0.006;
+      leftTorus.rotation.y += 0.004;
+
+      rightIcosahedron.rotation.x -= 0.004;
+      rightIcosahedron.rotation.y -= 0.003;
+
+      // Corner shapes
+      leftTopSphere.rotation.x += 0.002;
+      leftTopSphere.rotation.y += 0.003;
+
+      rightBottomCube.rotation.x += 0.005;
+      rightBottomCube.rotation.y += 0.004;
+      rightBottomCube.rotation.z += 0.003;
+
+      camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+      camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
       camera.lookAt(scene.position);
 
       renderer.render(scene, camera);
@@ -737,16 +923,44 @@ const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('web');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [slideProgress, setSlideProgress] = useState(0);
 
   const handleCategoryChange = (categoryId: string) => {
     setIsLoading(true);
     setActiveCategory(categoryId);
     setCurrentSlide(0);
+    setSlideProgress(0);
     setTimeout(() => setIsLoading(false), 500);
   };
 
   // Show projects based on selected category
   const projectsToDisplay = projectCategories.find(cat => cat.id === activeCategory)?.projects || allProjects;
+
+  // Auto-slide functionality with enhanced progress indicator
+  useEffect(() => {
+    if (projectsToDisplay.length <= 1) return;
+
+    setSlideProgress(0);
+
+    const progressInterval = setInterval(() => {
+      setSlideProgress((prev) => {
+        if (prev >= 100) {
+          return 0;
+        }
+        return prev + (100 / (6000 / 30)); // Update every 30ms for smoother progress
+      });
+    }, 30);
+
+    const slideInterval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % projectsToDisplay.length);
+      setSlideProgress(0);
+    }, 6000); // Increased to 6 seconds for better viewing time
+
+    return () => {
+      clearInterval(progressInterval);
+      clearInterval(slideInterval);
+    };
+  }, [projectsToDisplay.length, currentSlide]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % projectsToDisplay.length);
@@ -762,35 +976,51 @@ const Projects = () => {
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
+      x: direction > 0 ? 1200 : -1200,
       opacity: 0,
-      scale: 0.8
+      scale: 0.8,
+      rotateY: direction > 0 ? 120 : -120,
+      rotateX: direction > 0 ? 15 : -15,
+      filter: "blur(10px)",
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        duration: 0.8
+      }
     }),
     center: {
       zIndex: 1,
       x: 0,
       opacity: 1,
-      scale: 1
+      scale: 1,
+      rotateY: 0,
+      rotateX: 0,
+      filter: "blur(0px)",
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        duration: 0.8
+      }
     },
     exit: (direction: number) => ({
       zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+      x: direction < 0 ? 1200 : -1200,
       opacity: 0,
-      scale: 0.8
+      scale: 0.8,
+      rotateY: direction < 0 ? 120 : -120,
+      rotateX: direction < 0 ? 15 : -15,
+      filter: "blur(10px)",
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        duration: 0.6
+      }
     })
   };
 
-  const floatingVariants = {
-    float: {
-      y: [0, -20, 0],
-      rotate: [0, 5, 0],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  };
 
   return (
     <ProjectsSection id="projects">
@@ -887,16 +1117,16 @@ const Projects = () => {
                     animate="center"
                     exit="exit"
                     transition={{
-                      x: { type: "spring", stiffness: 300, damping: 30 },
-                      opacity: { duration: 0.2 }
+                      x: { type: "spring", stiffness: 200, damping: 25, duration: 0.8 },
+                      opacity: { duration: 0.6, ease: "easeInOut" },
+                      scale: { duration: 0.6, ease: "easeInOut" },
+                      rotateY: { duration: 0.8, ease: "easeInOut" }
                     }}
                     style={{ display: index === currentSlide ? 'flex' : 'none' }}
                   >
                     <ProjectCard
-                      variants={floatingVariants}
-                      animate="float"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.4 }}
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.3 }}
                     >
                       <ProjectImage>
                         {project.image ? (
@@ -904,9 +1134,8 @@ const Projects = () => {
                             <img src={project.image} alt={project.title} loading="lazy" />
                             <ImageOverlay
                               initial={{ opacity: 0 }}
-                              whileHover={{ opacity: 1 }}
+                              whileHover={{ opacity: 0 }}
                             >
-                              View Project
                             </ImageOverlay>
                           </>
                         ) : (
@@ -984,13 +1213,17 @@ const Projects = () => {
 
                 <SlideIndicator>
                   {projectsToDisplay.map((_, index) => (
-                    <IndicatorDot
-                      key={index}
-                      $active={index === currentSlide}
-                      onClick={() => goToSlide(index)}
-                      whileHover={{ scale: 1.2 }}
-                      whileTap={{ scale: 0.9 }}
-                    />
+                    <div key={index} style={{ position: 'relative' }}>
+                      <IndicatorDot
+                        $active={index === currentSlide}
+                        onClick={() => goToSlide(index)}
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}
+                      />
+                      {index === currentSlide && projectsToDisplay.length > 1 && (
+                        <ProgressBar style={{ width: `${slideProgress}%` }} />
+                      )}
+                    </div>
                   ))}
                 </SlideIndicator>
 

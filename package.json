@@ -38,7 +38,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": ".",
+  "homepage": "https://codefusion.me",
   "eslintConfig": {
     "extends": [
       "react-app",

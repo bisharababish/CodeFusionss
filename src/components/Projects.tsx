@@ -4,16 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 
 // Import images
-import BlogImage from '../components/images/projectspics/web/blog.png';
-import MRIImage from '../components/images/projectspics/web/mri.png';
-import SnakeImage from '../components/images/projectspics/games/snake.png';
-import TravelImage from '../components/images/projectspics/web/travel.png';
-import DistrubitionImage from '../components/images/projectspics/AIML/Distribution.png';
-import DungeonGame from '../components/images/projectspics/games/dungeon.jpeg';
-import TreasureHunter from '../components/images/projectspics/games/treasure.jpeg';
-import SpaceExplorer from '../components/images/projectspics/games/space.jpeg';
-import FruitBasketFrenzy from '../components/images/projectspics/games/fruit.jpeg';
-import ReleaseYear from '../components/images/projectspics/AIML/ReleaseYear.png';
+import BlogImage from './images/projectspics/web/blog.png';
+import MRIImage from './images/projectspics/web/mri.png';
+import SnakeImage from './images/projectspics/games/snake.png';
+import TravelImage from './images/projectspics/web/travel.png';
+import DistrubitionImage from './images/projectspics/AIML/Distribution.png';
+import DungeonGame from './images/projectspics/games/dungeon.jpeg';
+import TreasureHunter from './images/projectspics/games/treasure.jpeg';
+import SpaceExplorer from './images/projectspics/games/space.jpeg';
+import FruitBasketFrenzy from './images/projectspics/games/fruit.jpeg';
+import ReleaseYear from './images/projectspics/AIML/ReleaseYear.png';
 
 const breakpoints = {
   smallMobile: '320px',
@@ -32,16 +32,12 @@ const media = {
 };
 
 const ProjectsSection = styled(motion.section)`
-  padding: 8rem 0 0 0;
+  padding: 0;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
   overflow: hidden;
   min-height: 100vh;
-
-  ${media.laptop} { padding: 6rem 0 0 0; }
-  ${media.tablet} { padding: 5rem 0 0 0; }
-  ${media.largeMobile} { padding: 4rem 0 0 0; }
-  ${media.mobile} { padding: 3rem 0.5rem 0 0; }
+  display: flex;
 `;
 
 const ThreeBackground = styled.div`
@@ -51,135 +47,194 @@ const ThreeBackground = styled.div`
   width: 100%;
   height: 100%;
   z-index: 0;
-  opacity: 0.6;
+  opacity: 0.3;
 `;
 
-const ContentWrapper = styled.div`
+const LeftSidebar = styled(motion.div)`
+  width: 300px;
+  background: transparent;
+  backdrop-filter: none;
+  border-right: none;
+  padding: 0;
   position: relative;
-  z-index: 1;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-
-  ${media.tablet} { padding: 0 1.5rem; }
-  ${media.mobile} { padding: 0 1rem; }
-`;
-
-const SectionHeader = styled(motion.div)`
-  text-align: center;
-  margin-bottom: 4rem;
-
-  ${media.mobile} { margin-bottom: 3rem; }
-`;
-
-const Title = styled(motion.h2)`
-  font-size: 4rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  margin-bottom: 1rem;
-  letter-spacing: -2px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  ${media.tablet} { font-size: 3rem; }
-  ${media.mobile} { font-size: 2.5rem; }
-`;
-
-const Subtitle = styled(motion.p)`
-  font-size: 1.3rem;
-  color: rgba(255, 255, 255, 0.9);
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.8;
-  font-weight: 300;
-
-  ${media.tablet} { font-size: 1.1rem; }
-  ${media.mobile} { font-size: 1rem; }
-`;
-
-const CategoryTabs = styled(motion.div)`
+  z-index: 10;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 4rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
-  padding: 1rem;
-  border-radius: 50px;
-  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2);
-  max-width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid rgba(102, 126, 234, 0.1);
-  backdrop-filter: blur(10px);
+  box-shadow: none;
+  min-height: 100vh;
+
+  ${media.tablet} {
+    width: 280px;
+  }
 
   ${media.mobile} {
-    gap: 0.5rem;
-    padding: 0.8rem;
-    margin-bottom: 3rem;
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 2.5rem 0 1.5rem 0;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: none;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    justify-content: flex-start;
   }
 `;
 
-const CategoryTab = styled(motion.button)`
-  padding: 0.8rem 2rem;
-  border-radius: 50px;
-  border: ${(props: any) => props.$active ? 'none' : '1px solid rgba(102, 126, 234, 0.2)'};
-  background: ${(props: any) => props.$active ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.8)'};
-  color: ${(props: any) => props.$active ? 'white' : '#4a5568'};
+
+const NavigationList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  padding: 0 1.5rem;
+
+  ${media.mobile} {
+    flex-direction: row;
+    padding: 0 1rem;
+    gap: 0.8rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+`;
+
+interface NavItemProps {
+  $active: boolean;
+}
+
+const NavItem = styled(motion.button) <NavItemProps>`
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  border: none;
+  background: ${(props) => props.$active
+    ? 'rgba(102, 126, 234, 0.2)'
+    : 'transparent'};
+  color: ${(props) => props.$active ? 'white' : 'rgba(255, 255, 255, 0.8)'};
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1rem;
   position: relative;
-  overflow: hidden;
-  box-shadow: ${(props: any) => props.$active ? '0 4px 15px rgba(102, 126, 234, 0.4)' : '0 2px 8px rgba(102, 126, 234, 0.1)'};
+  text-align: left;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid ${(props) => props.$active
+    ? 'rgba(255, 255, 255, 0.3)'
+    : 'transparent'};
 
   &:hover {
-    background: ${(props: any) => props.$active ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(102, 126, 234, 0.1)'};
-    transform: translateY(-2px);
-    box-shadow: ${(props: any) => props.$active ? '0 6px 20px rgba(102, 126, 234, 0.5)' : '0 4px 15px rgba(102, 126, 234, 0.2)'};
-    border-color: ${(props: any) => props.$active ? 'none' : 'rgba(102, 126, 234, 0.3)'};
+    background: ${(props) => props.$active
+    ? 'rgba(102, 126, 234, 0.3)'
+    : 'rgba(255, 255, 255, 0.1)'};
+    color: white;
+    transform: translateX(8px);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
   ${media.mobile} {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: fit-content;
   }
 `;
 
-const ProjectsGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 2.5rem;
-  margin-bottom: 4rem;
+const MainContent = styled.div`
+  flex: 1;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
-  ${media.laptop} { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
-  ${media.tablet} { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
-  ${media.mobile} { grid-template-columns: 1fr; gap: 1.5rem; }
+  ${media.mobile} {
+    margin-top: 140px;
+    padding-top: 1rem;
+  }
+`;
+
+const SlideshowContainer = styled(motion.div)`
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  overflow: hidden;
+  min-height: calc(100vh - 64px);
+
+  ${media.tablet} {
+    padding: 2rem 1.5rem;
+  }
+
+  ${media.mobile} {
+    padding: 1.5rem 1rem;
+    min-height: calc(100vh - 200px);
+  }
+`;
+
+const ProjectSlide = styled(motion.div)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ProjectCard = styled(motion.div)`
   background: white;
-  border-radius: 24px;
+  border-radius: 30px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
-  height: 100%;
+  width: 85%;
+  max-width: 650px;
+  height: 75%;
+  max-height: 550px;
   display: flex;
   flex-direction: column;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   &:hover {
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: 0 30px 80px rgba(102, 126, 234, 0.3);
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: 0 30px 90px rgba(102, 126, 234, 0.25);
+  }
+
+  ${media.tablet} {
+    width: 90%;
+    max-width: 500px;
+    height: 70%;
+    max-height: 450px;
+  }
+
+  ${media.mobile} {
+    width: 95%;
+    max-width: none;
+    height: 65%;
+    max-height: 400px;
   }
 `;
 
 const ProjectImage = styled(motion.div)`
   width: 100%;
-  height: 240px;
+  height: 50%;
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -188,7 +243,7 @@ const ProjectImage = styled(motion.div)`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   ${ProjectCard}:hover & img {
@@ -202,15 +257,12 @@ const ImageOverlay = styled(motion.div)`
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 
   ${ProjectCard}:hover & {
     opacity: 1;
@@ -218,53 +270,72 @@ const ImageOverlay = styled(motion.div)`
 `;
 
 const ProjectInfo = styled.div`
-  padding: 2rem;
+  padding: 2.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  gap: 1.5rem;
 
-  ${media.mobile} { padding: 1.5rem; }
+  ${media.tablet} { 
+    padding: 2rem;
+    gap: 1.2rem;
+  }
+
+  ${media.mobile} { 
+    padding: 1.8rem;
+    gap: 1rem;
+  }
 `;
 
 const ProjectTitle = styled.h3`
-  font-size: 1.6rem;
+  font-size: 2.2rem;
   color: #2d3748;
-  margin-bottom: 1rem;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.2;
+  margin: 0;
 
-  ${media.mobile} { font-size: 1.4rem; }
+  ${media.tablet} { 
+    font-size: 1.8rem; 
+  }
+
+  ${media.mobile} { 
+    font-size: 1.6rem; 
+  }
 `;
 
 const ProjectDescription = styled.p`
   color: #718096;
   line-height: 1.7;
-  margin-bottom: 1.5rem;
   flex: 1;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
+  margin: 0;
 `;
 
 const TechTags = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 1.5rem;
+  gap: 0.8rem;
+  margin: 0;
 `;
 
 const TechTag = styled(motion.span)`
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
   color: #667eea;
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
   font-weight: 600;
-  border: 1.5px solid rgba(102, 126, 234, 0.2);
+  border: 2px solid rgba(102, 126, 234, 0.2);
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 
   &:hover {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
   }
 `;
 
@@ -272,45 +343,119 @@ const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
 
-  ${media.mobile} { flex-direction: column; gap: 0.8rem; }
+  ${media.mobile} { 
+    flex-direction: column; 
+    gap: 0.8rem; 
+  }
 `;
 
 const LiveLink = styled(motion.a)`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 12px;
+  padding: 1rem 2rem;
+  border-radius: 15px;
   font-weight: 600;
   text-decoration: none;
   flex: 1;
   text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  backdrop-filter: blur(10px);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
   }
 `;
 
 const CodeLink = styled(motion.a)`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: 2px solid #667eea;
-  padding: 0.8rem 1.5rem;
-  border-radius: 12px;
+  color: white !important;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 15px;
   font-weight: 600;
   text-decoration: none;
   flex: 1;
   text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  backdrop-filter: blur(10px);
 
   &:hover {
     background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    color: white !important;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+  }
+`;
+
+const SlideControls = styled.div`
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+  z-index: 10;
+
+  ${media.mobile} {
+    bottom: 1rem;
+  }
+`;
+
+const ControlButton = styled(motion.button)`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #667eea;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+
+  &:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+`;
+
+const SlideIndicator = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+`;
+
+interface IndicatorDotProps {
+  $active: boolean;
+}
+
+const IndicatorDot = styled(motion.div) <IndicatorDotProps>`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: ${(props) => props.$active
+    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+    : 'rgba(255, 255, 255, 0.5)'};
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
   }
 `;
 
@@ -325,8 +470,8 @@ const Spinner = styled(motion.div)`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 4px solid rgba(102, 126, 234, 0.2);
-  border-top-color: #667eea;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
 `;
 
 const allProjects = [
@@ -438,28 +583,27 @@ const allProjects = [
 
 const projectCategories = [
   {
-    id: 'all',
-    name: 'All Projects',
-    projects: allProjects
-  },
-  {
     id: 'web',
     name: 'Web Development',
+    icon: '💻',
     projects: allProjects.filter(project => project.category === 'web')
   },
   {
     id: 'ai',
-    name: 'AI/ML Projects',
+    name: 'AI/ML',
+    icon: '🤖',
     projects: allProjects.filter(project => project.category === 'ai')
   },
   {
     id: 'games',
     name: 'Games',
+    icon: '🎮',
     projects: allProjects.filter(project => project.category === 'games')
   },
   {
     id: 'upcoming',
     name: 'Upcoming',
+    icon: '⏳',
     projects: allProjects.filter(project => project.category === 'upcoming')
   }
 ];
@@ -481,20 +625,20 @@ const ThreeScene = () => {
 
     // Create particles
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 800;
+    const particlesCount = 600;
     const posArray = new Float32Array(particlesCount * 3);
 
     for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 100;
+      posArray[i] = (Math.random() - 0.5) * 80;
     }
 
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.15,
+      size: 0.1,
       color: '#667eea',
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.6,
       blending: THREE.AdditiveBlending
     });
 
@@ -502,37 +646,37 @@ const ThreeScene = () => {
     scene.add(particlesMesh);
 
     // Create geometric shapes
-    const geometry1 = new THREE.TorusGeometry(10, 3, 16, 100);
+    const geometry1 = new THREE.TorusGeometry(8, 2, 16, 100);
     const material1 = new THREE.MeshPhongMaterial({
       color: '#667eea',
       wireframe: true,
       transparent: true,
-      opacity: 0.3
+      opacity: 0.2
     });
     const torus = new THREE.Mesh(geometry1, material1);
     scene.add(torus);
 
-    const geometry2 = new THREE.IcosahedronGeometry(8, 0);
+    const geometry2 = new THREE.IcosahedronGeometry(6, 0);
     const material2 = new THREE.MeshPhongMaterial({
       color: '#764ba2',
       wireframe: true,
       transparent: true,
-      opacity: 0.3
+      opacity: 0.2
     });
     const icosahedron = new THREE.Mesh(geometry2, material2);
-    icosahedron.position.set(-20, 10, -10);
+    icosahedron.position.set(-15, 8, -8);
     scene.add(icosahedron);
 
     // Lighting
-    const light1 = new THREE.PointLight('#667eea', 2, 100);
-    light1.position.set(20, 20, 20);
+    const light1 = new THREE.PointLight('#667eea', 1.5, 100);
+    light1.position.set(15, 15, 15);
     scene.add(light1);
 
-    const light2 = new THREE.PointLight('#764ba2', 2, 100);
-    light2.position.set(-20, -20, -20);
+    const light2 = new THREE.PointLight('#764ba2', 1.5, 100);
+    light2.position.set(-15, -15, -15);
     scene.add(light2);
 
-    camera.position.z = 50;
+    camera.position.z = 40;
 
     // Mouse movement
     let mouseX = 0;
@@ -549,17 +693,17 @@ const ThreeScene = () => {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      particlesMesh.rotation.y += 0.001;
-      particlesMesh.rotation.x += 0.0005;
+      particlesMesh.rotation.y += 0.0008;
+      particlesMesh.rotation.x += 0.0004;
 
-      torus.rotation.x += 0.005;
-      torus.rotation.y += 0.005;
+      torus.rotation.x += 0.003;
+      torus.rotation.y += 0.003;
 
-      icosahedron.rotation.x -= 0.003;
-      icosahedron.rotation.y -= 0.003;
+      icosahedron.rotation.x -= 0.002;
+      icosahedron.rotation.y -= 0.002;
 
-      camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
-      camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
+      camera.position.x += (mouseX * 3 - camera.position.x) * 0.03;
+      camera.position.y += (mouseY * 3 - camera.position.y) * 0.03;
       camera.lookAt(scene.position);
 
       renderer.render(scene, camera);
@@ -590,38 +734,60 @@ const ThreeScene = () => {
 };
 
 const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState('web');
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleCategoryChange = (categoryId: React.SetStateAction<string>) => {
+  const handleCategoryChange = (categoryId: string) => {
     setIsLoading(true);
     setActiveCategory(categoryId);
-    setTimeout(() => setIsLoading(false), 400);
+    setCurrentSlide(0);
+    setTimeout(() => setIsLoading(false), 500);
   };
 
-  const currentCategory = projectCategories.find(cat => cat.id === activeCategory) || projectCategories[0];
-  const projectsToDisplay = currentCategory.projects;
+  // Show projects based on selected category
+  const projectsToDisplay = projectCategories.find(cat => cat.id === activeCategory)?.projects || allProjects;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % projectsToDisplay.length);
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.9 },
-    visible: {
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + projectsToDisplay.length) % projectsToDisplay.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0,
+      scale: 0.8
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
       opacity: 1,
-      y: 0,
-      scale: 1,
+      scale: 1
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0,
+      scale: 0.8
+    })
+  };
+
+  const floatingVariants = {
+    float: {
+      y: [0, -20, 0],
+      rotate: [0, 5, 0],
       transition: {
-        duration: 0.6,
-        ease: [0.6, -0.05, 0.01, 0.99]
+        duration: 6,
+        repeat: Infinity,
+        ease: "easeInOut"
       }
     }
   };
@@ -630,141 +796,217 @@ const Projects = () => {
     <ProjectsSection id="projects">
       <ThreeScene />
 
-      <ContentWrapper>
-        <SectionHeader>
-          <Title
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }}
-          >
-            Featured Projects
-          </Title>
-          <Subtitle
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.6, -0.05, 0.01, 0.99] }}
-          >
-            Explore a collection of innovative solutions across various domains
-          </Subtitle>
-        </SectionHeader>
-
-        <CategoryTabs
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          {projectCategories.map((category) => (
-            <CategoryTab
+      <LeftSidebar
+        initial={{ x: -300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }}
+      >
+        <NavigationList>
+          {projectCategories.map((category, index) => (
+            <NavItem
               key={category.id}
               onClick={() => handleCategoryChange(category.id)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              data-active={activeCategory === category.id ? "true" : undefined}
+              $active={activeCategory === category.id}
+              initial={{ x: -80, opacity: 0, scale: 0.5, rotateY: -90 }}
+              animate={{ x: 0, opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{
+                duration: 1,
+                delay: index * 0.2,
+                ease: [0.68, -0.55, 0.265, 1.55],
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{
+                scale: 1.08,
+                x: 15,
+                rotateY: 5,
+                boxShadow: "0 15px 40px rgba(102, 126, 234, 0.4)",
+                transition: { duration: 0.4, ease: "easeOut" }
+              }}
+              whileTap={{
+                scale: 0.92,
+                transition: { duration: 0.1 }
+              }}
             >
-              {category.name}
-            </CategoryTab>
+              <motion.span
+                style={{ marginRight: '1rem', fontSize: '1.3rem' }}
+                animate={activeCategory === category.id ? {
+                  rotate: [0, 15, -15, 0],
+                  scale: [1, 1.2, 1],
+                  y: [0, -5, 0]
+                } : {
+                  rotate: 0,
+                  scale: 1,
+                  y: 0
+                }}
+                transition={{
+                  duration: 0.8,
+                  ease: "easeInOut",
+                  repeat: activeCategory === category.id ? Infinity : 0,
+                  repeatDelay: 2
+                }}
+              >
+                {category.icon}
+              </motion.span>
+              <motion.span
+                animate={activeCategory === category.id ? {
+                  textShadow: "0 0 10px rgba(255, 255, 255, 0.8)"
+                } : {
+                  textShadow: "none"
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                {category.name}
+              </motion.span>
+            </NavItem>
           ))}
-        </CategoryTabs>
+        </NavigationList>
+      </LeftSidebar>
 
-        {isLoading ? (
-          <LoadingSpinner
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <Spinner
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            />
-          </LoadingSpinner>
-        ) : (
-          <ProjectsGrid
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <AnimatePresence mode="wait">
-              {projectsToDisplay.map((project) => (
-                <motion.div
-                  key={project.id}
-                  variants={itemVariants}
-                  layout
+      <MainContent>
+        <SlideshowContainer>
+          {isLoading ? (
+            <LoadingSpinner
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <Spinner
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              />
+            </LoadingSpinner>
+          ) : (
+            <>
+              <AnimatePresence mode="wait" custom={currentSlide}>
+                {projectsToDisplay.map((project, index) => (
+                  <ProjectSlide
+                    key={`${activeCategory}-${project.id}`}
+                    custom={currentSlide}
+                    variants={slideVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      x: { type: "spring", stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.2 }
+                    }}
+                    style={{ display: index === currentSlide ? 'flex' : 'none' }}
+                  >
+                    <ProjectCard
+                      variants={floatingVariants}
+                      animate="float"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <ProjectImage>
+                        {project.image ? (
+                          <>
+                            <img src={project.image} alt={project.title} loading="lazy" />
+                            <ImageOverlay
+                              initial={{ opacity: 0 }}
+                              whileHover={{ opacity: 1 }}
+                            >
+                              View Project
+                            </ImageOverlay>
+                          </>
+                        ) : (
+                          <div style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            color: 'white',
+                            fontSize: '2rem',
+                            fontWeight: '700'
+                          }}>
+                            Coming Soon!
+                          </div>
+                        )}
+                      </ProjectImage>
+
+                      <ProjectInfo>
+                        <ProjectTitle>{project.title}</ProjectTitle>
+                        <ProjectDescription>{project.description}</ProjectDescription>
+
+                        <TechTags>
+                          {project.technologies.map((tech, techIndex) => (
+                            <TechTag
+                              key={techIndex}
+                              whileHover={{ scale: 1.1, y: -3 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              {tech}
+                            </TechTag>
+                          ))}
+                        </TechTags>
+
+                        <ProjectLinks>
+                          {project.link && (
+                            <LiveLink
+                              href={project.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{ scale: 1.05, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              View Live
+                            </LiveLink>
+                          )}
+                          {project.githubLink && (
+                            <CodeLink
+                              href={project.githubLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{ scale: 1.05, y: -2 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              Source Code
+                            </CodeLink>
+                          )}
+                        </ProjectLinks>
+                      </ProjectInfo>
+                    </ProjectCard>
+                  </ProjectSlide>
+                ))}
+              </AnimatePresence>
+
+              <SlideControls>
+                <ControlButton
+                  onClick={prevSlide}
+                  disabled={projectsToDisplay.length <= 1}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
-                  <ProjectCard>
-                    <ProjectImage>
-                      {project.image ? (
-                        <>
-                          <img src={project.image} alt={project.title} loading="lazy" />
-                          <ImageOverlay
-                            initial={{ opacity: 0 }}
-                            whileHover={{ opacity: 1 }}
-                          >
-                          </ImageOverlay>
-                        </>
-                      ) : (
-                        <div style={{
-                          width: '100%',
-                          height: '100%',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          color: 'white',
-                          fontSize: '1.5rem',
-                          fontWeight: '700'
-                        }}>
-                          Coming Soon!
-                        </div>
-                      )}
-                    </ProjectImage>
+                  ←
+                </ControlButton>
 
-                    <ProjectInfo>
-                      <ProjectTitle>{project.title}</ProjectTitle>
-                      <ProjectDescription>{project.description}</ProjectDescription>
+                <SlideIndicator>
+                  {projectsToDisplay.map((_, index) => (
+                    <IndicatorDot
+                      key={index}
+                      $active={index === currentSlide}
+                      onClick={() => goToSlide(index)}
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                    />
+                  ))}
+                </SlideIndicator>
 
-                      <TechTags>
-                        {project.technologies.map((tech, index) => (
-                          <TechTag
-                            key={index}
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            {tech}
-                          </TechTag>
-                        ))}
-                      </TechTags>
-
-                      <ProjectLinks>
-                        {project.link && (
-                          <LiveLink
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            View Live
-                          </LiveLink>
-                        )}
-                        {project.githubLink && (
-                          <CodeLink
-                            href={project.githubLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            Source Code
-                          </CodeLink>
-                        )}
-                      </ProjectLinks>
-                    </ProjectInfo>
-                  </ProjectCard>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </ProjectsGrid>
-        )}
-      </ContentWrapper>
+                <ControlButton
+                  onClick={nextSlide}
+                  disabled={projectsToDisplay.length <= 1}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  →
+                </ControlButton>
+              </SlideControls>
+            </>
+          )}
+        </SlideshowContainer>
+      </MainContent>
     </ProjectsSection>
   );
 };

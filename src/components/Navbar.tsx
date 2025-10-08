@@ -69,7 +69,6 @@ const NavLinks = styled(motion.nav)`
   left: 50%;
   transform: translateX(-50%);
   
-
   @media (min-width: 769px) and (max-width: 1100px) {
     position: relative;
     left: 0;
@@ -146,11 +145,7 @@ const NavItem = styled(motion.li)`
   }
 `;
 
-interface MobileToggleProps {
-  $isSearchFocused: boolean;
-}
-
-const MobileToggle = styled(motion.button) <MobileToggleProps>`
+const MobileToggle = styled(motion.button)`
   display: none;
   background: transparent;
   color: var(--light-text);
@@ -159,93 +154,14 @@ const MobileToggle = styled(motion.button) <MobileToggleProps>`
   cursor: pointer;
   z-index: 1001;
   padding: 5px;
-  margin-left: ${props => props.$isSearchFocused ? '15px' : 'auto'};
+  margin-left: auto;
   
   @media (max-width: 768px) {
     display: block;
   }
 `;
 
-interface SearchContainerProps {
-  $isSearchFocused: boolean;
-  $isMobile: boolean;
-}
-
-const SearchContainer = styled(motion.div) <SearchContainerProps>`
-position: relative;
-display: flex;
-align-items: center;
-margin-left: auto;
-width: ${props => props.$isSearchFocused ? (props.$isMobile ? '100%' : '300px') : '220px'};
-transition: width 0.3s ease;
-z-index: 100; 
-
-@media (max-width: 768px) {
-  width: ${props => props.$isSearchFocused ? '100%' : '180px'};
-  margin-right: ${props => props.$isSearchFocused ? '0' : '10px'};
-}
-`;
-
-const SearchInput = styled(motion.input)`
-  padding: 0.5rem 2.5rem 0.5rem 1rem;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background-color: rgba(255, 255, 255, 0.15);
-  color: white;
-  outline: none;
-  transition: all 0.3s ease;
-  width: 100%;
-  font-size: 0.9rem;
-  height: 40px;
-  backdrop-filter: blur(5px);
-
-  &:focus {
-    background-color: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
-    border-color: rgba(255, 255, 255, 0.4);
-  }
-
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  @media (max-width: 768px) {
-    padding: 0.5rem 2.5rem 0.5rem 1rem;
-  }
-`;
-const SearchButton = styled(motion.button)`
-  background: transparent;
-  border: none;
-  color: white;
-  cursor: pointer;
-  position: absolute;
-  right: 12px;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-
-  svg {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-  }
-
-  @media (max-width: 768px) {
-    right: 12px;
-  }
-`;
-interface OverlayProps {
-  $isOpen: boolean;
-}
-
-const Overlay = styled(motion.div) <OverlayProps>`
+const Overlay = styled(motion.div) <{ $isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -258,71 +174,6 @@ const Overlay = styled(motion.div) <OverlayProps>`
   @media (max-width: 768px) {
     display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
   }
-`;
-
-const SearchResultsOverlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 2000;
-  padding: 100px 20px 20px;
-  overflow-y: auto;
-  backdrop-filter: blur(5px);
-`;
-
-const SearchResultsContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  background: rgba(15, 15, 26, 0.9);
-  border-radius: 10px;
-  padding: 20px;
-  border: 1px solid rgba(108, 92, 231, 0.3);
-`;
-
-const SearchResultItem = styled.div`
-  padding: 15px;
-  margin-bottom: 15px;
-  background: rgba(30, 30, 45, 0.7);
-  border-radius: 5px;
-  border-left: 3px solid var(--primary-color);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background: rgba(40, 40, 60, 0.9);
-    transform: translateX(5px);
-  }
-`;
-
-const SearchResultTitle = styled.h3`
-  color: var(--primary-color);
-  margin-bottom: 8px;
-`;
-
-const SearchResultText = styled.div`
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-`;
-
-const CloseSearchButton = styled(motion.button)`
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 2001;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const navContainerVariants = {
@@ -380,24 +231,11 @@ const overlayVariants = {
   visible: { opacity: 1 }
 };
 
-interface SearchResult {
-  id: string;
-  section: string;
-  text: string;
-  element: HTMLElement;
-}
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [showSearchResults, setShowSearchResults] = useState(false);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const searchRef = useRef<HTMLInputElement>(null);
 
   const handleNavigation = () => {
     closeMenu();
@@ -405,13 +243,6 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    /*************  ✨ Codeium Command ⭐  *************/
-    /**
-     * Set scrolled state based on window scroll position.
-     * @function
-     * @returns {void}
-     */
-    /******  5934f085-2a22-4c4f-8d0d-2e6d54ae303c  *******/
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
@@ -422,190 +253,21 @@ const Navbar = () => {
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
       if (!mobile && isOpen) {
         setIsOpen(false);
-      }
-      if (!mobile && isSearchFocused) {
-        setIsSearchFocused(false);
       }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [isOpen, isSearchFocused]);
+  }, [isOpen]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-
-    if (isSearchFocused) {
-      setIsSearchFocused(false);
-      if (searchRef.current) {
-        searchRef.current.blur();
-      }
-    }
   };
 
   const closeMenu = () => {
     setIsOpen(false);
-  };
-
-  const removeHighlights = () => {
-    const highlights = document.querySelectorAll('.search-highlight');
-    highlights.forEach(highlight => {
-      const parent = highlight.parentNode;
-      if (parent) {
-        parent.replaceChild(
-          document.createTextNode(highlight.textContent || ''),
-          highlight
-        );
-      }
-    });
-  };
-
-  const highlightAndScrollToMatches = (query: string) => {
-    if (!query.trim()) {
-      removeHighlights();
-      setSearchResults([]);
-      setShowSearchResults(false);
-      return;
-    }
-
-    removeHighlights();
-    const results: SearchResult[] = [];
-    const regex = new RegExp(query, 'gi');
-    const navbar = document.querySelector('.navbar-content');
-
-    const walker = document.createTreeWalker(
-      document.body,
-      NodeFilter.SHOW_TEXT,
-      null
-    );
-
-    let node;
-    let firstMatch: HTMLElement | null = null;
-
-    while ((node = walker.nextNode())) {
-      if (!node.textContent || !node.textContent.trim() || !regex.test(node.textContent)) {
-        continue;
-      }
-
-      const parent = node.parentNode as HTMLElement;
-
-      if (!parent ||
-        parent.nodeName === 'SCRIPT' ||
-        parent.nodeName === 'STYLE' ||
-        (navbar && navbar.contains(parent))) {
-        continue;
-      }
-
-      const span = document.createElement('span');
-      span.innerHTML = node.textContent.replace(
-        regex,
-        match => `<mark class="search-highlight" style="background-color: yellow; color: black;">${match}</mark>`
-      );
-      parent.replaceChild(span, node);
-
-      let sectionElement = parent.closest('section') || parent.closest('div[id]');
-      let sectionName = 'Content';
-
-      if (sectionElement && sectionElement.id) {
-        sectionName = sectionElement.id.charAt(0).toUpperCase() + sectionElement.id.slice(1);
-      }
-
-      const fullText = node.textContent;
-      const matchIndex = fullText.toLowerCase().indexOf(query.toLowerCase());
-      const start = Math.max(0, matchIndex - 30);
-      const end = Math.min(fullText.length, matchIndex + query.length + 30);
-      const snippet = fullText.substring(start, end);
-
-      results.push({
-        id: `${sectionName}-${results.length}-${matchIndex}`,
-        section: sectionName,
-        text: snippet.replace(
-          regex,
-          match => `<mark style="background-color: yellow; color: black;">${match}</mark>`
-        ),
-        element: parent
-      });
-
-      if (!firstMatch) {
-        firstMatch = parent;
-      }
-    }
-
-    setSearchResults(results);
-    setShowSearchResults(true);
-
-    if (firstMatch) {
-      setTimeout(() => {
-        scrollToResult(firstMatch);
-      }, 100);
-    }
-  };
-
-  const scrollToResult = (element: HTMLElement | null) => {
-    if (!element) return;
-
-    element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
-
-    const originalBorder = element.style.border;
-    element.style.transition = 'all 0.5s ease';
-    element.style.border = '2px solid rgba(108, 92, 231, 0.8)';
-    element.style.borderRadius = '4px';
-    element.style.padding = '2px';
-
-    setTimeout(() => {
-      element.style.border = originalBorder;
-      element.style.padding = '';
-    }, 2000);
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    highlightAndScrollToMatches(searchQuery);
-    setIsSearchFocused(false);
-    if (searchRef.current) {
-      searchRef.current.blur();
-    }
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-    if (!e.target.value.trim()) {
-      removeHighlights();
-      setShowSearchResults(false);
-    }
-  };
-
-  const handleSearchFocus = () => {
-    setIsSearchFocused(true);
-
-    if (isOpen) {
-      setIsOpen(false);
-    }
-  };
-
-  const handleSearchBlur = () => {
-    setTimeout(() => {
-      if (document.activeElement !== searchRef.current) {
-        setIsSearchFocused(false);
-      }
-    }, 100);
-  };
-
-  const closeSearchResults = () => {
-    removeHighlights();
-    setShowSearchResults(false);
-    setSearchQuery('');
-    setIsSearchFocused(false);
-    if (searchRef.current) {
-      searchRef.current.value = '';
-      searchRef.current.blur();
-    }
   };
 
   useEffect(() => {
@@ -615,8 +277,7 @@ const Navbar = () => {
         navRef.current &&
         buttonRef.current &&
         !navRef.current.contains(event.target as Node) &&
-        !buttonRef.current.contains(event.target as Node) &&
-        (!searchRef.current || !searchRef.current.contains(event.target as Node))
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
       }
@@ -644,9 +305,6 @@ const Navbar = () => {
           whileHover="hover"
           initial="initial"
           variants={logoVariants}
-          style={{
-            display: isMobile && isSearchFocused ? 'none' : 'flex'
-          }}
         >
           <Link to="/" onClick={handleNavigation}>
             <img src={CodeFusion} alt="CodeFusion Logo" />
@@ -668,43 +326,11 @@ const Navbar = () => {
           </NavList>
         </NavLinks>
 
-        <SearchContainer
-          $isSearchFocused={isSearchFocused}
-          $isMobile={isMobile}
-        >
-          <form onSubmit={handleSearch} style={{ width: '100%', position: 'relative' }}>
-            <SearchInput
-              type="text"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              ref={searchRef}
-              onFocus={handleSearchFocus}
-              onBlur={handleSearchBlur}
-            />
-            <SearchButton
-              type="submit"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </SearchButton>
-          </form>
-        </SearchContainer>
-
         <MobileToggle
           ref={buttonRef}
           onClick={toggleMenu}
           whileTap={{ scale: 0.9 }}
           aria-label="Toggle menu"
-          $isSearchFocused={isSearchFocused}
-          style={{
-            visibility: isSearchFocused ? 'hidden' : 'visible',
-            opacity: isSearchFocused ? 0 : 1,
-          }}
         >
           {isOpen ? '✕' : '☰'}
         </MobileToggle>
@@ -752,54 +378,6 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </NavContent>
-
-      <AnimatePresence>
-        {showSearchResults && (
-          <>
-            <CloseSearchButton
-              onClick={closeSearchResults}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              ×
-            </CloseSearchButton>
-            <SearchResultsOverlay
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <SearchResultsContainer>
-                <h2 style={{ color: 'white', marginBottom: '20px' }}>
-                  Search Results for: "{searchQuery}"
-                </h2>
-                {searchResults.length > 0 ? (
-                  searchResults.map((result, index) => (
-                    <SearchResultItem
-                      key={`${result.id}-${index}`}
-                      onClick={() => {
-                        scrollToResult(result.element);
-                        setShowSearchResults(false);
-                      }}
-                    >
-                      <SearchResultTitle>{result.section} Section</SearchResultTitle>
-                      <SearchResultText
-                        dangerouslySetInnerHTML={{ __html: result.text }}
-                      />
-                    </SearchResultItem>
-                  ))
-                ) : (
-                  <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-                    No results found for "{searchQuery}"
-                  </p>
-                )}
-              </SearchResultsContainer>
-            </SearchResultsOverlay>
-          </>
-        )}
-      </AnimatePresence>
     </NavContainer>
   );
 };

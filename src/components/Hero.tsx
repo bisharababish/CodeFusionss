@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import CodeFusion from '../components/images/Logo/CodeFusion.png';
 import { motion } from 'framer-motion';
+import * as THREE from 'three';
 
 
 const breakpoints = {
@@ -20,6 +21,7 @@ const HeroSection = styled.section`
   position: relative;
   overflow: hidden;
   padding: 8rem 0 6rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 
 @media (max-width: ${breakpoints.tablet}) {
     padding: 6rem 0; 
@@ -125,11 +127,23 @@ const HeroSection = styled.section`
   }
 `;
 
+const ThreeBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.3;
+`;
+
 const HeroContent = styled(motion.div)`
   display: flex;
   flex-direction: column;
   max-width: 800px;
   width: 100%;
+  position: relative;
+  z-index: 2;
   
   
   @media (max-width: ${breakpoints.tablet}) {
@@ -197,10 +211,14 @@ const HighlightedWordContainer = styled(motion.div)`
 `;
 
 const HighlightedWord = styled(motion.span)`
-  color: var(--primary-color);
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   font-weight: 700;
   display: inline-block;
   margin-right: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   @media (max-width: ${breakpoints.mobile}) {
     margin-right: 0.3rem;
@@ -313,13 +331,28 @@ const SocialLink = styled(motion.a)`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background-color: rgba(30, 30, 38, 0.8);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
   transition: all 0.3s ease;
   position: relative;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 
   i {
     font-size: 1.25rem;
@@ -631,6 +664,131 @@ interface AnimatedParagraphProps {
   wordDelay?: number;
 }
 
+const ThreeScene = () => {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    if (!mountRef.current) return;
+
+    const currentMount = mountRef.current;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    (currentMount as HTMLDivElement).appendChild(renderer.domElement);
+
+    // Create particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 500;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 100;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.08,
+      color: '#ffffff',
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    // Create geometric shapes
+    const geometry1 = new THREE.ConeGeometry(6, 12, 8);
+    const material1 = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.2
+    });
+    const cone = new THREE.Mesh(geometry1, material1);
+    scene.add(cone);
+
+    const geometry2 = new THREE.OctahedronGeometry(8);
+    const material2 = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15
+    });
+    const octahedron = new THREE.Mesh(geometry2, material2);
+    octahedron.position.set(-30, 15, -20);
+    scene.add(octahedron);
+
+    // Lighting
+    const light1 = new THREE.PointLight('#ffffff', 1, 100);
+    light1.position.set(25, 25, 25);
+    scene.add(light1);
+
+    const light2 = new THREE.PointLight('#ffffff', 1, 100);
+    light2.position.set(-25, -25, -25);
+    scene.add(light2);
+
+    camera.position.z = 40;
+
+    // Mouse movement
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Animation
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      particlesMesh.rotation.y += 0.001;
+      particlesMesh.rotation.x += 0.0005;
+
+      cone.rotation.x += 0.006;
+      cone.rotation.y += 0.006;
+
+      octahedron.rotation.x -= 0.004;
+      octahedron.rotation.y -= 0.004;
+
+      camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+      camera.position.y += (mouseY * 2 - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Resize handler
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      if (currentMount) {
+        (currentMount as HTMLDivElement).removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, []);
+
+  return <ThreeBackground ref={mountRef} />;
+};
+
 const AnimatedParagraph: React.FC<AnimatedParagraphProps> = ({
   text,
   startDelay = 1.5,
@@ -813,6 +971,7 @@ const Hero: React.FC = () => {
 
   return (
     <HeroSection>
+      <ThreeScene />
       <Particles count={25} />
 
       <div className="container">

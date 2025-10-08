@@ -1,117 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { TeamMember } from '../types';
-import bisharaImage from '../components/images/Team/Bish.png';
-import JudahImage from '../components/images/Team/Judah.png';
-import SalibaImage from '../components/images/Team/Saliba.png';
+import * as THREE from 'three';
+import bisharaImage from '../components/images/Team/Bishara.jpeg';
+import JudahImage from '../components/images/Team/Judah.jpg';
+import SalibaImage from '../components/images/Team/Saliba.jpeg';
+
+const breakpoints = {
+  smallMobile: '320px',
+  mobile: '480px',
+  largeMobile: '600px',
+  tablet: '768px',
+  laptop: '1024px',
+};
+
+const media = {
+  smallMobile: `@media (max-width: ${breakpoints.smallMobile})`,
+  mobile: `@media (max-width: ${breakpoints.mobile})`,
+  largeMobile: `@media (max-width: ${breakpoints.largeMobile})`,
+  tablet: `@media (max-width: ${breakpoints.tablet})`,
+  laptop: `@media (max-width: ${breakpoints.laptop})`,
+};
 
 const TeamSection = styled(motion.section)`
-  padding: 6rem 0;
-  background-color: var(--darker-bg);
+  padding: 8rem 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
 
-  @media (max-width: 768px) {
-    padding: 4rem 0;
-  }
+  ${media.laptop} { padding: 6rem 0; }
+  ${media.tablet} { padding: 5rem 0; }
+  ${media.largeMobile} { padding: 4rem 0; }
+  ${media.mobile} { padding: 3rem 0.5rem; }
+`;
 
-  @media (max-width: 480px) {
-    padding: 3rem 0;
-  }
+const ThreeBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.3;
+`;
 
-  @media (max-width: 320px) {
-    padding: 2rem 0;
-  }
+const ContentWrapper = styled.div`
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  ${media.tablet} { padding: 0 1.5rem; }
+  ${media.mobile} { padding: 0 1rem; }
 `;
 
 const SectionHeader = styled(motion.div)`
   text-align: center;
   margin-bottom: 4rem;
 
-  @media (max-width: 768px) {
-    margin-bottom: 3rem;
-  }
+  ${media.mobile} { margin-bottom: 3rem; }
+`;
 
-  @media (max-width: 480px) {
-    margin-bottom: 2rem;
-  }
+const Title = styled(motion.h2)`
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  letter-spacing: -2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+  ${media.tablet} { font-size: 3rem; }
+  ${media.mobile} { font-size: 2.5rem; }
+`;
 
-    @media (max-width: 768px) {
-      font-size: 2rem;
-    }
+const Subtitle = styled(motion.p)`
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+  font-weight: 300;
 
-    @media (max-width: 480px) {
-      font-size: 1.8rem;
-      margin-bottom: 0.75rem;
-    }
-
-    @media (max-width: 320px) {
-      font-size: 1.5rem;
-    }
-  }
-
-  p {
-    max-width: 600px;
-    margin: 0 auto;
-    opacity: 0.8;
-
-    @media (max-width: 768px) {
-      max-width: 90%;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 480px) {
-      max-width: 95%;
-      font-size: 0.9rem;
-    }
-  }
+  ${media.tablet} { font-size: 1.1rem; }
+  ${media.mobile} { font-size: 1rem; }
 `;
 
 const TeamGrid = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 3rem;
+  margin-bottom: 4rem;
+  justify-items: center;
 
-  @media (max-width: 768px) {
-    gap: 1.5rem;
-    padding: 0 1rem;
-  }
-
-  @media (max-width: 480px) {
-    gap: 1.25rem;
-  }
-
-  @media (max-width: 320px) {
-    gap: 1rem;
-  }
+  ${media.laptop} { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; }
+  ${media.tablet} { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+  ${media.mobile} { grid-template-columns: 1fr; gap: 2rem; }
 `;
 
 const TeamCard = styled(motion.div)`
-  width: 300px;
-  height: 500px;
+  width: 380px;
+  height: 520px;
   perspective: 1000px;
   cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
-  @media (max-width: 768px) {
-    width: 280px;
-    height: 470px;
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
   }
 
-  @media (max-width: 480px) {
-    width: 100%;
-    height: 450px;
-    max-width: 320px;
-  }
-
-  @media (max-width: 320px) {
-    height: 400px;
-  }
+  ${media.laptop} { width: 350px; height: 500px; }
+  ${media.tablet} { width: 320px; height: 480px; }
+  ${media.mobile} { width: 100%; height: 450px; max-width: 350px; }
 `;
 
 interface CardInnerProps {
@@ -123,10 +128,15 @@ const CardInner = styled(motion.div) <CardInnerProps>`
   width: 100%;
   height: 100%;
   text-align: center;
-  transition: transform 0.6s ease;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  border-radius: 24px;
   transform: ${props => props.isFlipped ? 'rotateY(180deg)' : 'rotateY(0)'};
+
+  &:hover {
+    box-shadow: 0 30px 80px rgba(102, 126, 234, 0.3);
+  }
 
   /* For devices that support hover */
   @media (hover: hover) {
@@ -141,10 +151,12 @@ const CardFront = styled(motion.div)`
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border-radius: 10px;
+  border-radius: 24px;
   overflow: hidden;
-  background-color: rgba(15, 15, 26, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2);
 `;
 
 const CardBack = styled(motion.div)`
@@ -152,48 +164,41 @@ const CardBack = styled(motion.div)`
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border-radius: 10px;
+  border-radius: 24px;
   overflow: hidden;
-  background-color: rgba(15, 15, 26, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem;
+  padding: 2rem;
+  color: white;
+  text-align: center;
 
-  @media (max-width: 768px) {
-    padding: 1.25rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 1rem;
-  }
+  ${media.tablet} { padding: 1.5rem; }
+  ${media.mobile} { padding: 1.25rem; }
 
   h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 
-    @media (max-width: 480px) {
-      font-size: 1.1rem;
-    }
-
-    @media (max-width: 320px) {
-      font-size: 1rem;
-    }
+    ${media.mobile} { font-size: 1.3rem; margin-bottom: 0.75rem; }
   }
 
   p {
-    font-size: 0.9rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
 
-    @media (max-width: 480px) {
-      font-size: 0.85rem;
-    }
-
-    @media (max-width: 320px) {
-      font-size: 0.8rem;
-    }
+    ${media.mobile} { font-size: 0.9rem; margin-bottom: 1.25rem; }
   }
 `;
 
@@ -203,17 +208,9 @@ const MemberImage = styled(motion.div)`
   overflow: hidden;
   position: relative;
 
-  @media (max-width: 768px) {
-    height: 280px;
-  }
-
-  @media (max-width: 480px) {
-    height: 250px;
-  }
-
-  @media (max-width: 320px) {
-    height: 220px;
-  }
+  ${media.laptop} { height: 280px; }
+  ${media.tablet} { height: 260px; }
+  ${media.mobile} { height: 240px; }
 
   img {
     width: 100%;
@@ -227,139 +224,268 @@ const MemberImage = styled(motion.div)`
 `;
 
 const MemberInfo = styled(motion.div)`
-  padding: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  backdrop-filter: blur(5px);
 
-  @media (max-width: 768px) {
-    padding: 1.25rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 1rem 0.75rem;
-  }
-
-  @media (max-width: 320px) {
-    padding: 0.75rem 0.5rem;
-  }
+  ${media.tablet} { padding: 1.5rem; }
+  ${media.mobile} { padding: 1.25rem; }
 
   h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2d3748;
+    line-height: 1.3;
 
-    @media (max-width: 480px) {
-      font-size: 1.1rem;
-      margin-bottom: 0.4rem;
-    }
-
-    @media (max-width: 320px) {
-      font-size: 1rem;
-      margin-bottom: 0.3rem;
-    }
+    ${media.mobile} { font-size: 1.2rem; margin-bottom: 0.5rem; }
   }
 
   p {
-    font-size: 0.9rem;
-    color: var(--primary-color);
+    font-size: 0.95rem;
+    color: #667eea;
     margin-bottom: 1rem;
+    line-height: 1.6;
+    font-weight: 500;
 
-    @media (max-width: 768px) {
-      font-size: 0.85rem;
-      margin-bottom: 0.75rem;
-    }
+    ${media.tablet} { font-size: 0.9rem; }
+    ${media.mobile} { font-size: 0.85rem; margin-bottom: 0.75rem; }
+  }
+`;
 
-    @media (max-width: 480px) {
-      font-size: 0.8rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-    }
+const ImageOverlay = styled(motion.div)`
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 3;
+  border-radius: 21px 21px 0 0;
+  backdrop-filter: blur(5px);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
-    @media (max-width: 320px) {
-      font-size: 0.75rem;
-      line-height: 1.3;
-    }
+  ${TeamCard}:hover & {
+    opacity: 1;
   }
 `;
 
 const SocialLinks = styled(motion.div)`
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-top: 1rem;
+  position: relative;
+  z-index: 2;
 
-  @media (max-width: 768px) {
-    gap: 0.85rem;
-    margin-top: 0.85rem;
-  }
-
-  @media (max-width: 480px) {
-    gap: 0.75rem;
-    margin-top: 0.75rem;
-  }
-
-  @media (max-width: 320px) {
-    gap: 0.6rem;
-    margin-top: 0.6rem;
-  }
+  ${media.mobile} { gap: 1.25rem; margin-top: 0.75rem; }
 
   a {
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: rgba(108, 92, 231, 0.1);
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
 
-    @media (max-width: 768px) {
-      width: 36px;
-      height: 36px;
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
-    @media (max-width: 480px) {
-      width: 32px;
-      height: 32px;
-    }
-
-    @media (max-width: 320px) {
-      width: 30px;
-      height: 30px;
-    }
+    ${media.mobile} { width: 50px; height: 50px; }
 
     i {
-      font-size: 0.9rem;
-      color: var(--light-text);
+      font-size: 1.2rem;
+      color: white;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
-      @media (max-width: 480px) {
-        font-size: 0.85rem;
-      }
-
-      @media (max-width: 320px) {
-        font-size: 0.8rem;
-      }
+      ${media.mobile} { font-size: 1.1rem; }
     }
 
     &:hover {
-      background-color: var(--primary-color);
-      transform: translateY(-3px);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.3) 100%);
+      transform: translateY(-4px) scale(1.15);
+      box-shadow: 
+        0 12px 35px rgba(255, 255, 255, 0.3),
+        0 5px 15px rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+
+      &:before {
+        opacity: 1;
+      }
 
       i {
         color: white;
+        transform: scale(1.15) rotate(5deg);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
     }
 
     /* For touch devices */
     @media (hover: none) {
       &:active {
-        background-color: var(--primary-color);
-        transform: translateY(-3px);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.3) 100%);
+        transform: translateY(-4px) scale(1.15);
+        box-shadow: 0 12px 35px rgba(255, 255, 255, 0.3);
 
         i {
           color: white;
+          transform: scale(1.15) rotate(5deg);
         }
       }
     }
   }
 `;
+
+const ThreeScene = () => {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    if (!mountRef.current) return;
+
+    const currentMount = mountRef.current;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    (currentMount as HTMLDivElement).appendChild(renderer.domElement);
+
+    // Create particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 600;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 100;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.12,
+      color: '#ffffff',
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    // Create geometric shapes
+    const geometry1 = new THREE.SphereGeometry(8, 32, 32);
+    const material1 = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.2
+    });
+    const sphere = new THREE.Mesh(geometry1, material1);
+    scene.add(sphere);
+
+    const geometry2 = new THREE.TorusGeometry(12, 4, 16, 100);
+    const material2 = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15
+    });
+    const torus = new THREE.Mesh(geometry2, material2);
+    torus.position.set(-25, 15, -15);
+    scene.add(torus);
+
+    // Lighting
+    const light1 = new THREE.PointLight('#ffffff', 1.5, 100);
+    light1.position.set(20, 20, 20);
+    scene.add(light1);
+
+    const light2 = new THREE.PointLight('#ffffff', 1.5, 100);
+    light2.position.set(-20, -20, -20);
+    scene.add(light2);
+
+    camera.position.z = 50;
+
+    // Mouse movement
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Animation
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      particlesMesh.rotation.y += 0.001;
+      particlesMesh.rotation.x += 0.0005;
+
+      sphere.rotation.x += 0.005;
+      sphere.rotation.y += 0.005;
+
+      torus.rotation.x -= 0.003;
+      torus.rotation.y -= 0.003;
+
+      camera.position.x += (mouseX * 3 - camera.position.x) * 0.05;
+      camera.position.y += (mouseY * 3 - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Resize handler
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      if (currentMount) {
+        (currentMount as HTMLDivElement).removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, []);
+
+  return <ThreeBackground ref={mountRef} />;
+};
 
 
 const Team: React.FC = () => {
@@ -415,42 +541,83 @@ const Team: React.FC = () => {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
   const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    hidden: { opacity: 0, y: 50, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, -0.05, 0.01, 0.99]
+      }
+    }
   };
 
   const socialLinkVariants = {
-    hover: { scale: 1.1, backgroundColor: 'var(--primary-color)' },
+    hover: { scale: 1.1 },
     tap: { scale: 0.9 },
   };
 
   return (
     <TeamSection id="team">
-      <div className="container">
+      <ThreeScene />
+
+      <ContentWrapper>
         <SectionHeader
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }}
         >
-          <h2>Meet Our Team</h2>
-          <p>The talented people behind Code Fusion</p>
+          <Title
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Meet Our Team
+          </Title>
+          <Subtitle
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            The talented people behind Code Fusion
+          </Subtitle>
         </SectionHeader>
 
-        <TeamGrid>
+        <TeamGrid
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {teamMembers.map((member) => (
             <TeamCard
               key={member.id}
               variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.5 }}
               onClick={() => toggleCardFlip(member.id)}
             >
               <CardInner isFlipped={flippedCards[member.id] || false}>
                 <CardFront>
                   <MemberImage>
                     <img src={member.image} alt={member.name} />
+                    <ImageOverlay
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                    >
+                      View Profile
+                    </ImageOverlay>
                   </MemberImage>
                   <MemberInfo>
                     <h3>{member.name}</h3>
@@ -506,7 +673,7 @@ const Team: React.FC = () => {
             </TeamCard>
           ))}
         </TeamGrid>
-      </div>
+      </ContentWrapper>
     </TeamSection>
   );
 };

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Project, ProjectCategory } from '../types';
+import * as THREE from 'three';
+
+// Import images
 import BlogImage from '../components/images/projectspics/web/blog.png';
 import MRIImage from '../components/images/projectspics/web/mri.png';
 import SnakeImage from '../components/images/projectspics/games/snake.png';
@@ -12,6 +14,7 @@ import TreasureHunter from '../components/images/projectspics/games/treasure.jpe
 import SpaceExplorer from '../components/images/projectspics/games/space.jpeg';
 import FruitBasketFrenzy from '../components/images/projectspics/games/fruit.jpeg';
 import ReleaseYear from '../components/images/projectspics/AIML/ReleaseYear.png';
+
 const breakpoints = {
   smallMobile: '320px',
   mobile: '480px',
@@ -29,72 +32,71 @@ const media = {
 };
 
 const ProjectsSection = styled(motion.section)`
-  padding: 6rem 0;
-  background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
+  padding: 8rem 0 0 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
 
-  ${media.laptop} { padding: 6rem 0; }
-  ${media.tablet} { padding: 5rem 0; }
-  ${media.largeMobile} { padding: 4.5rem 0 3.2rem; }
-  ${media.mobile} { padding: 5rem 0.5rem 3.2rem; }
-  ${media.smallMobile} { padding: 4rem 0.5rem 2rem; }
+  ${media.laptop} { padding: 6rem 0 0 0; }
+  ${media.tablet} { padding: 5rem 0 0 0; }
+  ${media.largeMobile} { padding: 4rem 0 0 0; }
+  ${media.mobile} { padding: 3rem 0.5rem 0 0; }
 `;
 
-const FloatingOrbs = styled(motion.div)`
+const ThreeBackground = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
   z-index: 0;
-  pointer-events: none;
+  opacity: 0.6;
 `;
 
-const Orb = styled(motion.div)`
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.15;
-  will-change: transform;
+const ContentWrapper = styled.div`
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+
+  ${media.tablet} { padding: 0 1.5rem; }
+  ${media.mobile} { padding: 0 1rem; }
 `;
 
 const SectionHeader = styled(motion.div)`
   text-align: center;
-  margin-bottom: 3rem;
-  padding-top: 2rem;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 4rem;
 
-  h2 {
-    font-size: 2.8rem;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(90deg, #6c5ce7, #a29bfe);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    display: inline-block;
-    position: relative;
-
-    ${media.tablet} { font-size: 2.4rem; }
-    ${media.mobile} { font-size: 2rem; }
-  }
-
-  p {
-    max-width: 700px;
-    margin: 0 auto;
-    opacity: 0.9;
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.8);
-
-    ${media.tablet} { font-size: 1rem; }
-    ${media.mobile} { font-size: 0.9rem; }
-  }
+  ${media.mobile} { margin-bottom: 3rem; }
 `;
 
-const AnimatedText = styled(motion.span)`
-  display: inline-block;
+const Title = styled(motion.h2)`
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  letter-spacing: -2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  ${media.tablet} { font-size: 3rem; }
+  ${media.mobile} { font-size: 2.5rem; }
+`;
+
+const Subtitle = styled(motion.p)`
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+  font-weight: 300;
+
+  ${media.tablet} { font-size: 1.1rem; }
+  ${media.mobile} { font-size: 1rem; }
 `;
 
 const CategoryTabs = styled(motion.div)`
@@ -102,201 +104,232 @@ const CategoryTabs = styled(motion.div)`
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 3rem;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 4rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+  padding: 1rem;
+  border-radius: 50px;
+  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2);
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  backdrop-filter: blur(10px);
 
-  ${media.tablet} { gap: 0.8rem; margin-bottom: 2.5rem; }
-  ${media.mobile} { gap: 0.6rem; margin-bottom: 2rem; }
+  ${media.mobile} {
+    gap: 0.5rem;
+    padding: 0.8rem;
+    margin-bottom: 3rem;
+  }
 `;
 
-const CategoryTab = styled(motion.button) <{ active: boolean }>`
-  padding: 0.8rem 1.5rem;
+const CategoryTab = styled(motion.button)`
+  padding: 0.8rem 2rem;
   border-radius: 50px;
-  border: none;
-  background: ${props => props.active ? 'linear-gradient(135deg, #6c5ce7, #a29bfe)' : 'rgba(255, 255, 255, 0.05)'};
-  color: ${props => props.active ? 'white' : 'rgba(255, 255, 255, 0.7)'};
-  font-weight: ${props => props.active ? '600' : '400'};
+  border: ${(props: any) => props.$active ? 'none' : '1px solid rgba(102, 126, 234, 0.2)'};
+  background: ${(props: any) => props.$active ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.8)'};
+  color: ${(props: any) => props.$active ? 'white' : '#4a5568'};
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
-  border: 1px solid ${props => props.active ? 'rgba(108, 92, 231, 0.5)' : 'rgba(255, 255, 255, 0.1)'};
-  box-shadow: ${props => props.active ? '0 4px 15px rgba(108, 92, 231, 0.3)' : 'none'};
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: ${(props: any) => props.$active ? '0 4px 15px rgba(102, 126, 234, 0.4)' : '0 2px 8px rgba(102, 126, 234, 0.1)'};
+
+  &:hover {
+    background: ${(props: any) => props.$active ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(102, 126, 234, 0.1)'};
+    transform: translateY(-2px);
+    box-shadow: ${(props: any) => props.$active ? '0 6px 20px rgba(102, 126, 234, 0.5)' : '0 4px 15px rgba(102, 126, 234, 0.2)'};
+    border-color: ${(props: any) => props.$active ? 'none' : 'rgba(102, 126, 234, 0.3)'};
+  }
+
+  ${media.mobile} {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
 `;
 
 const ProjectsGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
-  position: relative;
-  z-index: 1;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 4rem;
 
-  ${media.laptop} { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-  ${media.tablet} { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
-  ${media.mobile} { grid-template-columns: 1fr; gap: 1.2rem; }
+  ${media.laptop} { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+  ${media.tablet} { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+  ${media.mobile} { grid-template-columns: 1fr; gap: 1.5rem; }
 `;
 
 const ProjectCard = styled(motion.div)`
-  background: rgba(15, 15, 26, 0.6);
-  border-radius: 12px;
+  background: white;
+  border-radius: 24px;
   overflow: hidden;
-  transition: all 0.4s ease;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
-  backdrop-filter: blur(5px);
   height: 100%;
+  display: flex;
+  flex-direction: column;
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(108, 92, 231, 0.3);
-    border-color: rgba(108, 92, 231, 0.3);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 30px 80px rgba(102, 126, 234, 0.3);
   }
 `;
 
 const ProjectImage = styled(motion.div)`
   width: 100%;
-  height: 220px;
+  height: 240px;
   position: relative;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  ${ProjectCard}:hover & img {
+    transform: scale(1.1) rotate(2deg);
   }
 `;
 
-const ProjectInfo = styled(motion.div)`
-  padding: 1.8rem;
+const ImageOverlay = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 
-  h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  p {
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
+  ${ProjectCard}:hover & {
+    opacity: 1;
   }
 `;
 
-const TechTags = styled(motion.div)`
+const ProjectInfo = styled.div`
+  padding: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  ${media.mobile} { padding: 1.5rem; }
+`;
+
+const ProjectTitle = styled.h3`
+  font-size: 1.6rem;
+  color: #2d3748;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+
+  ${media.mobile} { font-size: 1.4rem; }
+`;
+
+const ProjectDescription = styled.p`
+  color: #718096;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  flex: 1;
+  font-size: 0.95rem;
+`;
+
+const TechTags = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.5rem;
 `;
 
 const TechTag = styled(motion.span)`
-  background: rgba(108, 92, 231, 0.15);
-  color: #a29bfe;
-  padding: 0.3rem 0.8rem;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  border: 1px solid rgba(108, 92, 231, 0.3);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  color: #667eea;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1.5px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: translateY(-2px);
+  }
 `;
 
-const ProjectLinks = styled(motion.div)`
+const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
 
-  ${media.mobile} {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
+  ${media.mobile} { flex-direction: column; gap: 0.8rem; }
 `;
 
 const LiveLink = styled(motion.a)`
-  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 0.6rem 1.2rem;
-  border-radius: 50px;
-  font-weight: 500;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
   text-decoration: none;
   flex: 1;
   text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  }
 `;
 
 const CodeLink = styled(motion.a)`
-  background: rgba(255, 255, 255, 0.05);
-  color: #a29bfe;
-  border: 1px solid rgba(108, 92, 231, 0.3);
-  padding: 0.6rem 1.2rem;
-  border-radius: 50px;
-  font-weight: 500;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: 2px solid #667eea;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
   text-decoration: none;
   flex: 1;
   text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+
+  &:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  }
 `;
 
-const orbVariants = {
-  animate: (i: number) => ({
-    x: [0, 100 * (i % 2 === 0 ? 1 : -1)],
-    y: [0, 100 * (i % 3 === 0 ? 1 : -1)],
-    transition: {
-      x: { duration: 20 + i * 3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
-      y: { duration: 15 + i * 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
-    }
-  })
-};
+const LoadingSpinner = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+`;
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3
-    }
-  }
-};
+const Spinner = styled(motion.div)`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px solid rgba(102, 126, 234, 0.2);
+  border-top-color: #667eea;
+`;
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "backOut"
-    }
-  }
-};
-
-const textVariants = {
-  hidden: {
-    opacity: 0,
-    y: 20
-  },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.8,
-      ease: [0.2, 0.65, 0.3, 0.9]
-    }
-  })
-};
-
-const paragraphVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      delay: 0.6,
-      duration: 1,
-      ease: "easeOut"
-    }
-  }
-};
-
-const allProjects: Project[] = [
+const allProjects = [
   {
     id: 1,
     title: 'Personal Blog Page',
@@ -347,7 +380,7 @@ const allProjects: Project[] = [
   {
     id: 6,
     title: 'Dungeon Escape',
-    description: 'Dungeon Escape is a thrilling 2D game where you explore dark dungeons, solve puzzles, battle enemies, and collect items to escape. Can you survive? ',
+    description: 'Dungeon Escape is a thrilling 2D game where you explore dark dungeons, solve puzzles, battle enemies, and collect items to escape. Can you survive?',
     image: DungeonGame,
     technologies: ['JavaScript', 'SCSS', 'HTML'],
     link: 'https://dungeonescapee.netlify.app/',
@@ -386,7 +419,7 @@ const allProjects: Project[] = [
   },
   {
     id: 10,
-    title: 'TMDB Movie Dataset Analysis ',
+    title: 'TMDB Movie Dataset Analysis',
     description: 'This project analyzes the TMDb Movies Dataset to explore trends in the film industry. It examines the relationship between movie attributes (e.g., budget, genre, runtime) and financial success (revenue) while focusing on data cleaning, handling missing values, and visualizing key insights.',
     image: ReleaseYear,
     technologies: ['Python'],
@@ -403,7 +436,7 @@ const allProjects: Project[] = [
   },
 ];
 
-const projectCategories: ProjectCategory[] = [
+const projectCategories = [
   {
     id: 'all',
     name: 'All Projects',
@@ -431,85 +464,202 @@ const projectCategories: ProjectCategory[] = [
   }
 ];
 
-const Projects: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+const ThreeScene = () => {
+  const mountRef = useRef(null);
 
-  const handleCategoryChange = (categoryId: string) => {
+  useEffect(() => {
+    if (!mountRef.current) return;
+
+    const currentMount = mountRef.current;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    (currentMount as HTMLDivElement).appendChild(renderer.domElement);
+
+    // Create particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 800;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 100;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.15,
+      color: '#667eea',
+      transparent: true,
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    // Create geometric shapes
+    const geometry1 = new THREE.TorusGeometry(10, 3, 16, 100);
+    const material1 = new THREE.MeshPhongMaterial({
+      color: '#667eea',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.3
+    });
+    const torus = new THREE.Mesh(geometry1, material1);
+    scene.add(torus);
+
+    const geometry2 = new THREE.IcosahedronGeometry(8, 0);
+    const material2 = new THREE.MeshPhongMaterial({
+      color: '#764ba2',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.3
+    });
+    const icosahedron = new THREE.Mesh(geometry2, material2);
+    icosahedron.position.set(-20, 10, -10);
+    scene.add(icosahedron);
+
+    // Lighting
+    const light1 = new THREE.PointLight('#667eea', 2, 100);
+    light1.position.set(20, 20, 20);
+    scene.add(light1);
+
+    const light2 = new THREE.PointLight('#764ba2', 2, 100);
+    light2.position.set(-20, -20, -20);
+    scene.add(light2);
+
+    camera.position.z = 50;
+
+    // Mouse movement
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Animation
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      particlesMesh.rotation.y += 0.001;
+      particlesMesh.rotation.x += 0.0005;
+
+      torus.rotation.x += 0.005;
+      torus.rotation.y += 0.005;
+
+      icosahedron.rotation.x -= 0.003;
+      icosahedron.rotation.y -= 0.003;
+
+      camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+      camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Resize handler
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      if (currentMount) {
+        (currentMount as HTMLDivElement).removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, []);
+
+  return <ThreeBackground ref={mountRef} />;
+};
+
+const Projects = () => {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleCategoryChange = (categoryId: React.SetStateAction<string>) => {
     setIsLoading(true);
     setActiveCategory(categoryId);
-    setTimeout(() => setIsLoading(false), 300);
+    setTimeout(() => setIsLoading(false), 400);
   };
 
   const currentCategory = projectCategories.find(cat => cat.id === activeCategory) || projectCategories[0];
   const projectsToDisplay = currentCategory.projects;
 
-  const orbs = [
-    { size: 300, color: '#6c5ce7', x: '10%', y: '20%' },
-    { size: 400, color: '#a29bfe', x: '70%', y: '30%' },
-    { size: 250, color: '#fd79a8', x: '30%', y: '60%' },
-    { size: 350, color: '#00cec9', x: '80%', y: '70%' }
-  ];
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
 
-  const titleWords = "Featured Projects".split(" ");
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: [0.6, -0.05, 0.01, 0.99]
+      }
+    }
+  };
 
   return (
     <ProjectsSection id="projects">
-      <FloatingOrbs>
-        {orbs.map((orb, i) => (
-          <Orb
-            key={i}
-            custom={i}
-            variants={orbVariants}
-            animate="animate"
-            style={{
-              width: orb.size,
-              height: orb.size,
-              background: orb.color,
-              left: orb.x,
-              top: orb.y
-            }}
-          />
-        ))}
-      </FloatingOrbs>
+      <ThreeScene />
 
-      <div className="container">
-        <SectionHeader
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <h2>
-            {titleWords.map((word, i) => (
-              <AnimatedText
-                key={i}
-                custom={i}
-                variants={textVariants}
-                initial="hidden"
-                animate="visible"
-                style={{ marginRight: i < titleWords.length - 1 ? '0.5rem' : 0 }}
-              >
-                {word}
-              </AnimatedText>
-            ))}
-          </h2>
-          <motion.p
-            variants={paragraphVariants}
-            initial="hidden"
-            animate="visible"
+      <ContentWrapper>
+        <SectionHeader>
+          <Title
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }}
           >
-            Explore our work across different domains and technologies
-          </motion.p>
+            Featured Projects
+          </Title>
+          <Subtitle
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.6, -0.05, 0.01, 0.99] }}
+          >
+            Explore a collection of innovative solutions across various domains
+          </Subtitle>
         </SectionHeader>
 
-        <CategoryTabs>
+        <CategoryTabs
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           {projectCategories.map((category) => (
             <CategoryTab
               key={category.id}
-              active={activeCategory === category.id}
               onClick={() => handleCategoryChange(category.id)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              data-active={activeCategory === category.id ? "true" : undefined}
             >
               {category.name}
             </CategoryTab>
@@ -517,48 +667,39 @@ const Projects: React.FC = () => {
         </CategoryTabs>
 
         {isLoading ? (
-          <motion.div
-            style={{ textAlign: 'center', padding: '2rem' }}
+          <LoadingSpinner
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <motion.div
+            <Spinner
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              style={{
-                width: '50px',
-                height: '50px',
-                borderRadius: '50%',
-                border: '3px solid #6c5ce7',
-                borderTopColor: 'transparent',
-                margin: '0 auto'
-              }}
             />
-          </motion.div>
+          </LoadingSpinner>
         ) : (
           <ProjectsGrid
+            variants={containerVariants}
             initial="hidden"
             animate="visible"
-            variants={containerVariants}
           >
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
               {projectsToDisplay.map((project) => (
                 <motion.div
                   key={project.id}
-                  layout
                   variants={itemVariants}
+                  layout
                 >
-                  <ProjectCard
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.3 }}
-                  >
+                  <ProjectCard>
                     <ProjectImage>
                       {project.image ? (
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          loading="lazy"
-                        />
+                        <>
+                          <img src={project.image} alt={project.title} loading="lazy" />
+                          <ImageOverlay
+                            initial={{ opacity: 0 }}
+                            whileHover={{ opacity: 1 }}
+                          >
+                          </ImageOverlay>
+                        </>
                       ) : (
                         <div style={{
                           width: '100%',
@@ -566,22 +707,32 @@ const Projects: React.FC = () => {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          background: 'rgba(108, 92, 231, 0.1)',
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                           color: 'white',
-                          fontSize: '1.2rem'
+                          fontSize: '1.5rem',
+                          fontWeight: '700'
                         }}>
                           Coming Soon!
                         </div>
                       )}
                     </ProjectImage>
+
                     <ProjectInfo>
-                      <h3>{project.title}</h3>
-                      <p>{project.description}</p>
+                      <ProjectTitle>{project.title}</ProjectTitle>
+                      <ProjectDescription>{project.description}</ProjectDescription>
+
                       <TechTags>
                         {project.technologies.map((tech, index) => (
-                          <TechTag key={index}>{tech}</TechTag>
+                          <TechTag
+                            key={index}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            {tech}
+                          </TechTag>
                         ))}
                       </TechTags>
+
                       <ProjectLinks>
                         {project.link && (
                           <LiveLink
@@ -589,6 +740,7 @@ const Projects: React.FC = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                           >
                             View Live
                           </LiveLink>
@@ -599,6 +751,7 @@ const Projects: React.FC = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                           >
                             Source Code
                           </CodeLink>
@@ -611,7 +764,7 @@ const Projects: React.FC = () => {
             </AnimatePresence>
           </ProjectsGrid>
         )}
-      </div>
+      </ContentWrapper>
     </ProjectsSection>
   );
 };

@@ -2,53 +2,63 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 
-const primaryColor = '#6C63FF';
-const primaryRgb = '108, 99, 255';
+const primaryColor = '#667eea';
+const primaryRgb = '102, 126, 234';
+
+const breakpoints = {
+  smallMobile: '320px',
+  mobile: '480px',
+  largeMobile: '600px',
+  tablet: '768px',
+  laptop: '1024px',
+};
+
+const media = {
+  smallMobile: `@media (max-width: ${breakpoints.smallMobile})`,
+  mobile: `@media (max-width: ${breakpoints.mobile})`,
+  largeMobile: `@media (max-width: ${breakpoints.largeMobile})`,
+  tablet: `@media (max-width: ${breakpoints.tablet})`,
+  laptop: `@media (max-width: ${breakpoints.laptop})`,
+};
 
 const FooterContainer = styled(motion.footer)`
-  background-color: rgba(10, 10, 20, 0.95);
-  padding: 3rem 0 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 4rem 0 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   width: 100%;
   position: relative;
   overflow: hidden;
-  
-  @media (max-width: 768px) {
-    padding: 2rem 0 1.2rem;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 1.5rem 0 1rem;
-  }
+  min-height: 400px;
+
+  ${media.laptop} { padding: 3.5rem 0 1.8rem; }
+  ${media.tablet} { padding: 3rem 0 1.5rem; }
+  ${media.mobile} { padding: 2.5rem 0 1.2rem; }
 `;
+
 
 const BackgroundGlow = styled(motion.div)` 
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(${primaryRgb}, 0.15) 0%, rgba(${primaryRgb}, 0) 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
+  backdrop-filter: blur(10px);
 `;
 
 const FooterContent = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
   position: relative;
-  z-index: 1;
-  
-  @media (max-width: 768px) {
-    padding: 0 1.5rem;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 0 1rem;
-  }
+  z-index: 2;
+
+  ${media.tablet} { padding: 0 1.5rem; }
+  ${media.mobile} { padding: 0 1rem; }
 `;
 
 const FooterLinks = styled(motion.div)`

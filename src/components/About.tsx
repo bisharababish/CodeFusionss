@@ -1,177 +1,164 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, useInView } from 'framer-motion';
+import * as THREE from 'three';
+
+const breakpoints = {
+  smallMobile: '320px',
+  mobile: '480px',
+  largeMobile: '600px',
+  tablet: '768px',
+  laptop: '1024px',
+};
+
+const media = {
+  smallMobile: `@media (max-width: ${breakpoints.smallMobile})`,
+  mobile: `@media (max-width: ${breakpoints.mobile})`,
+  largeMobile: `@media (max-width: ${breakpoints.largeMobile})`,
+  tablet: `@media (max-width: ${breakpoints.tablet})`,
+  laptop: `@media (max-width: ${breakpoints.laptop})`,
+};
 
 const AboutSection = styled(motion.section)`
-  padding: 5rem 1rem 3rem 1rem; 
+  padding: 8rem 0 0 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
 
-  background-color: var(--darker-bg);
+  ${media.laptop} { padding: 6rem 0 0 0; }
+  ${media.tablet} { padding: 5rem 0 0 0; }
+  ${media.largeMobile} { padding: 4rem 0 0 0; }
+  ${media.mobile} { padding: 3rem 0.5rem 0 0; }
+`;
 
-  @media (max-width: 480px) {
-    padding: 4.5rem 0.75rem 2.5rem 0.75rem;  
-  }
+const ThreeBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.4;
 `;
 
 const AboutContent = styled.div`
-  width: 100%;
-  max-width: 1200px;
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 
-  @media (max-width: 768px) {
-    padding: 0 1.25rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0 1rem;
-  }
-
-  @media (max-width: 360px) {
-    padding: 0 0.75rem;
-  }
+  ${media.tablet} { padding: 0 1.5rem; }
+  ${media.mobile} { padding: 0 1rem; }
 `;
 
 const AboutText = styled(motion.div)`
-  h2 {
-    font-size: 2.5rem;
-    margin-top: 2rem;  
-    margin-bottom: 1.5rem;
-    position: relative;
+  text-align: center;
+  margin-bottom: 4rem;
 
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -10px;
-      width: 60px;
-      height: 3px;
-      background-color: var(--primary-color);
-    }
+  ${media.mobile} { margin-bottom: 3rem; }
+`;
 
-   
-    @media (max-width: 768px) {
-      font-size: 2rem;
-      text-align: center;
+const Title = styled(motion.h2)`
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  letter-spacing: -2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-      &::after {
-        left: 50%;
-        transform: translateX(-50%);
-      }
-    }
+  ${media.tablet} { font-size: 3rem; }
+  ${media.mobile} { font-size: 2.5rem; }
+`;
 
-    @media (max-width: 480px) {
-      font-size: 1.75rem;
-      margin-bottom: 1.25rem;
-    }
+const Subtitle = styled(motion.p)`
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  line-height: 1.8;
+  font-weight: 300;
 
-    @media (max-width: 360px) {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-  }
-
-  p {
-    margin-bottom: 1.5rem;
-    line-height: 1.7;
-    opacity: 0.9;
-
-   
-    @media (max-width: 768px) {
-      text-align: center;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 0.9rem;
-      line-height: 1.5;
-      margin-bottom: 1rem;
-    }
-  }
+  ${media.tablet} { font-size: 1.1rem; }
+  ${media.mobile} { font-size: 1rem; }
 `;
 
 const KnowledgeGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
 
- 
-  @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-    margin-top: 1.5rem;
-  }
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  @media (max-width: 480px) {
-    margin-top: 1.25rem;
-    gap: 0.875rem;
-  }
-
-  @media (max-width: 360px) {
-    margin-top: 1rem;
-    gap: 0.75rem;
-  }
+  ${media.laptop} { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+  ${media.tablet} { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  ${media.mobile} { grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
 `;
 
 const KnowledgeItem = styled(motion.div)`
   width: 100%;
-  padding: 1.5rem;
-  background-color: var(--dark-bg);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.1),
+    0 8px 25px rgba(102, 126, 234, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(102, 126, 234, 0.1);
+  backdrop-filter: blur(15px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
 
- 
-  @media (max-width: 768px) {
-    padding: 1.25rem;
-    min-height: 100px;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    z-index: 1;
   }
 
-  @media (max-width: 480px) {
-    padding: 1rem;
-    border-radius: 6px;
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      0 30px 80px rgba(0, 0, 0, 0.15),
+      0 15px 50px rgba(102, 126, 234, 0.25);
   }
 
-  @media (max-width: 360px) {
-    padding: 0.875rem;
-  }
+  ${media.tablet} { padding: 1.5rem; }
+  ${media.mobile} { padding: 1.25rem; }
 `;
 
 const KnowledgeTitle = styled.h3`
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
 
- 
-  @media (max-width: 768px) {
-    font-size: 1.35rem;
-    margin-bottom: 0.875rem;
+  i {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 1.4rem;
   }
 
-  @media (max-width: 480px) {
-    font-size: 1.25rem;
-    margin-bottom: 0.75rem;
-    gap: 0.375rem;
-  }
-
-  @media (max-width: 360px) {
-    font-size: 1.125rem;
-    margin-bottom: 0.625rem;
-  }
+  ${media.tablet} { font-size: 1.4rem; margin-bottom: 1.25rem; gap: 0.5rem; }
+  ${media.mobile} { font-size: 1.3rem; margin-bottom: 1rem; }
 `;
 
 const TechnologiesList = styled.div`
@@ -190,25 +177,152 @@ const TechnologiesList = styled.div`
 `;
 
 const TechItem = styled(motion.span)`
-  color: var(--light-color);
-  padding: 0.25rem 0.5rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  color: #667eea;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
   font-size: 0.9rem;
+  font-weight: 600;
+  border: 1.5px solid rgba(102, 126, 234, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 
- 
-  @media (max-width: 768px) {
-    padding: 0.2rem 0.4rem;
+  &:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   }
 
-  @media (max-width: 480px) {
-    font-size: 0.85rem;
-    padding: 0.15rem 0.35rem;
-  }
-
-  @media (max-width: 360px) {
-    font-size: 0.8rem;
-    padding: 0.1rem 0.3rem;
-  }
+  ${media.tablet} { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+  ${media.mobile} { padding: 0.35rem 0.7rem; font-size: 0.8rem; }
 `;
+
+const ThreeScene = () => {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    if (!mountRef.current) return;
+
+    const currentMount = mountRef.current;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    (currentMount as HTMLDivElement).appendChild(renderer.domElement);
+
+    // Create particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 700;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 100;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.1,
+      color: '#ffffff',
+      transparent: true,
+      opacity: 0.7,
+      blending: THREE.AdditiveBlending
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    // Create geometric shapes
+    const geometry1 = new THREE.BoxGeometry(10, 10, 10);
+    const material1 = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.2
+    });
+    const box = new THREE.Mesh(geometry1, material1);
+    scene.add(box);
+
+    const geometry2 = new THREE.CylinderGeometry(6, 6, 12, 16);
+    const material2 = new THREE.MeshPhongMaterial({
+      color: '#ffffff',
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15
+    });
+    const cylinder = new THREE.Mesh(geometry2, material2);
+    cylinder.position.set(-30, 20, -20);
+    scene.add(cylinder);
+
+    // Lighting
+    const light1 = new THREE.PointLight('#ffffff', 1.2, 100);
+    light1.position.set(25, 25, 25);
+    scene.add(light1);
+
+    const light2 = new THREE.PointLight('#ffffff', 1.2, 100);
+    light2.position.set(-25, -25, -25);
+    scene.add(light2);
+
+    camera.position.z = 45;
+
+    // Mouse movement
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Animation
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      particlesMesh.rotation.y += 0.001;
+      particlesMesh.rotation.x += 0.0005;
+
+      box.rotation.x += 0.006;
+      box.rotation.y += 0.006;
+
+      cylinder.rotation.x -= 0.004;
+      cylinder.rotation.y -= 0.004;
+
+      camera.position.x += (mouseX * 4 - camera.position.x) * 0.05;
+      camera.position.y += (mouseY * 4 - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Resize handler
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      if (currentMount) {
+        (currentMount as HTMLDivElement).removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+  }, []);
+
+  return <ThreeBackground ref={mountRef} />;
+};
 
 const About: React.FC = () => {
   const knowledgeAreas = [
@@ -275,52 +389,66 @@ const About: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
+        staggerChildren: 0.15,
+        delayChildren: 0.3
+      }
+    }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 50, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, -0.05, 0.01, 0.99]
+      }
+    }
   };
 
   const techItemVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1 },
+    visible: { opacity: 1, scale: 1 }
   };
 
   return (
     <AboutSection id="about">
+      <ThreeScene />
+
       <AboutContent>
-        <AboutText>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+        <AboutText
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8 }}
+        >
+          <Title
+            initial={{ opacity: 0, y: -50 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.8, ease: [0.6, -0.05, 0.01, 0.99] }}
           >
-            Passionate team of tech enthusiasts
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            About CodeFusion
+          </Title>
+          <Subtitle
+            initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
             At Code Fusion, we specialize in developing innovative software solutions
             that help businesses grow and adapt to the ever-changing digital landscape.
             Our team combines technical expertise with creative problem-solving to deliver
             results that exceed expectations.
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+          </Subtitle>
+          <Subtitle
+            initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
             We have extensive experience in web development, AI integration, and hardware programming.
             Whether you need a custom website, a complex web application, or an innovative AI solution,
             we have the skills and knowledge to bring your ideas to life.
-          </motion.p>
+          </Subtitle>
           <KnowledgeGrid
             ref={ref}
             variants={containerVariants}

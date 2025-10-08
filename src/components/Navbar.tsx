@@ -9,14 +9,16 @@ const NavContainer = styled(motion.header)`
   top: 0;
   left: 0;
   right: 0;
-  background-color: rgba(8, 8, 15, 0.95);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
   padding: 1rem 0;
   z-index: 1000;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   height: 64px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
 `;
 
 const NavContent = styled.div`
@@ -90,10 +92,11 @@ const MobileNavLinks = styled(motion.nav)`
     right: 0;
     width: 250px;
     height: 100vh;
-    background-color: var(--darker-bg);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.98) 0%, rgba(118, 75, 162, 0.98) 100%);
     z-index: 999;
     padding-top: 80px;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    box-shadow: -5px 0 15px rgba(102, 126, 234, 0.3);
+    backdrop-filter: blur(10px);
   }
 `;
 
@@ -186,22 +189,24 @@ z-index: 100;
 const SearchInput = styled(motion.input)`
   padding: 0.5rem 2.5rem 0.5rem 1rem;
   border-radius: 20px;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.15);
   color: white;
   outline: none;
   transition: all 0.3s ease;
   width: 100%;
   font-size: 0.9rem;
   height: 40px;
+  backdrop-filter: blur(5px);
 
   &:focus {
-    background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 0 0 2px var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
   }
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
   }
 
   @media (max-width: 768px) {
@@ -630,8 +635,8 @@ const Navbar = () => {
       animate="visible"
       variants={navContainerVariants}
       style={{
-        boxShadow: scrolled ? '0 5px 15px rgba(0, 0, 0, 0.1)' : 'none',
-        backgroundColor: scrolled ? 'rgba(8, 8, 15, 0.98)' : 'rgba(8, 8, 15, 0.85)'
+        boxShadow: scrolled ? '0 8px 25px rgba(102, 126, 234, 0.4)' : '0 4px 20px rgba(102, 126, 234, 0.3)',
+        background: scrolled ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.98) 0%, rgba(118, 75, 162, 0.98) 100%)' : 'linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)'
       }}
     >
       <NavContent>

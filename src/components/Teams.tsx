@@ -4,9 +4,6 @@ import * as THREE from 'three';
 import bisharaImage from './images/Team/Bishara.jpeg';
 import JudahImage from './images/Team/Judah.jpeg';
 import SalibaImage from './images/Team/Saliba.jpeg';
-import BisharaCV from './images/Team/BisharaBabishCV.pdf';
-import JudahCV from './images/Team/JudahSleibiCV.pdf';
-import SalibaCV from './images/Team/SalibaRishmawiCV.pdf';
 
 const Teams = () => {
     const mountRef = useRef<HTMLDivElement>(null);
@@ -138,7 +135,7 @@ const Teams = () => {
                 github: 'https://github.com/bisharababish',
                 linkedin: 'https://www.linkedin.com/in/bisharababish/',
                 instagram: 'https://instagram.com/bisharababish_',
-                cv: BisharaCV
+                cv: '/cv/BisharaBabishCV.pdf'
             },
         },
         {
@@ -153,7 +150,7 @@ const Teams = () => {
                 github: 'https://github.com/judahsleibi34',
                 linkedin: 'https://linkedin.com/in/judah-sleibi-b8578b321',
                 instagram: 'https://instagram.com/judah_sleibi',
-                cv: JudahCV
+                cv: '/cv/JudahSleibiCV.pdf'
             },
         },
         {
@@ -168,7 +165,7 @@ const Teams = () => {
                 github: 'https://github.com/Saliba-codes',
                 linkedin: 'https://linkedin.com/in/saliba-rishmawi-b32a11255',
                 instagram: 'https://instagram.com/saliba2002',
-                cv: SalibaCV
+                cv: '/cv/SalibaRishmawiCV.pdf'
             },
         },
     ];

@@ -1,2 +1,11 @@
+# Serve specific PDF files directly
+/BisharaBabishCV.pdf    /BisharaBabishCV.pdf    200
+/JudahSleibiCV.pdf      /JudahSleibiCV.pdf      200
+/SalibaRishmawiCV.pdf   /SalibaRishmawiCV.pdf   200
+
+# Serve all other PDF files directly
+/*.pdf    /:splat    200
+
+# Redirect all other routes to index.html for SPA routing
 /*    /index.html   200
 

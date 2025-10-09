@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
+import { Scrollbar } from 'react-scrollbars-custom';
 // Images are now served from public directory
 
 const Teams = () => {
@@ -420,89 +421,114 @@ const Teams = () => {
                     </div>
 
                     {/* Right Side - Detailed Information */}
-                    <div
-                        className="team-content"
+                    <Scrollbar
                         style={{
                             flex: '1',
                             minWidth: '300px',
-                            color: '#F4EFEA',
-                            overflowY: 'auto',
-                            maxHeight: '600px',
-                            paddingRight: '20px'
+                            height: '600px'
                         }}
+                        thumbYProps={{
+                            style: {
+                                background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                borderRadius: '10px',
+                                width: '8px',
+                                cursor: 'pointer'
+                            }
+                        }}
+                        trackYProps={{
+                            style: {
+                                background: 'rgba(176, 182, 193, 0.2)',
+                                borderRadius: '10px',
+                                width: '8px',
+                                right: '2px'
+                            }
+                        }}
+                        contentProps={{
+                            style: {
+                                paddingRight: '20px'
+                            }
+                        }}
+                        noScrollX
+                        permanentTrackY
                     >
-                        <div style={{ marginBottom: '30px' }}>
-                            <h3 style={{
-                                fontSize: '20px',
-                                fontWeight: 700,
-                                background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
-                                WebkitBackgroundClip: 'text',
-                                backgroundClip: 'text',
-                                color: 'transparent',
-                                marginBottom: '15px',
-                                textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
-                            }}>
-                                About Me:
-                            </h3>
-                            <p
-                                style={{
-                                    fontSize: '15px',
-                                    lineHeight: '1.8',
-                                    color: '#B0B6C1'
-                                }}
-                                dangerouslySetInnerHTML={{ __html: currentMember.aboutMe }}
-                            />
+                        <div
+                            className="team-content"
+                            style={{
+                                color: '#F4EFEA',
+                                padding: '0 10px 0 0'
+                            }}
+                        >
+                            <div style={{ marginBottom: '30px' }}>
+                                <h3 style={{
+                                    fontSize: '20px',
+                                    fontWeight: 700,
+                                    background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                    WebkitBackgroundClip: 'text',
+                                    backgroundClip: 'text',
+                                    color: 'transparent',
+                                    marginBottom: '15px',
+                                    textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
+                                }}>
+                                    About Me:
+                                </h3>
+                                <p
+                                    style={{
+                                        fontSize: '15px',
+                                        lineHeight: '1.8',
+                                        color: '#B0B6C1'
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: currentMember.aboutMe }}
+                                />
+                            </div>
+
+                            <div style={{ marginBottom: '30px' }}>
+                                <h3 style={{
+                                    fontSize: '20px',
+                                    fontWeight: 700,
+                                    background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                    WebkitBackgroundClip: 'text',
+                                    backgroundClip: 'text',
+                                    color: 'transparent',
+                                    marginBottom: '15px',
+                                    textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
+                                }}>
+                                    Education and Experience:
+                                </h3>
+                                <p
+                                    style={{
+                                        fontSize: '15px',
+                                        lineHeight: '1.8',
+                                        color: '#B0B6C1'
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: currentMember.education }}
+                                />
+                            </div>
+
+
+                            <div style={{ marginBottom: '30px' }}>
+                                <h3 style={{
+                                    fontSize: '20px',
+                                    fontWeight: 700,
+                                    background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                    WebkitBackgroundClip: 'text',
+                                    backgroundClip: 'text',
+                                    color: 'transparent',
+                                    marginBottom: '15px',
+                                    textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
+                                }}>
+                                    Personal Interests:
+                                </h3>
+                                <p
+                                    style={{
+                                        fontSize: '15px',
+                                        lineHeight: '1.8',
+                                        color: '#B0B6C1'
+                                    }}
+                                    dangerouslySetInnerHTML={{ __html: currentMember.interests }}
+                                />
+                            </div>
                         </div>
-
-                        <div style={{ marginBottom: '30px' }}>
-                            <h3 style={{
-                                fontSize: '20px',
-                                fontWeight: 700,
-                                background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
-                                WebkitBackgroundClip: 'text',
-                                backgroundClip: 'text',
-                                color: 'transparent',
-                                marginBottom: '15px',
-                                textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
-                            }}>
-                                Education and Experience:
-                            </h3>
-                            <p
-                                style={{
-                                    fontSize: '15px',
-                                    lineHeight: '1.8',
-                                    color: '#B0B6C1'
-                                }}
-                                dangerouslySetInnerHTML={{ __html: currentMember.education }}
-                            />
-                        </div>
-
-
-                        <div style={{ marginBottom: '30px' }}>
-                            <h3 style={{
-                                fontSize: '20px',
-                                fontWeight: 700,
-                                background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
-                                WebkitBackgroundClip: 'text',
-                                backgroundClip: 'text',
-                                color: 'transparent',
-                                marginBottom: '15px',
-                                textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
-                            }}>
-                                Personal Interests:
-                            </h3>
-                            <p
-                                style={{
-                                    fontSize: '15px',
-                                    lineHeight: '1.8',
-                                    color: '#B0B6C1'
-                                }}
-                                dangerouslySetInnerHTML={{ __html: currentMember.interests }}
-                            />
-                        </div>
-
-
-                    </div>
+                    </Scrollbar>
                 </motion.div>
             </div>
 

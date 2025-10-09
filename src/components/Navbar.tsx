@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import CodeFusion from '../components/images/Logo/CodeFusion.png';
+// Logo image is now served from public directory
 
 const NavContainer = styled(motion.header)`
   position: fixed;
@@ -340,7 +340,7 @@ const Navbar = () => {
           variants={logoVariants}
         >
           <Link to="/" onClick={handleNavigation}>
-            <img src={CodeFusion} alt="CodeFusion Logo" />
+            <img src="/CodeFusion.png" alt="CodeFusion Logo" />
             Code<span>Fusion</span>
           </Link>
         </Logo>
@@ -357,7 +357,7 @@ const Navbar = () => {
               <Link to="/about" onClick={handleNavigation}>About</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/teams" onClick={handleNavigation}>Teams</Link>
+              <Link to="/teams" onClick={handleNavigation}>Team</Link>
             </NavItem>
           </NavList>
         </NavLinks>
@@ -429,7 +429,7 @@ const Navbar = () => {
               }}
             >
               <NavList>
-                {["Home", "Projects", "About", "Teams"].map((item, index) => (
+                {["Home", "Projects", "About", "Team"].map((item, index) => (
                   <NavItem
                     key={index}
                     whileHover="hover"

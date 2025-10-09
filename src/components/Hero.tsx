@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import CodeFusion from '../components/images/Logo/CodeFusion.png';
+// Logo image is now served from public directory
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
 
@@ -45,7 +45,7 @@ const HeroSection = styled.section`
     transform: translate(-50%, -50%);
     width: 140%;
     height: 140%;
-    background-image: url(${CodeFusion});
+    background-image: url('/CodeFusion.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

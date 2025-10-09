@@ -1,9 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
-import bisharaImage from './images/Team/Bishara.jpeg';
-import JudahImage from './images/Team/Judah.jpeg';
-import SalibaImage from './images/Team/Saliba.jpeg';
+// Images are now served from public directory
 
 const Teams = () => {
     const mountRef = useRef<HTMLDivElement>(null);
@@ -127,7 +125,7 @@ const Teams = () => {
             id: 1,
             name: 'Bishara Babish',
             title: 'Front-End & Mobile Developer',
-            image: bisharaImage,
+            image: '/Bishara.jpeg',
             aboutMe: 'Bishara is a Computer Science graduate from <strong>Al-Quds University</strong> with a focus on <strong>front-end and mobile development</strong>, <strong>IoT projects</strong>, and <strong>full-stack applications</strong>. Skilled in <strong>JavaScript</strong>, <strong>React</strong>, <strong>Node.js</strong>, and <strong>responsive design</strong>, he has contributed to projects ranging from <strong>AI-driven medical tools</strong> to <strong>e-commerce platforms</strong> and <strong>interactive games</strong>.',
             education: 'He gained international experience in <strong>Germany</strong>, where he worked on IoT automation and prototyping projects at <strong>ZeMa International</strong> and <strong>Fab Lab Siegen</strong>. These opportunities strengthened his technical expertise, problem-solving skills, and ability to collaborate in diverse, global teams.',
             interests: 'Bishara combines creativity with strong technical foundations, focusing on building practical, user-friendly web and mobile applications that meet modern business and user needs.',
@@ -135,14 +133,14 @@ const Teams = () => {
                 github: 'https://github.com/bisharababish',
                 linkedin: 'https://www.linkedin.com/in/bisharababish/',
                 instagram: 'https://instagram.com/bisharababish_',
-                cv: '/cv/BisharaBabishCV.pdf'
+                cv: '/BisharaBabishCV.pdf'
             },
         },
         {
             id: 2,
             name: 'Judah Sleibi',
             title: 'AI & QA Engineer',
-            image: JudahImage,
+            image: '/Judah.jpeg',
             aboutMe: 'Judah is a <strong>Mechatronics Engineering graduate</strong> and a <strong>Master\'s student in Artificial Intelligence</strong> at the <strong>Arab American University</strong>. A self-taught developer with a passion for AI, he has built expertise in <strong>machine learning</strong>, <strong>computer vision</strong>, and <strong>data analytics</strong>, combining his engineering background with advanced research and applied projects.',
             education: 'His work spans from developing the <strong>SparkVision AI Agent</strong>, a hybrid NLP and CNN-based system for detecting digital eye strain in children, to designing <strong>predictive models for early disease detection</strong> and analyzing large-scale datasets for actionable insights. Judah\'s research contributions include a <strong>published paper on AI applications in healthcare</strong>, showcasing his ability to turn complex problems into innovative solutions with real-world impact.',
             interests: 'Alongside his AI focus, Judah has strong experience in <strong>software quality assurance and testing</strong>. He has completed professional training and applied his skills in <strong>manual, automated, API, and mobile testing</strong>, using tools like <strong>Selenium</strong>, <strong>Cypress</strong>, <strong>Appium</strong>, and <strong>Postman</strong>. His QA work includes projects such as the <strong>Jenan Market multi-tenant e-commerce platform</strong>, where he led efforts in <strong>functional validation, performance testing, and scalability assurance</strong>.',
@@ -150,14 +148,14 @@ const Teams = () => {
                 github: 'https://github.com/judahsleibi34',
                 linkedin: 'https://linkedin.com/in/judah-sleibi-b8578b321',
                 instagram: 'https://instagram.com/judah_sleibi',
-                cv: '/cv/JudahSleibiCV.pdf'
+                cv: '/JudahSleibiCV.pdf'
             },
         },
         {
             id: 3,
             name: 'Saliba Rishmawi',
             title: 'AI, Software & Cybersecurity Developer',
-            image: SalibaImage,
+            image: '/Saliba.jpeg',
             aboutMe: 'Saliba is a Computer Science graduate from <strong>Al-Quds University</strong> with a focus on <strong>machine learning</strong>, <strong>computer vision</strong>, <strong>software development</strong>, and <strong>cybersecurity</strong>. Skilled in <strong>Python</strong>, <strong>Java</strong>, <strong>SQL</strong>, <strong>AI frameworks</strong> like PyTorch and U-Net, and with a solid foundation in networking and security, he has worked on projects that apply advanced technologies to real-world challenges.',
             education: 'He gained international experience in <strong>Germany</strong>, completing an exchange semester at <strong>HTW Saar</strong> and joining the <strong>Fab Lab Siegen Summer Program</strong>, where he collaborated on projects in engineering, prototyping, and entrepreneurship. Saliba also co-founded <strong>CodeFusion</strong>, a software development team building AI-driven tools, mobile/desktop applications, and automation solutions.',
             interests: 'His project experience includes developing an <strong>AI-powered brain tumor detection system</strong>, building an <strong>autonomous car prototype</strong>, and creating a <strong>NAS server</strong> for secure data storage and sharing. These experiences highlight his ability to integrate technical expertise, creativity, and cybersecurity awareness into effective solutions.',
@@ -165,7 +163,7 @@ const Teams = () => {
                 github: 'https://github.com/Saliba-codes',
                 linkedin: 'https://linkedin.com/in/saliba-rishmawi-b32a11255',
                 instagram: 'https://instagram.com/saliba2002',
-                cv: '/cv/SalibaRishmawiCV.pdf'
+                cv: '/SalibaRishmawiCV.pdf'
             },
         },
     ];

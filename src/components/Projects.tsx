@@ -3,17 +3,7 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 
-// Import images
-import BlogImage from './images/projectspics/web/blog.png';
-import MRIImage from './images/projectspics/web/mri.png';
-import SnakeImage from './images/projectspics/games/snake.png';
-import TravelImage from './images/projectspics/web/travel.png';
-import DistrubitionImage from './images/projectspics/AIML/Distribution.png';
-import DungeonGame from './images/projectspics/games/dungeon.jpeg';
-import TreasureHunter from './images/projectspics/games/treasure.jpeg';
-import SpaceExplorer from './images/projectspics/games/space.jpeg';
-import FruitBasketFrenzy from './images/projectspics/games/fruit.jpeg';
-import ReleaseYear from './images/projectspics/AIML/ReleaseYear.png';
+// Images are now served from public directory
 
 const breakpoints = {
   smallMobile: '320px',
@@ -568,7 +558,7 @@ const allProjects = [
     id: 1,
     title: 'Personal Blog Page',
     description: 'A personal Blog that consists of random generated poems or blogs that you can read about when you press Continue Reading.',
-    image: BlogImage,
+    image: '/images/projectspics/web/blog.png',
     technologies: ['HTML', 'CSS'],
     githubLink: 'https://github.com/bisharababish/Personal-Blog',
     category: 'web'
@@ -577,7 +567,7 @@ const allProjects = [
     id: 2,
     title: 'MRI Brain Tumor Detection',
     description: 'This AI-powered application analyzes brain MRI scans to detect tumors using a CNN model built with PyTorch, ensuring high accuracy in image analysis.',
-    image: MRIImage,
+    image: '/images/projectspics/web/mri.png',
     technologies: ['JavaScript', 'HTML', 'CSS'],
     link: 'https://mridetection.netlify.app/',
     githubLink: 'https://github.com/bisharababish/MRI-Brain-Tumor',
@@ -587,7 +577,7 @@ const allProjects = [
     id: 3,
     title: 'Snake Game',
     description: 'An advanced, feature-rich implementation of the classic Snake game with modern graphics, power-ups, and progression mechanics.',
-    image: SnakeImage,
+    image: '/images/projectspics/games/snake.png',
     technologies: ['JavaScript', 'CSS', 'HTML'],
     link: 'https://slitherzone.netlify.app/',
     githubLink: 'https://github.com/bisharababish/Snake-Game',
@@ -597,7 +587,7 @@ const allProjects = [
     id: 4,
     title: 'Travel App',
     description: 'This project involves building a personal blog website from scratch using HTML and CSS, focusing on custom design, layout, and styling while ensuring proper file structure and code formatting.',
-    image: TravelImage,
+    image: '/images/projectspics/web/travel.png',
     technologies: ['JavaScript', 'SCSS', 'HTML'],
     githubLink: 'https://github.com/bisharababish/TravelApp',
     category: 'web'
@@ -606,7 +596,7 @@ const allProjects = [
     id: 5,
     title: 'Early Prediction of Kidney Dysfunction',
     description: 'This project investigates the early prediction of kidney dysfunction in diabetic patients by analyzing Fasting Blood Sugar and Creatinine levels using machine learning models.',
-    image: DistrubitionImage,
+    image: '/images/projectspics/AIML/Distribution.png',
     technologies: ['Python'],
     githubLink: 'https://github.com/judahsleibi34/Early-Prediction-of-Kidney-Dysfunction-in-Diabetic-Patients',
     category: 'ai'
@@ -615,7 +605,7 @@ const allProjects = [
     id: 6,
     title: 'Dungeon Escape',
     description: 'Dungeon Escape is a thrilling 2D game where you explore dark dungeons, solve puzzles, battle enemies, and collect items to escape. Can you survive?',
-    image: DungeonGame,
+    image: '/images/projectspics/games/dungeon.jpeg',
     technologies: ['JavaScript', 'SCSS', 'HTML'],
     link: 'https://dungeonescapee.netlify.app/',
     githubLink: 'https://github.com/bisharababish/Dungeon-Escape',
@@ -625,7 +615,7 @@ const allProjects = [
     id: 7,
     title: 'Treasure Hunter',
     description: 'Dungeon Escape is a maze-based game with dynamic levels. Collect treasures, dodge traps, and survive as challenges intensify. How far can you go?',
-    image: TreasureHunter,
+    image: '/images/projectspics/games/treasure.jpeg',
     technologies: ['JavaScript', 'SCSS', 'HTML'],
     link: 'https://treasurehunterr.netlify.app/',
     githubLink: 'https://github.com/bisharababish/Treasure-Hunter',
@@ -635,7 +625,7 @@ const allProjects = [
     id: 8,
     title: 'Space Explorer',
     description: 'A browser-based arcade space game where you collect energy crystals, dodge debris, and find wormholes to explore new galaxies.',
-    image: SpaceExplorer,
+    image: '/images/projectspics/games/space.jpeg',
     technologies: ['JavaScript', 'SCSS', 'HTML'],
     link: 'https://spaceexplorerr.netlify.app/',
     githubLink: 'https://github.com/bisharababish/Space-Explorer',
@@ -645,7 +635,7 @@ const allProjects = [
     id: 9,
     title: 'Fruit Basket Frenzy',
     description: 'Fruit Basket Frenzy is a fun game where you catch falling fruits to score points before time runs out. With smooth animations and a vibrant design, it is perfect for all ages!',
-    image: FruitBasketFrenzy,
+    image: '/images/projectspics/games/fruit.jpeg',
     technologies: ['JavaScript', 'SCSS', 'HTML'],
     link: 'https://fruitbasketfrenzy.netlify.app/',
     githubLink: 'https://github.com/bisharababish/Fruit-Basket-Frenzy',
@@ -655,7 +645,7 @@ const allProjects = [
     id: 10,
     title: 'TMDB Movie Dataset Analysis',
     description: 'This project analyzes the TMDb Movies Dataset to explore trends in the film industry. It examines the relationship between movie attributes (e.g., budget, genre, runtime) and financial success (revenue) while focusing on data cleaning, handling missing values, and visualizing key insights.',
-    image: ReleaseYear,
+    image: '/images/projectspics/AIML/ReleaseYear.png',
     technologies: ['Python'],
     githubLink: 'https://github.com/judahsleibi34/TMDB-project',
     category: 'ai'

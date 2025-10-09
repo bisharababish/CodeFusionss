@@ -5,6 +5,9 @@ import bisharaImage from '../components/images/Team/Bishara.jpeg';
 import JudahImage from '../components/images/Team/Judah.jpeg';
 import SalibaImage from '../components/images/Team/Saliba.jpeg';
 import BisharaCV from '../components/images/Team/BisharaBabishCV.pdf';
+import JudahCV from '../components/images/Team/JudahSleibiCV.pdf';
+import SalibaCV from '../components/images/Team/SalibaRishmawiCV.pdf';
+
 const Teams = () => {
     const mountRef = useRef<HTMLDivElement>(null);
     const [selectedMember, setSelectedMember] = useState(0);
@@ -33,7 +36,7 @@ const Teams = () => {
 
         const particlesMaterial = new THREE.PointsMaterial({
             size: 0.1,
-            color: '#ffffff',
+            color: '#F4EFEA',
             transparent: true,
             opacity: 0.6,
             blending: THREE.AdditiveBlending
@@ -44,7 +47,7 @@ const Teams = () => {
 
         const geometry1 = new THREE.SphereGeometry(8, 32, 32);
         const material1 = new THREE.MeshPhongMaterial({
-            color: '#ffffff',
+            color: '#F4EFEA',
             wireframe: true,
             transparent: true,
             opacity: 0.15
@@ -54,7 +57,7 @@ const Teams = () => {
 
         const geometry2 = new THREE.ConeGeometry(5, 10, 8);
         const material2 = new THREE.MeshPhongMaterial({
-            color: '#ffffff',
+            color: '#F4EFEA',
             wireframe: true,
             transparent: true,
             opacity: 0.1
@@ -63,11 +66,11 @@ const Teams = () => {
         cone.position.set(-25, 15, -15);
         scene.add(cone);
 
-        const light1 = new THREE.PointLight('#ffffff', 1.2, 100);
+        const light1 = new THREE.PointLight('#F4EFEA', 1.2, 100);
         light1.position.set(25, 25, 25);
         scene.add(light1);
 
-        const light2 = new THREE.PointLight('#ffffff', 1.2, 100);
+        const light2 = new THREE.PointLight('#F4EFEA', 1.2, 100);
         light2.position.set(-25, -25, -25);
         scene.add(light2);
 
@@ -126,11 +129,11 @@ const Teams = () => {
         {
             id: 1,
             name: 'Bishara Babish',
-            title: 'Web Designer & Application Co-Developer',
+            title: 'Front-End & Mobile Developer',
             image: bisharaImage,
-            aboutMe: 'I am Bishara Babish, a 22-year-old Computer Science student at Al-Quds University with a keen interest in web design, application development, and documentation. My academic journey and diverse experiences have equipped me with a robust skill set, making me adept at tackling complex projects and delivering high-quality results.',
-            education: 'Currently, I am pursuing my Bachelor\'s degree in Computer Science, where I have developed a solid foundation in various programming languages and technologies. My expertise includes Java, C++, SQL, JavaScript, HTML, and CSS, among others. Throughout my studies, I have actively participated in multiple projects, honing my skills in both frontend and backend development. I had the privilege of participating in an engineering exchange program in Germany, which broadened my perspective and provided me with valuable international experience. During this program, I collaborated with diverse teams, enhancing my problem-solving abilities and cultural awareness. My time at ZeMa International further refined my web design and development skills. I worked on several projects, where I was responsible for designing intuitive user interfaces and ensuring seamless user experiences. This role solidified my understanding of industry standards and best practices in web development.',
-            interests: 'Beyond my professional pursuits, I have a passion for gaming and coding. These hobbies not only provide a creative outlet but also keep me updated with the latest trends and technologies in the industry. Additionally, I have a strong interest in learning new things about the earth, which fuels my curiosity and drives my desire for continuous learning.',
+            aboutMe: 'Bishara is a Computer Science graduate from <strong>Al-Quds University</strong> with a focus on <strong>front-end and mobile development</strong>, <strong>IoT projects</strong>, and <strong>full-stack applications</strong>. Skilled in <strong>JavaScript</strong>, <strong>React</strong>, <strong>Node.js</strong>, and <strong>responsive design</strong>, he has contributed to projects ranging from <strong>AI-driven medical tools</strong> to <strong>e-commerce platforms</strong> and <strong>interactive games</strong>.',
+            education: 'He gained international experience in <strong>Germany</strong>, where he worked on IoT automation and prototyping projects at <strong>ZeMa International</strong> and <strong>Fab Lab Siegen</strong>. These opportunities strengthened his technical expertise, problem-solving skills, and ability to collaborate in diverse, global teams.',
+            interests: 'Bishara combines creativity with strong technical foundations, focusing on building practical, user-friendly web and mobile applications that meet modern business and user needs.',
             socialLinks: {
                 github: 'https://github.com/bisharababish',
                 linkedin: 'https://www.linkedin.com/in/bisharababish/',
@@ -141,35 +144,31 @@ const Teams = () => {
         {
             id: 2,
             name: 'Judah Sleibi',
-            title: 'Quality Assurance1& AI Specialist',
+            title: 'AI & QA Engineer',
             image: JudahImage,
-            aboutMe: 'I am Judah Sleibi, a dedicated Computer Science student specializing in Quality Assurance, Artificial Intelligence, and Data Science. My passion lies in ensuring that every product meets the highest standards of quality through rigorous testing and analysis.',
-            education: 'Throughout my academic journey at Al-Quds University, I have developed strong expertise in software testing methodologies, automated testing frameworks, and quality assurance best practices. My coursework has provided me with deep knowledge in AI algorithms, machine learning, and data analysis techniques.',
-            projects: 'In our MRI Brain Tumor Recognition project, I serve as the Quality Assurance Specialist. My responsibilities include designing comprehensive test cases, implementing automated testing procedures, and ensuring the reliability and accuracy of our AI model. I also contribute to the development of the machine learning algorithms that power our tumor detection system.',
-            interests: 'I am passionate about exploring the intersection of AI and healthcare, constantly seeking ways to apply cutting-edge technology to solve real-world medical challenges. In my free time, I enjoy staying updated with the latest developments in machine learning and participating in coding competitions.',
-            conclusion: 'My goal is to contribute to innovative projects that make a meaningful impact on society, particularly in the healthcare sector where technology can save lives and improve patient outcomes.',
+            aboutMe: 'Judah is a <strong>Mechatronics Engineering graduate</strong> and a <strong>Master\'s student in Artificial Intelligence</strong> at the <strong>Arab American University</strong>. A self-taught developer with a passion for AI, he has built expertise in <strong>machine learning</strong>, <strong>computer vision</strong>, and <strong>data analytics</strong>, combining his engineering background with advanced research and applied projects.',
+            education: 'His work spans from developing the <strong>SparkVision AI Agent</strong>, a hybrid NLP and CNN-based system for detecting digital eye strain in children, to designing <strong>predictive models for early disease detection</strong> and analyzing large-scale datasets for actionable insights. Judah\'s research contributions include a <strong>published paper on AI applications in healthcare</strong>, showcasing his ability to turn complex problems into innovative solutions with real-world impact.',
+            interests: 'Alongside his AI focus, Judah has strong experience in <strong>software quality assurance and testing</strong>. He has completed professional training and applied his skills in <strong>manual, automated, API, and mobile testing</strong>, using tools like <strong>Selenium</strong>, <strong>Cypress</strong>, <strong>Appium</strong>, and <strong>Postman</strong>. His QA work includes projects such as the <strong>Jenan Market multi-tenant e-commerce platform</strong>, where he led efforts in <strong>functional validation, performance testing, and scalability assurance</strong>.',
             socialLinks: {
                 github: 'https://github.com/judahsleibi34',
                 linkedin: 'https://linkedin.com/in/judah-sleibi-b8578b321',
                 instagram: 'https://instagram.com/judah_sleibi',
-                cv: BisharaCV
+                cv: JudahCV
             },
         },
         {
             id: 3,
             name: 'Saliba Rishmawi',
-            title: 'AI & Embedded Systems Specialist',
+            title: 'AI, Software & Cybersecurity Developer',
             image: SalibaImage,
-            aboutMe: 'I am Saliba Rishmawi, a Computer Science student with a strong focus on Artificial Intelligence, Image Processing, and Embedded Systems. My expertise lies in developing intelligent systems that can process and analyze visual data in real-time.',
-            education: 'My academic background at Al-Quds University has equipped me with comprehensive knowledge in computer vision, neural networks, and embedded systems programming. I have extensive experience with Python, TensorFlow, OpenCV, and various embedded platforms.',
-            projects: 'As the AI Specialist in our MRI Brain Tumor Recognition project, I am responsible for developing and optimizing the deep learning models used for tumor detection. I work on image preprocessing, model training, and performance optimization to ensure our system provides accurate and reliable results.',
-            interests: 'I am deeply interested in the applications of AI in medical imaging and the potential of embedded systems to bring AI capabilities to edge devices. I enjoy experimenting with new architectures and techniques to improve model accuracy and efficiency.',
-            conclusion: 'I believe that the future of healthcare lies in intelligent systems that can assist medical professionals in making faster and more accurate diagnoses. I am excited to be part of projects that push the boundaries of what is possible with AI technology.',
+            aboutMe: 'Saliba is a Computer Science graduate from <strong>Al-Quds University</strong> with a focus on <strong>machine learning</strong>, <strong>computer vision</strong>, <strong>software development</strong>, and <strong>cybersecurity</strong>. Skilled in <strong>Python</strong>, <strong>Java</strong>, <strong>SQL</strong>, <strong>AI frameworks</strong> like PyTorch and U-Net, and with a solid foundation in networking and security, he has worked on projects that apply advanced technologies to real-world challenges.',
+            education: 'He gained international experience in <strong>Germany</strong>, completing an exchange semester at <strong>HTW Saar</strong> and joining the <strong>Fab Lab Siegen Summer Program</strong>, where he collaborated on projects in engineering, prototyping, and entrepreneurship. Saliba also co-founded <strong>CodeFusion</strong>, a software development team building AI-driven tools, mobile/desktop applications, and automation solutions.',
+            interests: 'His project experience includes developing an <strong>AI-powered brain tumor detection system</strong>, building an <strong>autonomous car prototype</strong>, and creating a <strong>NAS server</strong> for secure data storage and sharing. These experiences highlight his ability to integrate technical expertise, creativity, and cybersecurity awareness into effective solutions.',
             socialLinks: {
                 github: 'https://github.com/Saliba-codes',
                 linkedin: 'https://linkedin.com/in/saliba-rishmawi-b32a11255',
                 instagram: 'https://instagram.com/saliba2002',
-                cv: BisharaCV
+                cv: SalibaCV
             },
         },
     ];
@@ -181,7 +180,7 @@ const Teams = () => {
             position: 'relative',
             minHeight: '100vh',
             overflow: 'hidden',
-            background: 'linear-gradient(135deg, #2d3748 0%, #1a202c 100%)',
+            background: '#0A0A0A',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -217,8 +216,8 @@ const Teams = () => {
                             onClick={() => setSelectedMember(index)}
                             style={{
                                 padding: '15px 30px',
-                                background: selectedMember === index ? 'white' : 'rgba(255,255,255,0.1)',
-                                color: selectedMember === index ? '#2d3748' : 'white',
+                                background: selectedMember === index ? 'linear-gradient(135deg, #4B2E83, #2F80ED)' : '#1A1A1A',
+                                color: selectedMember === index ? '#F4EFEA' : '#F4EFEA',
                                 border: 'none',
                                 borderRadius: '10px',
                                 fontSize: '16px',
@@ -229,12 +228,12 @@ const Teams = () => {
                             }}
                             onMouseEnter={(e) => {
                                 if (selectedMember !== index) {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
+                                    e.currentTarget.style.background = '#6C4CC4';
                                 }
                             }}
                             onMouseLeave={(e) => {
                                 if (selectedMember !== index) {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                                    e.currentTarget.style.background = '#1A1A1A';
                                 }
                             }}
                         >
@@ -253,11 +252,11 @@ const Teams = () => {
                         display: 'flex',
                         flexDirection: 'row',
                         gap: '40px',
-                        background: 'rgba(255,255,255,0.05)',
+                        background: '#1A1A1A',
                         backdropFilter: 'blur(20px)',
                         borderRadius: '20px',
                         padding: '40px',
-                        border: '1px solid rgba(255,255,255,0.1)',
+                        border: '1px solid #B0B6C1',
                         flexWrap: 'wrap'
                     }}
                 >
@@ -278,21 +277,21 @@ const Teams = () => {
                                 borderRadius: '50%',
                                 objectFit: 'cover',
                                 marginBottom: '25px',
-                                border: '4px solid rgba(255,255,255,0.2)',
+                                border: '4px solid #B0B6C1',
                                 boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
                             }}
                         />
                         <h2 style={{
                             fontSize: '28px',
                             fontWeight: 700,
-                            color: 'white',
+                            color: '#F4EFEA',
                             marginBottom: '10px'
                         }}>
                             {currentMember.name}
                         </h2>
                         <p style={{
                             fontSize: '16px',
-                            color: 'rgba(255,255,255,0.7)',
+                            color: '#B0B6C1',
                             marginBottom: '25px'
                         }}>
                             {currentMember.title}
@@ -310,23 +309,23 @@ const Teams = () => {
                                     width: '45px',
                                     height: '45px',
                                     borderRadius: '10px',
-                                    background: 'rgba(255,255,255,0.1)',
+                                    background: '#1A1A1A',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    color: 'white',
+                                    color: '#F4EFEA',
                                     fontSize: '20px',
                                     textDecoration: 'none',
                                     transition: 'all 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'white';
-                                    e.currentTarget.style.color = '#2d3748';
+                                    e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
+                                    e.currentTarget.style.color = '#F4EFEA';
                                     e.currentTarget.style.transform = 'translateY(-3px)';
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.background = '#1A1A1A';
+                                    e.currentTarget.style.color = '#F4EFEA';
                                     e.currentTarget.style.transform = 'translateY(0)';
                                 }}
                             >
@@ -340,23 +339,23 @@ const Teams = () => {
                                     width: '45px',
                                     height: '45px',
                                     borderRadius: '10px',
-                                    background: 'rgba(255,255,255,0.1)',
+                                    background: '#1A1A1A',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    color: 'white',
+                                    color: '#F4EFEA',
                                     fontSize: '20px',
                                     textDecoration: 'none',
                                     transition: 'all 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'white';
-                                    e.currentTarget.style.color = '#2d3748';
+                                    e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
+                                    e.currentTarget.style.color = '#F4EFEA';
                                     e.currentTarget.style.transform = 'translateY(-3px)';
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.background = '#1A1A1A';
+                                    e.currentTarget.style.color = '#F4EFEA';
                                     e.currentTarget.style.transform = 'translateY(0)';
                                 }}
                             >
@@ -370,23 +369,23 @@ const Teams = () => {
                                     width: '45px',
                                     height: '45px',
                                     borderRadius: '10px',
-                                    background: 'rgba(255,255,255,0.1)',
+                                    background: '#1A1A1A',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    color: 'white',
+                                    color: '#F4EFEA',
                                     fontSize: '20px',
                                     textDecoration: 'none',
                                     transition: 'all 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'white';
-                                    e.currentTarget.style.color = '#2d3748';
+                                    e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
+                                    e.currentTarget.style.color = '#F4EFEA';
                                     e.currentTarget.style.transform = 'translateY(-3px)';
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.background = '#1A1A1A';
+                                    e.currentTarget.style.color = '#F4EFEA';
                                     e.currentTarget.style.transform = 'translateY(0)';
                                 }}
                             >
@@ -400,23 +399,23 @@ const Teams = () => {
                                     width: '45px',
                                     height: '45px',
                                     borderRadius: '10px',
-                                    background: 'rgba(255,255,255,0.1)',
+                                    background: '#1A1A1A',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    color: 'white',
+                                    color: '#F4EFEA',
                                     fontSize: '20px',
                                     textDecoration: 'none',
                                     transition: 'all 0.3s ease'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'white';
-                                    e.currentTarget.style.color = '#2d3748';
+                                    e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
+                                    e.currentTarget.style.color = '#F4EFEA';
                                     e.currentTarget.style.transform = 'translateY(-3px)';
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.background = '#1A1A1A';
+                                    e.currentTarget.style.color = '#F4EFEA';
                                     e.currentTarget.style.transform = 'translateY(0)';
                                 }}
                             >
@@ -426,48 +425,61 @@ const Teams = () => {
                     </div>
 
                     {/* Right Side - Detailed Information */}
-                    <div style={{
-                        flex: '1',
-                        minWidth: '300px',
-                        color: 'white',
-                        overflowY: 'auto',
-                        maxHeight: '600px',
-                        paddingRight: '20px'
-                    }}>
+                    <div
+                        className="team-content"
+                        style={{
+                            flex: '1',
+                            minWidth: '300px',
+                            color: '#F4EFEA',
+                            overflowY: 'auto',
+                            maxHeight: '600px',
+                            paddingRight: '20px'
+                        }}
+                    >
                         <div style={{ marginBottom: '30px' }}>
                             <h3 style={{
                                 fontSize: '20px',
                                 fontWeight: 700,
-                                color: '#ef4444',
-                                marginBottom: '15px'
+                                background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                WebkitBackgroundClip: 'text',
+                                backgroundClip: 'text',
+                                color: 'transparent',
+                                marginBottom: '15px',
+                                textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
                             }}>
                                 About Me:
                             </h3>
-                            <p style={{
-                                fontSize: '15px',
-                                lineHeight: '1.8',
-                                color: 'rgba(255,255,255,0.85)'
-                            }}>
-                                {currentMember.aboutMe}
-                            </p>
+                            <p
+                                style={{
+                                    fontSize: '15px',
+                                    lineHeight: '1.8',
+                                    color: '#B0B6C1'
+                                }}
+                                dangerouslySetInnerHTML={{ __html: currentMember.aboutMe }}
+                            />
                         </div>
 
                         <div style={{ marginBottom: '30px' }}>
                             <h3 style={{
                                 fontSize: '20px',
                                 fontWeight: 700,
-                                color: '#ef4444',
-                                marginBottom: '15px'
+                                background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                WebkitBackgroundClip: 'text',
+                                backgroundClip: 'text',
+                                color: 'transparent',
+                                marginBottom: '15px',
+                                textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
                             }}>
                                 Education and Experience:
                             </h3>
-                            <p style={{
-                                fontSize: '15px',
-                                lineHeight: '1.8',
-                                color: 'rgba(255,255,255,0.85)'
-                            }}>
-                                {currentMember.education}
-                            </p>
+                            <p
+                                style={{
+                                    fontSize: '15px',
+                                    lineHeight: '1.8',
+                                    color: '#B0B6C1'
+                                }}
+                                dangerouslySetInnerHTML={{ __html: currentMember.education }}
+                            />
                         </div>
 
 
@@ -475,18 +487,23 @@ const Teams = () => {
                             <h3 style={{
                                 fontSize: '20px',
                                 fontWeight: 700,
-                                color: '#ef4444',
-                                marginBottom: '15px'
+                                background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                WebkitBackgroundClip: 'text',
+                                backgroundClip: 'text',
+                                color: 'transparent',
+                                marginBottom: '15px',
+                                textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
                             }}>
                                 Personal Interests:
                             </h3>
-                            <p style={{
-                                fontSize: '15px',
-                                lineHeight: '1.8',
-                                color: 'rgba(255,255,255,0.85)'
-                            }}>
-                                {currentMember.interests}
-                            </p>
+                            <p
+                                style={{
+                                    fontSize: '15px',
+                                    lineHeight: '1.8',
+                                    color: '#B0B6C1'
+                                }}
+                                dangerouslySetInnerHTML={{ __html: currentMember.interests }}
+                            />
                         </div>
 
 
@@ -495,6 +512,21 @@ const Teams = () => {
             </div>
 
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+            <style dangerouslySetInnerHTML={{
+                __html: `
+                    .team-content strong {
+                        color: #00C2FF !important;
+                        font-weight: 700 !important;
+                        text-shadow: 0 0 8px rgba(0, 194, 255, 0.3) !important;
+                        transition: all 0.3s ease !important;
+                    }
+                    
+                    .team-content p:hover strong {
+                        color: #2F80ED !important;
+                        text-shadow: 0 0 12px rgba(47, 128, 237, 0.4) !important;
+                    }
+                `
+            }} />
         </div>
     );
 };

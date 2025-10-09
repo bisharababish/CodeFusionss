@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 
-const primaryColor = '#667eea';
-const primaryRgb = '102, 126, 234';
+// Color variables are now defined in GlobalStyles.ts
 
 const breakpoints = {
   smallMobile: '320px',
@@ -22,9 +21,9 @@ const media = {
 };
 
 const FooterContainer = styled(motion.footer)`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--primary-btn-bg);
   padding: 4rem 0 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border-color);
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -86,7 +85,7 @@ const FooterLinks = styled(motion.div)`
 `;
 
 const FooterLink = styled(motion.a)`
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--secondary-text);
   font-size: 1rem;
   padding: 0.5rem;
   position: relative;
@@ -101,7 +100,7 @@ const FooterLink = styled(motion.a)`
   }
   
   &:hover {
-    color: ${primaryColor};
+    color: var(--link-default);
   }
 `;
 
@@ -110,7 +109,7 @@ const LinkUnderline = styled(motion.div)`
   bottom: 0;
   left: 0;
   height: 2px;
-  background-color: ${primaryColor};
+  background-color: var(--link-default);
   width: 100%;
 `;
 
@@ -138,11 +137,11 @@ const SocialLink = styled(motion.a)`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--cards-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--main-text);
   position: relative;
   
   @media (max-width: 768px) {
@@ -161,7 +160,7 @@ const SocialLink = styled(motion.a)`
   }
   
   &:hover {
-    background-color: ${primaryColor};
+    background-color: var(--link-default);
   }
   
   i {
@@ -176,7 +175,7 @@ const SocialLink = styled(motion.a)`
 const SocialRipple = styled(motion.div)`
   position: absolute;
   border-radius: 50%;
-  border: 2px solid ${primaryColor};
+  border: 2px solid var(--link-default);
   width: 100%;
   height: 100%;
   top: 0;
@@ -187,7 +186,7 @@ const SocialRipple = styled(motion.div)`
 const Divider = styled(motion.div)`
   width: 100%;
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--border-color);
   margin-bottom: 1.5rem;
   position: relative;
   overflow: hidden;
@@ -205,18 +204,13 @@ const DividerGlow = styled(motion.div)`
   position: absolute;
   width: 30px;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(${primaryRgb}, 0) 0%,
-    rgba(${primaryRgb}, 0.8) 50%,
-    rgba(${primaryRgb}, 0) 100%
-  );
+  background: var(--primary-btn-bg);
   top: 0;
 `;
 
 const CopyrightSection = styled(motion.div)`
   text-align: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--secondary-text);
   font-size: 0.9rem;
   padding: 0 1rem;
   
@@ -389,8 +383,8 @@ const Footer = () => {
               variants={itemVariants}
               whileHover={{
                 y: -5,
-                backgroundColor: primaryColor,
-                boxShadow: `0 5px 15px rgba(${primaryRgb}, 0.3)`,
+                backgroundColor: '#00C2FF',
+                boxShadow: `0 5px 15px rgba(0, 194, 255, 0.3)`,
                 transition: { type: "spring", stiffness: 300 }
               }}
               whileTap={{ scale: 0.9 }}
@@ -454,7 +448,7 @@ const Footer = () => {
             <HeartIcon
               animate={{
                 scale: [1, 1.2, 1],
-                color: ["rgba(255, 255, 255, 0.5)", "#ff6b6b", "rgba(255, 255, 255, 0.5)"]
+                color: ['#B0B6C1', '#FF4F8B', '#B0B6C1']
               }}
               transition={{
                 duration: 1.5,
@@ -473,8 +467,8 @@ const Footer = () => {
             </motion.span>
           </motion.p>
         </CopyrightSection>
-      </FooterContent>
-    </FooterContainer>
+      </FooterContent >
+    </FooterContainer >
   );
 };
 

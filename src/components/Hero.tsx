@@ -21,7 +21,7 @@ const HeroSection = styled.section`
   position: relative;
   overflow: hidden;
   padding: 8rem 0 6rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--website-bg);
 
 @media (max-width: ${breakpoints.tablet}) {
     padding: 6rem 0; 
@@ -90,7 +90,7 @@ const HeroSection = styled.section`
     width: 400px;
     height: 400px;
     border-radius: 50%;
-    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    background: var(--primary-btn-bg);
     opacity: 0.08;
     filter: blur(70px);
     z-index: -1;
@@ -211,7 +211,7 @@ const HighlightedWordContainer = styled(motion.div)`
 `;
 
 const HighlightedWord = styled(motion.span)`
-  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  background: var(--primary-btn-bg);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -298,6 +298,7 @@ const SocialLinksWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  z-index: 10;
 
   @media (min-width: 769px) and (max-width: ${breakpoints.largeTablet}) {
     right: 2rem;
@@ -313,17 +314,22 @@ const SocialLinksWrapper = styled(motion.div)`
     justify-content: center;
     gap: 1.2rem;
     width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   @media (max-width: ${breakpoints.mobile}) {
     margin-top: 2rem;
     gap: 1rem;
-    justify-content: space-around;
+    justify-content: center;
+    max-width: 350px;
   }
   
   @media (max-width: ${breakpoints.smallMobile}) {
     margin-top: 1.5rem;
     gap: 0.8rem;
+    max-width: 300px;
   }
 `;
 
@@ -331,16 +337,20 @@ const SocialLink = styled(motion.a)`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  transition: all 0.3s ease;
+  background: var(--cards-bg);
+  border: 2px solid var(--border-color);
+  color: var(--main-text);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(15px);
   overflow: hidden;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(75, 46, 131, 0.2);
+  cursor: pointer;
 
   &:before {
     content: '';
@@ -349,44 +359,63 @@ const SocialLink = styled(motion.a)`
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    background: var(--primary-btn-bg);
     opacity: 0;
     transition: opacity 0.3s ease;
+    border-radius: 50%;
   }
 
   i {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
   }
 
   span {
     position: absolute;
     right: calc(100% + 15px);
     white-space: nowrap;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 0.5rem 0.75rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
+    background: var(--cards-bg);
+    color: var(--main-text);
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
     transform: translateX(10px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
     &::after {
       content: '';
       position: absolute;
-      right: -10px;
+      right: -8px;
       top: 50%;
       transform: translateY(-50%);
-      border-width: 5px;
+      border-width: 8px;
       border-style: solid;
-      border-color: transparent transparent transparent rgba(0, 0, 0, 0.8);
+      border-color: transparent transparent transparent var(--cards-bg);
     }
   }
 
   &:hover {
-    opacity: 0.9;
-    transform: scale(1.05);
+    transform: translateY(-3px) scale(1.05);
+    border-color: var(--link-default);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.15),
+      0 4px 15px rgba(75, 46, 131, 0.3);
+
+    &:before {
+      opacity: 0.1;
+    }
+
+    i {
+      color: var(--link-default);
+      transform: scale(1.1);
+    }
 
     span {
       opacity: 1;
@@ -394,12 +423,16 @@ const SocialLink = styled(motion.a)`
     }
   }
 
+  &:active {
+    transform: translateY(-1px) scale(1.02);
+  }
+
   @media (max-width: ${breakpoints.tablet}) {
-    width: 44px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
 
     i {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
     }
 
     span {
@@ -408,48 +441,69 @@ const SocialLink = styled(motion.a)`
   }
   
   @media (max-width: ${breakpoints.mobile}) {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
+
+    i {
+      font-size: 1.15rem;
+    }
+  }
+  
+  @media (max-width: ${breakpoints.smallMobile}) {
+    width: 44px;
+    height: 44px;
 
     i {
       font-size: 1.1rem;
     }
   }
-  
-  @media (max-width: ${breakpoints.smallMobile}) {
-    width: 36px;
-    height: 36px;
-
-    i {
-      font-size: 1rem;
-    }
-  }
 `;
 
 const ContactLabel = styled(motion.div)`
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 1rem;
-  opacity: 0.7;
-  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  font-weight: 700;
+  background: var(--primary-btn-bg);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 10px rgba(75, 46, 131, 0.3);
+  position: relative;
+  text-align: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--primary-btn-bg);
+    border-radius: 1px;
+  }
 
   @media (max-width: ${breakpoints.tablet}) {
     width: 100%;
     text-align: center;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.9rem;
+    letter-spacing: 1.5px;
   }
   
   @media (max-width: ${breakpoints.mobile}) {
     font-size: 0.85rem;
-    letter-spacing: 0.8px;
-    margin-bottom: 0.7rem;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
   }
   
   @media (max-width: ${breakpoints.smallMobile}) {
     font-size: 0.8rem;
     letter-spacing: 0.6px;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.8rem;
   }
 `;
 
@@ -505,7 +559,7 @@ const Particle = styled.div<ParticleStyleProps>`
   width: ${props => props.size}px;
   height: ${props => props.size}px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--link-default);
   opacity: 0.5;
   top: ${props => props.top};
   left: ${props => props.left};
@@ -692,7 +746,7 @@ const ThreeScene = () => {
 
     const particlesMaterial = new THREE.PointsMaterial({
       size: 0.08,
-      color: '#ffffff',
+      color: '#F4EFEA',
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending
@@ -704,7 +758,7 @@ const ThreeScene = () => {
     // Create geometric shapes
     const geometry1 = new THREE.ConeGeometry(6, 12, 8);
     const material1 = new THREE.MeshPhongMaterial({
-      color: '#ffffff',
+      color: '#F4EFEA',
       wireframe: true,
       transparent: true,
       opacity: 0.2
@@ -714,7 +768,7 @@ const ThreeScene = () => {
 
     const geometry2 = new THREE.OctahedronGeometry(8);
     const material2 = new THREE.MeshPhongMaterial({
-      color: '#ffffff',
+      color: '#F4EFEA',
       wireframe: true,
       transparent: true,
       opacity: 0.15
@@ -724,11 +778,11 @@ const ThreeScene = () => {
     scene.add(octahedron);
 
     // Lighting
-    const light1 = new THREE.PointLight('#ffffff', 1, 100);
+    const light1 = new THREE.PointLight('#F4EFEA', 1, 100);
     light1.position.set(25, 25, 25);
     scene.add(light1);
 
-    const light2 = new THREE.PointLight('#ffffff', 1, 100);
+    const light2 = new THREE.PointLight('#F4EFEA', 1, 100);
     light2.position.set(-25, -25, -25);
     scene.add(light2);
 
@@ -1081,7 +1135,6 @@ const Hero: React.FC = () => {
                 }}
                 whileHover={{
                   scale: windowWidth <= parseInt(breakpoints.mobile) ? 1.05 : 1.1,
-                  backgroundColor: "rgba(70, 70, 90, 0.9)",
                   transition: { duration: 0.3 }
                 }}
                 whileTap={{ scale: 0.95 }}

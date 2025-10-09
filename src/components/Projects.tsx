@@ -33,7 +33,7 @@ const media = {
 
 const ProjectsSection = styled(motion.section)`
   padding: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--website-bg);
   position: relative;
   overflow: hidden;
   min-height: 100vh;
@@ -60,8 +60,8 @@ const ProjectsSection = styled(motion.section)`
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 10% 90%, rgba(102, 126, 234, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 10%, rgba(118, 75, 162, 0.08) 0%, transparent 40%),
+    background: radial-gradient(circle at 10% 90%, rgba(75, 46, 131, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 10%, rgba(47, 128, 237, 0.08) 0%, transparent 40%),
                 radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 30%);
     animation: backgroundFloat2 25s ease-in-out infinite reverse;
     z-index: 1;
@@ -160,9 +160,9 @@ const NavItem = styled(motion.button) <NavItemProps>`
   border-radius: 12px;
   border: none;
   background: ${(props) => props.$active
-    ? 'rgba(102, 126, 234, 0.2)'
+    ? '#6C4CC4'
     : 'transparent'};
-  color: ${(props) => props.$active ? 'white' : 'rgba(255, 255, 255, 0.8)'};
+  color: ${(props) => props.$active ? '#F4EFEA' : '#B0B6C1'};
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -173,16 +173,16 @@ const NavItem = styled(motion.button) <NavItemProps>`
   margin-bottom: 0.5rem;
   backdrop-filter: blur(10px);
   border: 1px solid ${(props) => props.$active
-    ? 'rgba(255, 255, 255, 0.3)'
+    ? '#B0B6C1'
     : 'transparent'};
 
   &:hover {
     background: ${(props) => props.$active
-    ? 'rgba(102, 126, 234, 0.3)'
-    : 'rgba(255, 255, 255, 0.1)'};
-    color: white;
+    ? '#00C2FF'
+    : '#1A1A1A'};
+    color: #F4EFEA;
     transform: translateX(8px);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: #B0B6C1;
   }
 
   ${media.mobile} {
@@ -240,7 +240,7 @@ const ProjectSlide = styled(motion.div)`
 `;
 
 const ProjectCard = styled(motion.div)`
-  background: white;
+  background: var(--cards-bg);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
@@ -253,7 +253,7 @@ const ProjectCard = styled(motion.div)`
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--border-color);
   transform-style: preserve-3d;
 
   &:hover {
@@ -281,7 +281,7 @@ const ProjectImage = styled(motion.div)`
   height: 50%;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--primary-btn-bg);
   flex-shrink: 0;
 
   img {
@@ -320,7 +320,7 @@ const ProjectInfo = styled.div`
   height: 50%;
   display: flex;
   flex-direction: column;
-  background: white;
+  background: var(--cards-bg);
   gap: 1rem;
   flex-shrink: 0;
   overflow-y: auto;
@@ -338,7 +338,7 @@ const ProjectInfo = styled.div`
 
 const ProjectTitle = styled.h3`
   font-size: 1.5rem;
-  color: #2d3748;
+  color: var(--main-text);
   font-weight: 600;
   line-height: 1.2;
   margin: 0;
@@ -357,7 +357,7 @@ const ProjectTitle = styled.h3`
 `;
 
 const ProjectDescription = styled.p`
-  color: #718096;
+  color: var(--secondary-text);
   line-height: 1.5;
   flex: 1;
   font-size: 0.9rem;
@@ -376,8 +376,8 @@ const TechTags = styled.div`
 `;
 
 const TechTag = styled(motion.span)`
-  background: #667eea;
-  color: white;
+  background: var(--primary-btn-bg);
+  color: var(--primary-btn-text);
   padding: 0.4rem 1rem;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -385,7 +385,7 @@ const TechTag = styled(motion.span)`
   transition: all 0.3s ease;
 
   &:hover {
-    background: #5a6fd8;
+    background: var(--primary-btn-hover);
     transform: translateY(-2px);
   }
 `;
@@ -402,8 +402,8 @@ const ProjectLinks = styled.div`
 `;
 
 const LiveLink = styled(motion.a)`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--primary-btn-bg);
+  color: var(--primary-btn-text);
   padding: 1rem 2rem;
   border-radius: 15px;
   font-weight: 600;
@@ -411,18 +411,18 @@ const LiveLink = styled(motion.a)`
   flex: 1;
   text-align: center;
   transition: all 0.4s ease;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 25px rgba(75, 46, 131, 0.4);
   backdrop-filter: blur(10px);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 12px 35px rgba(75, 46, 131, 0.6);
   }
 `;
 
 const CodeLink = styled(motion.a)`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white !important;
+  background: var(--secondary-btn-bg);
+  color: var(--secondary-btn-text) !important;
   border: none;
   padding: 0.8rem 1.5rem;
   border-radius: 12px;
@@ -431,13 +431,13 @@ const CodeLink = styled(motion.a)`
   flex: 1;
   text-align: center;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(108, 76, 196, 0.3);
 
   &:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-    color: white !important;
+    background: var(--secondary-btn-hover);
+    color: var(--secondary-btn-text) !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 194, 255, 0.4);
   }
 `;
 
@@ -459,9 +459,9 @@ const ControlButton = styled(motion.button)`
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
+  border: 2px solid var(--border-color);
+  background: var(--cards-bg);
+  color: var(--main-text);
   font-size: 1.4rem;
   cursor: pointer;
   display: flex;
@@ -469,7 +469,7 @@ const ControlButton = styled(motion.button)`
   justify-content: center;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   backdrop-filter: blur(15px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(75, 46, 131, 0.3);
   position: relative;
   overflow: hidden;
 
@@ -485,10 +485,10 @@ const ControlButton = styled(motion.button)`
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: var(--primary-btn-bg);
+    border-color: var(--link-default);
     transform: scale(1.15) rotate(5deg);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 12px 35px rgba(75, 46, 131, 0.5);
 
     &::before {
       left: 100%;
@@ -517,15 +517,15 @@ const ProgressBar = styled.div`
   bottom: 0;
   left: 0;
   height: 4px;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+  background: var(--primary-btn-bg);
   border-radius: 3px;
   transition: width 0.05s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 10px rgba(75, 46, 131, 0.5);
   animation: progressGlow 2s ease-in-out infinite alternate;
 
   @keyframes progressGlow {
-    0% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.3); }
-    100% { box-shadow: 0 0 15px rgba(102, 126, 234, 0.7); }
+    0% { box-shadow: 0 0 5px rgba(75, 46, 131, 0.3); }
+    100% { box-shadow: 0 0 15px rgba(75, 46, 131, 0.7); }
   }
 `;
 
@@ -538,8 +538,8 @@ const IndicatorDot = styled(motion.div) <IndicatorDotProps>`
   height: 12px;
   border-radius: 50%;
   background: ${(props) => props.$active
-    ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-    : 'rgba(255, 255, 255, 0.5)'};
+    ? 'linear-gradient(135deg, #4B2E83, #2F80ED)'
+    : '#B0B6C1'};
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -559,8 +559,8 @@ const Spinner = styled(motion.div)`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: white;
+  border: 4px solid var(--secondary-text);
+  border-top-color: var(--main-text);
 `;
 
 const allProjects = [
@@ -725,7 +725,7 @@ const ThreeScene = () => {
 
     const particlesMaterial = new THREE.PointsMaterial({
       size: 0.2,
-      color: '#667eea',
+      color: '#4B2E83',
       transparent: true,
       opacity: 0.8,
       blending: THREE.AdditiveBlending
@@ -757,7 +757,7 @@ const ThreeScene = () => {
 
     const sideParticlesMaterial = new THREE.PointsMaterial({
       size: 0.2,
-      color: '#764ba2',
+      color: '#2F80ED',
       transparent: true,
       opacity: 0.7,
       blending: THREE.AdditiveBlending
@@ -781,7 +781,7 @@ const ThreeScene = () => {
 
     const floatingParticlesMaterial = new THREE.PointsMaterial({
       size: 0.1,
-      color: '#ffffff',
+      color: '#F4EFEA',
       transparent: true,
       opacity: 0.4,
       blending: THREE.AdditiveBlending
@@ -793,7 +793,7 @@ const ThreeScene = () => {
     // Create geometric shapes
     const geometry1 = new THREE.TorusGeometry(10, 3, 16, 100);
     const material1 = new THREE.MeshPhongMaterial({
-      color: '#667eea',
+      color: '#4B2E83',
       wireframe: true,
       transparent: true,
       opacity: 0.4
@@ -803,7 +803,7 @@ const ThreeScene = () => {
 
     const geometry2 = new THREE.IcosahedronGeometry(8, 0);
     const material2 = new THREE.MeshPhongMaterial({
-      color: '#764ba2',
+      color: '#2F80ED',
       wireframe: true,
       transparent: true,
       opacity: 0.4
@@ -815,7 +815,7 @@ const ThreeScene = () => {
     // Add more geometric shapes
     const geometry3 = new THREE.SphereGeometry(5, 32, 32);
     const material3 = new THREE.MeshPhongMaterial({
-      color: '#ffffff',
+      color: '#F4EFEA',
       wireframe: true,
       transparent: true,
       opacity: 0.3
@@ -827,7 +827,7 @@ const ThreeScene = () => {
     // Add side geometric shapes
     const leftTorusGeometry = new THREE.TorusGeometry(6, 2, 12, 50);
     const leftTorusMaterial = new THREE.MeshPhongMaterial({
-      color: '#667eea',
+      color: '#4B2E83',
       wireframe: true,
       transparent: true,
       opacity: 0.3
@@ -838,7 +838,7 @@ const ThreeScene = () => {
 
     const rightIcosahedronGeometry = new THREE.IcosahedronGeometry(4, 0);
     const rightIcosahedronMaterial = new THREE.MeshPhongMaterial({
-      color: '#764ba2',
+      color: '#2F80ED',
       wireframe: true,
       transparent: true,
       opacity: 0.3
@@ -850,7 +850,7 @@ const ThreeScene = () => {
     // Add corner geometric shapes
     const leftTopSphereGeometry = new THREE.SphereGeometry(4, 16, 16);
     const leftTopSphereMaterial = new THREE.MeshPhongMaterial({
-      color: '#ffffff',
+      color: '#F4EFEA',
       wireframe: true,
       transparent: true,
       opacity: 0.3
@@ -861,7 +861,7 @@ const ThreeScene = () => {
 
     const rightBottomCubeGeometry = new THREE.BoxGeometry(5, 5, 5);
     const rightBottomCubeMaterial = new THREE.MeshPhongMaterial({
-      color: '#667eea',
+      color: '#4B2E83',
       wireframe: true,
       transparent: true,
       opacity: 0.3
@@ -873,7 +873,7 @@ const ThreeScene = () => {
     // Add more side geometric shapes for better visibility
     const leftMiddleTorusGeometry = new THREE.TorusGeometry(8, 2, 12, 50);
     const leftMiddleTorusMaterial = new THREE.MeshPhongMaterial({
-      color: '#764ba2',
+      color: '#2F80ED',
       wireframe: true,
       transparent: true,
       opacity: 0.25
@@ -884,7 +884,7 @@ const ThreeScene = () => {
 
     const rightTopIcosahedronGeometry = new THREE.IcosahedronGeometry(6, 0);
     const rightTopIcosahedronMaterial = new THREE.MeshPhongMaterial({
-      color: '#ffffff',
+      color: '#F4EFEA',
       wireframe: true,
       transparent: true,
       opacity: 0.25
@@ -895,7 +895,7 @@ const ThreeScene = () => {
 
     const leftBottomConeGeometry = new THREE.ConeGeometry(4, 8, 8);
     const leftBottomConeMaterial = new THREE.MeshPhongMaterial({
-      color: '#667eea',
+      color: '#4B2E83',
       wireframe: true,
       transparent: true,
       opacity: 0.2
@@ -906,7 +906,7 @@ const ThreeScene = () => {
 
     const rightMiddleOctahedronGeometry = new THREE.OctahedronGeometry(5);
     const rightMiddleOctahedronMaterial = new THREE.MeshPhongMaterial({
-      color: '#764ba2',
+      color: '#2F80ED',
       wireframe: true,
       transparent: true,
       opacity: 0.25
@@ -916,15 +916,15 @@ const ThreeScene = () => {
     scene.add(rightMiddleOctahedron);
 
     // Enhanced lighting
-    const light1 = new THREE.PointLight('#667eea', 2, 100);
+    const light1 = new THREE.PointLight('#4B2E83', 2, 100);
     light1.position.set(20, 20, 20);
     scene.add(light1);
 
-    const light2 = new THREE.PointLight('#764ba2', 2, 100);
+    const light2 = new THREE.PointLight('#2F80ED', 2, 100);
     light2.position.set(-20, -20, -20);
     scene.add(light2);
 
-    const light3 = new THREE.PointLight('#ffffff', 1, 100);
+    const light3 = new THREE.PointLight('#F4EFEA', 1, 100);
     light3.position.set(0, 0, 30);
     scene.add(light3);
 
@@ -1253,7 +1253,7 @@ const Projects = () => {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
                             color: 'white',
                             fontSize: '2rem',
                             fontWeight: '700'

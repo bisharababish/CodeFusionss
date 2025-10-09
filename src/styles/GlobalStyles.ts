@@ -3,12 +3,33 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   :root {
-    --primary-color: #6c5ce7;
-    --secondary-color: #a29bfe;
-    --dark-bg: #0f0f1a;
-    --darker-bg: #08080f;
-    --light-text: #e6e6e6;
-    --light-accent: #ddd6f3;
+    /* Background Colors */
+    --website-bg: #0A0A0A;
+    --cards-bg: #1A1A1A;
+    
+    /* Text Colors */
+    --main-text: #F4EFEA;
+    --secondary-text: #B0B6C1;
+    --error-text: #FF4F8B;
+    
+    /* Button Colors */
+    --primary-btn-bg: linear-gradient(135deg, #4B2E83, #2F80ED);
+    --primary-btn-text: #F4EFEA;
+    --primary-btn-hover: #2F80ED;
+    --secondary-btn-bg: #6C4CC4;
+    --secondary-btn-text: #F4EFEA;
+    --secondary-btn-hover: #00C2FF;
+    
+    /* Link Colors */
+    --link-default: #00C2FF;
+    --link-hover: #2F80ED;
+    
+    /* Border/Divider Colors */
+    --border-color: #B0B6C1;
+    
+    /* Alert Colors */
+    --error-bg: #FF4F8B;
+    --error-text: #F4EFEA;
 
 
   * {
@@ -23,8 +44,8 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: var(--dark-bg);
-    color: var(--light-text);
+    background-color: var(--website-bg);
+    color: var(--main-text);
     line-height: 1.6;
   }
 
@@ -51,22 +72,24 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .button {
-    background-color: var(--primary-color);
-    color: white;
+    background: var(--primary-btn-bg);
+    color: var(--primary-btn-text);
     padding: 0.75rem 1.5rem;
     border-radius: 5px;
     font-weight: 600;
     transition: all 0.3s ease;
     display: inline-block;
+    border: none;
+    cursor: pointer;
   }
 
   .button:hover {
-    background-color: var(--secondary-color);
+    background: var(--primary-btn-hover);
     transform: translateY(-2px);
   }
 
   .accent-text {
-    color: var(--primary-color);
+    color: var(--link-default);
   }
 
   mark {

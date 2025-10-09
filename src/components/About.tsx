@@ -21,7 +21,7 @@ const media = {
 
 const AboutSection = styled(motion.section)`
   padding: 8rem 0 0 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--website-bg);
   position: relative;
   overflow: hidden;
   min-height: 100vh;
@@ -63,7 +63,7 @@ const AboutText = styled(motion.div)`
 const Title = styled(motion.h2)`
   font-size: 4rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  background: var(--primary-btn-bg);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -77,7 +77,7 @@ const Title = styled(motion.h2)`
 
 const Subtitle = styled(motion.p)`
   font-size: 1.3rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--secondary-text);
   max-width: 800px;
   margin: 0 auto 2rem;
   line-height: 1.8;
@@ -110,9 +110,9 @@ const MasonryColumn = styled.div<{ columns: number }>`
     width: 1px;
     background: linear-gradient(to bottom, 
       transparent 0%, 
-      rgba(102, 126, 234, 0.3) 20%, 
-      rgba(102, 126, 234, 0.1) 50%, 
-      rgba(102, 126, 234, 0.3) 80%, 
+      rgba(75, 46, 131, 0.3) 20%, 
+      rgba(75, 46, 131, 0.1) 50%, 
+      rgba(75, 46, 131, 0.3) 80%, 
       transparent 100%
     );
     z-index: 0;
@@ -128,9 +128,9 @@ const MasonryColumn = styled.div<{ columns: number }>`
     width: 1px;
     background: linear-gradient(to bottom, 
       transparent 0%, 
-      rgba(118, 75, 162, 0.3) 20%, 
-      rgba(118, 75, 162, 0.1) 50%, 
-      rgba(118, 75, 162, 0.3) 80%, 
+      rgba(47, 128, 237, 0.3) 20%, 
+      rgba(47, 128, 237, 0.1) 50%, 
+      rgba(47, 128, 237, 0.3) 80%, 
       transparent 100%
     );
     z-index: 0;
@@ -167,13 +167,13 @@ const MasonryColumn = styled.div<{ columns: number }>`
 const KnowledgeItem = styled(motion.div)`
   width: 100%;
   padding: 2rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+  background: var(--cards-bg);
   border-radius: 20px;
   box-shadow: 
     0 20px 60px rgba(0, 0, 0, 0.1),
-    0 8px 25px rgba(102, 126, 234, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(102, 126, 234, 0.1);
+    0 8px 25px rgba(75, 46, 131, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   backdrop-filter: blur(15px);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
@@ -192,7 +192,7 @@ const KnowledgeItem = styled(motion.div)`
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+    background: var(--primary-btn-bg);
     border-radius: 22px;
     z-index: -1;
     opacity: 0;
@@ -206,7 +206,8 @@ const KnowledgeItem = styled(motion.div)`
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    background: var(--primary-btn-bg);
+    opacity: 0.05;
     z-index: 1;
   }
 
@@ -214,10 +215,15 @@ const KnowledgeItem = styled(motion.div)`
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
       0 30px 80px rgba(0, 0, 0, 0.15),
-      0 15px 50px rgba(102, 126, 234, 0.25);
+      0 15px 50px rgba(75, 46, 131, 0.25);
     
     &::after {
       opacity: 1;
+    }
+
+    h3 {
+      text-shadow: 0 0 20px rgba(75, 46, 131, 0.6) !important;
+      filter: brightness(1.2);
     }
   }
 
@@ -239,7 +245,7 @@ const KnowledgeItem = styled(motion.div)`
 const KnowledgeTitle = styled.h3`
   font-size: 1.6rem;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--primary-btn-bg);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -248,14 +254,17 @@ const KnowledgeTitle = styled.h3`
   gap: 0.75rem;
   font-weight: 700;
   position: relative;
-  z-index: 2;
+  z-index: 3;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(75, 46, 131, 0.3);
 
   i {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--primary-btn-bg);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     font-size: 1.4rem;
+    transition: all 0.3s ease;
   }
 
   ${media.tablet} { font-size: 1.4rem; margin-bottom: 1.25rem; gap: 0.5rem; }
@@ -278,22 +287,22 @@ const TechnologiesList = styled.div`
 `;
 
 const TechItem = styled(motion.span)`
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-  color: #667eea;
+  background: var(--cards-bg);
+  color: var(--link-default);
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 600;
-  border: 1.5px solid rgba(102, 126, 234, 0.2);
+  border: 1.5px solid var(--border-color);
   transition: all 0.3s ease;
   position: relative;
   z-index: 2;
 
   &:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: var(--primary-btn-bg);
+    color: var(--primary-btn-text);
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 15px rgba(75, 46, 131, 0.3);
   }
 
   ${media.tablet} { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
@@ -328,7 +337,7 @@ const ThreeScene = () => {
 
     const particlesMaterial = new THREE.PointsMaterial({
       size: 0.1,
-      color: '#ffffff',
+      color: '#F4EFEA',
       transparent: true,
       opacity: 0.7,
       blending: THREE.AdditiveBlending
@@ -340,7 +349,7 @@ const ThreeScene = () => {
     // Create geometric shapes
     const geometry1 = new THREE.BoxGeometry(10, 10, 10);
     const material1 = new THREE.MeshPhongMaterial({
-      color: '#ffffff',
+      color: '#F4EFEA',
       wireframe: true,
       transparent: true,
       opacity: 0.2
@@ -350,7 +359,7 @@ const ThreeScene = () => {
 
     const geometry2 = new THREE.CylinderGeometry(6, 6, 12, 16);
     const material2 = new THREE.MeshPhongMaterial({
-      color: '#ffffff',
+      color: '#F4EFEA',
       wireframe: true,
       transparent: true,
       opacity: 0.15
@@ -360,11 +369,11 @@ const ThreeScene = () => {
     scene.add(cylinder);
 
     // Lighting
-    const light1 = new THREE.PointLight('#ffffff', 1.2, 100);
+    const light1 = new THREE.PointLight('#F4EFEA', 1.2, 100);
     light1.position.set(25, 25, 25);
     scene.add(light1);
 
-    const light2 = new THREE.PointLight('#ffffff', 1.2, 100);
+    const light2 = new THREE.PointLight('#F4EFEA', 1.2, 100);
     light2.position.set(-25, -25, -25);
     scene.add(light2);
 

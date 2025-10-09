@@ -9,7 +9,7 @@ const NavContainer = styled(motion.header)`
   top: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+  background: var(--primary-btn-bg);
   padding: 1rem 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
@@ -17,8 +17,8 @@ const NavContainer = styled(motion.header)`
   height: 64px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(75, 46, 131, 0.3);
 `;
 
 const NavContent = styled.div`
@@ -43,11 +43,11 @@ const Logo = styled(motion.div)`
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: var(--light-text);
+    color: var(--main-text);
   }
   
   span {
-    color: var(--primary-color);
+    color: var(--link-default);
   }
   
   img {
@@ -91,10 +91,10 @@ const MobileNavLinks = styled(motion.nav)`
     right: 0;
     width: 250px;
     height: 100vh;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.98) 0%, rgba(118, 75, 162, 0.98) 100%);
+    background: var(--primary-btn-bg);
     z-index: 999;
     padding-top: 80px;
-    box-shadow: -5px 0 15px rgba(102, 126, 234, 0.3);
+    box-shadow: -5px 0 15px rgba(75, 46, 131, 0.3);
     backdrop-filter: blur(10px);
   }
 `;
@@ -117,6 +117,7 @@ const NavList = styled(motion.ul)`
 const NavItem = styled(motion.li)`
   position: relative;
   font-weight: 500;
+  transition: color 0.3s ease;
   
   &::after {
     content: '';
@@ -125,8 +126,12 @@ const NavItem = styled(motion.li)`
     bottom: -5px;
     width: 0;
     height: 2px;
-    background-color: var(--primary-color);
+    background-color: var(--link-default);
     transition: width 0.3s ease;
+  }
+  
+  &:hover {
+    color: var(--link-default);
   }
   
   &:hover::after {
@@ -148,17 +153,45 @@ const NavItem = styled(motion.li)`
 const MobileToggle = styled(motion.button)`
   display: none;
   background: transparent;
-  color: var(--light-text);
-  font-size: 1.8rem;
   border: none;
   cursor: pointer;
   z-index: 1001;
-  padding: 5px;
+  padding: 8px;
   margin-left: auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
   
   @media (max-width: 768px) {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
+`;
+
+const HamburgerLine = styled(motion.div)`
+  width: 24px;
+  height: 3px;
+  background: var(--main-text);
+  border-radius: 2px;
+  margin: 2px 0;
+  transition: all 0.3s ease;
+`;
+
+const HamburgerContainer = styled.div<{ $isOpen: boolean }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 `;
 
 const Overlay = styled(motion.div) <{ $isOpen: boolean }>`
@@ -296,8 +329,8 @@ const Navbar = () => {
       animate="visible"
       variants={navContainerVariants}
       style={{
-        boxShadow: scrolled ? '0 8px 25px rgba(102, 126, 234, 0.4)' : '0 4px 20px rgba(102, 126, 234, 0.3)',
-        background: scrolled ? 'linear-gradient(135deg, rgba(102, 126, 234, 0.98) 0%, rgba(118, 75, 162, 0.98) 100%)' : 'linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)'
+        boxShadow: scrolled ? '0 8px 25px rgba(75, 46, 131, 0.4)' : '0 4px 20px rgba(75, 46, 131, 0.3)',
+        background: 'linear-gradient(135deg, #4B2E83, #2F80ED)'
       }}
     >
       <NavContent>
@@ -335,7 +368,42 @@ const Navbar = () => {
           whileTap={{ scale: 0.9 }}
           aria-label="Toggle menu"
         >
-          {isOpen ? '✕' : '☰'}
+          <HamburgerContainer $isOpen={isOpen}>
+            <HamburgerLine
+              animate={isOpen ? {
+                rotate: 45,
+                y: 7,
+                backgroundColor: 'var(--link-default)'
+              } : {
+                rotate: 0,
+                y: 0,
+                backgroundColor: 'var(--main-text)'
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+            <HamburgerLine
+              animate={isOpen ? {
+                opacity: 0,
+                scale: 0
+              } : {
+                opacity: 1,
+                scale: 1
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            />
+            <HamburgerLine
+              animate={isOpen ? {
+                rotate: -45,
+                y: -7,
+                backgroundColor: 'var(--link-default)'
+              } : {
+                rotate: 0,
+                y: 0,
+                backgroundColor: 'var(--main-text)'
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+          </HamburgerContainer>
         </MobileToggle>
 
         <Overlay
@@ -381,7 +449,7 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </NavContent>
-    </NavContainer>
+    </NavContainer >
   );
 };
 

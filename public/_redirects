@@ -1,3 +1,6 @@
+# Redirect old /teams route to /team
+/teams    /team    301
+
 # Serve specific PDF files directly
 /BisharaBabishCV.pdf    /BisharaBabishCV.pdf    200
 /JudahSleibiCV.pdf      /JudahSleibiCV.pdf      200

@@ -357,7 +357,7 @@ const Navbar = () => {
               <Link to="/about" onClick={handleNavigation}>About</Link>
             </NavItem>
             <NavItem whileHover="hover" initial="initial" variants={navItemVariants}>
-              <Link to="/teams" onClick={handleNavigation}>Team</Link>
+              <Link to="/team" onClick={handleNavigation}>Team</Link>
             </NavItem>
           </NavList>
         </NavLinks>
@@ -437,7 +437,7 @@ const Navbar = () => {
                     variants={listItemVariants}
                   >
                     <Link
-                      to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                      to={item === "Home" ? "/" : item === "Team" ? "/team" : `/${item.toLowerCase()}`}
                       onClick={handleNavigation}
                     >
                       {item}

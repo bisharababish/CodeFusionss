@@ -1,208 +1,13 @@
-import React, { useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import * as THREE from 'three';
 import bisharaImage from '../components/images/Team/Bishara.jpeg';
 import JudahImage from '../components/images/Team/Judah.jpeg';
 import SalibaImage from '../components/images/Team/Saliba.jpeg';
-
-const breakpoints = {
-    smallMobile: '320px',
-    mobile: '480px',
-    largeMobile: '600px',
-    tablet: '768px',
-    laptop: '1024px',
-};
-
-const media = {
-    smallMobile: `@media (max-width: ${breakpoints.smallMobile})`,
-    mobile: `@media (max-width: ${breakpoints.mobile})`,
-    largeMobile: `@media (max-width: ${breakpoints.largeMobile})`,
-    tablet: `@media (max-width: ${breakpoints.tablet})`,
-    laptop: `@media (max-width: ${breakpoints.laptop})`,
-};
-
-const TeamsSection = styled(motion.section)`
-  padding: 8rem 0 0 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  position: relative;
-  overflow: hidden;
-  min-height: 100vh;
-
-  ${media.laptop} { padding: 6rem 0 0 0; }
-  ${media.tablet} { padding: 5rem 0 0 0; }
-  ${media.largeMobile} { padding: 4rem 0 0 0; }
-  ${media.mobile} { padding: 3rem 0.5rem 0 0; }
-`;
-
-const ThreeBackground = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  opacity: 0.4;
-`;
-
-const TeamsContent = styled.div`
-  position: relative;
-  z-index: 1;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-
-  ${media.tablet} { padding: 0 1.5rem; }
-  ${media.mobile} { padding: 0 1rem; }
-`;
-
-
-const TeamGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-top: 2rem;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-
-  ${media.laptop} { 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 1.5rem; 
-  }
-  ${media.tablet} { 
-    grid-template-columns: 1fr; 
-    gap: 1.5rem; 
-    max-width: 400px;
-  }
-  ${media.mobile} { 
-    grid-template-columns: 1fr; 
-    gap: 1.5rem; 
-    margin-top: 1.5rem; 
-    max-width: 350px;
-  }
-`;
-
-const ResumeCard = styled(motion.div)`
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
-  border-radius: 20px;
-  box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.1),
-    0 8px 25px rgba(102, 126, 234, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(102, 126, 234, 0.1);
-  backdrop-filter: blur(15px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-  overflow: hidden;
-  min-height: 350px;
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-    z-index: 1;
-  }
-
-  &:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 
-      0 30px 80px rgba(0, 0, 0, 0.15),
-      0 15px 50px rgba(102, 126, 234, 0.25);
-  }
-
-  ${media.tablet} { padding: 1.5rem; min-height: 320px; }
-  ${media.mobile} { padding: 1.25rem; min-height: 300px; }
-`;
-
-const MemberImage = styled.div`
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 1.5rem;
-  position: relative;
-  z-index: 2;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-  transition: transform 0.3s ease;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  ${ResumeCard}:hover & {
-    transform: scale(1.05);
-  }
-`;
-
-const MemberInfo = styled.div`
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  width: 100%;
-`;
-
-const MemberName = styled.h3`
-  font-size: 1.6rem;
-  margin-bottom: 0.8rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-weight: 700;
-
-  ${media.tablet} { font-size: 1.4rem; }
-  ${media.mobile} { font-size: 1.3rem; }
-`;
-
-const MemberAbout = styled.p`
-  font-size: 0.9rem;
-  color: #4a5568;
-  line-height: 1.6;
-  margin: 0 0 1.5rem 0;
-  text-align: center;
-`;
-
-const SocialLinks = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  position: relative;
-  z-index: 2;
-`;
-
-const SocialLink = styled.a`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 1.2rem;
-
-  &:hover {
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-  }
-`;
-
-const ThreeScene = () => {
-    const mountRef = useRef(null);
+import BisharaCV from '../components/images/Team/BisharaBabishCV.pdf';
+const Teams = () => {
+    const mountRef = useRef<HTMLDivElement>(null);
+    const [selectedMember, setSelectedMember] = useState(0);
 
     useEffect(() => {
         if (!mountRef.current) return;
@@ -214,9 +19,8 @@ const ThreeScene = () => {
 
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        (currentMount as HTMLDivElement).appendChild(renderer.domElement);
+        currentMount.appendChild(renderer.domElement);
 
-        // Create particles
         const particlesGeometry = new THREE.BufferGeometry();
         const particlesCount = 500;
         const posArray = new Float32Array(particlesCount * 3);
@@ -238,7 +42,6 @@ const ThreeScene = () => {
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
 
-        // Create geometric shapes
         const geometry1 = new THREE.SphereGeometry(8, 32, 32);
         const material1 = new THREE.MeshPhongMaterial({
             color: '#ffffff',
@@ -260,7 +63,6 @@ const ThreeScene = () => {
         cone.position.set(-25, 15, -15);
         scene.add(cone);
 
-        // Lighting
         const light1 = new THREE.PointLight('#ffffff', 1.2, 100);
         light1.position.set(25, 25, 25);
         scene.add(light1);
@@ -271,7 +73,6 @@ const ThreeScene = () => {
 
         camera.position.z = 40;
 
-        // Mouse movement
         let mouseX = 0;
         let mouseY = 0;
 
@@ -282,7 +83,6 @@ const ThreeScene = () => {
 
         window.addEventListener('mousemove', handleMouseMove);
 
-        // Animation
         const animate = () => {
             requestAnimationFrame(animate);
 
@@ -304,7 +104,6 @@ const ThreeScene = () => {
 
         animate();
 
-        // Resize handler
         const handleResize = () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -316,143 +115,387 @@ const ThreeScene = () => {
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('resize', handleResize);
-            if (currentMount) {
-                (currentMount as HTMLDivElement).removeChild(renderer.domElement);
+            if (currentMount && renderer.domElement && currentMount.contains(renderer.domElement)) {
+                currentMount.removeChild(renderer.domElement);
             }
             renderer.dispose();
         };
     }, []);
 
-    return <ThreeBackground ref={mountRef} />;
-};
-
-const Teams: React.FC = () => {
-    const handleSocialClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
-    };
-
     const teamMembers = [
         {
             id: 1,
-            name: 'Judah Sleibi',
-            about: 'Co-Founder specializing in Quality Assurance, AI, and Data Science. Expert in ensuring top-quality products through meticulous testing and analysis.',
-            image: JudahImage,
-            socialLinks: {
-                github: 'https://github.com/judahsleibi34',
-                linkedin: 'https://linkedin.com/in/judah-sleibi-b8578b321',
-                instagram: 'https://instagram.com/judah_sleibi',
-            },
-        },
-        {
-            id: 2,
             name: 'Bishara Babish',
-            about: 'Co-Founder and Development Team Lead. Full-Stack Developer focused on building scalable, user-friendly applications and leading development initiatives.',
+            title: 'Web Designer & Application Co-Developer',
             image: bisharaImage,
+            aboutMe: 'I am Bishara Babish, a 22-year-old Computer Science student at Al-Quds University with a keen interest in web design, application development, and documentation. My academic journey and diverse experiences have equipped me with a robust skill set, making me adept at tackling complex projects and delivering high-quality results.',
+            education: 'Currently, I am pursuing my Bachelor\'s degree in Computer Science, where I have developed a solid foundation in various programming languages and technologies. My expertise includes Java, C++, SQL, JavaScript, HTML, and CSS, among others. Throughout my studies, I have actively participated in multiple projects, honing my skills in both frontend and backend development. I had the privilege of participating in an engineering exchange program in Germany, which broadened my perspective and provided me with valuable international experience. During this program, I collaborated with diverse teams, enhancing my problem-solving abilities and cultural awareness. My time at ZeMa International further refined my web design and development skills. I worked on several projects, where I was responsible for designing intuitive user interfaces and ensuring seamless user experiences. This role solidified my understanding of industry standards and best practices in web development.',
+            interests: 'Beyond my professional pursuits, I have a passion for gaming and coding. These hobbies not only provide a creative outlet but also keep me updated with the latest trends and technologies in the industry. Additionally, I have a strong interest in learning new things about the earth, which fuels my curiosity and drives my desire for continuous learning.',
             socialLinks: {
                 github: 'https://github.com/bisharababish',
                 linkedin: 'https://www.linkedin.com/in/bisharababish/',
                 instagram: 'https://instagram.com/bisharababish_',
+                cv: BisharaCV
+            },
+        },
+        {
+            id: 2,
+            name: 'Judah Sleibi',
+            title: 'Quality Assurance1& AI Specialist',
+            image: JudahImage,
+            aboutMe: 'I am Judah Sleibi, a dedicated Computer Science student specializing in Quality Assurance, Artificial Intelligence, and Data Science. My passion lies in ensuring that every product meets the highest standards of quality through rigorous testing and analysis.',
+            education: 'Throughout my academic journey at Al-Quds University, I have developed strong expertise in software testing methodologies, automated testing frameworks, and quality assurance best practices. My coursework has provided me with deep knowledge in AI algorithms, machine learning, and data analysis techniques.',
+            projects: 'In our MRI Brain Tumor Recognition project, I serve as the Quality Assurance Specialist. My responsibilities include designing comprehensive test cases, implementing automated testing procedures, and ensuring the reliability and accuracy of our AI model. I also contribute to the development of the machine learning algorithms that power our tumor detection system.',
+            interests: 'I am passionate about exploring the intersection of AI and healthcare, constantly seeking ways to apply cutting-edge technology to solve real-world medical challenges. In my free time, I enjoy staying updated with the latest developments in machine learning and participating in coding competitions.',
+            conclusion: 'My goal is to contribute to innovative projects that make a meaningful impact on society, particularly in the healthcare sector where technology can save lives and improve patient outcomes.',
+            socialLinks: {
+                github: 'https://github.com/judahsleibi34',
+                linkedin: 'https://linkedin.com/in/judah-sleibi-b8578b321',
+                instagram: 'https://instagram.com/judah_sleibi',
+                cv: BisharaCV
             },
         },
         {
             id: 3,
             name: 'Saliba Rishmawi',
-            about: 'Co-Founder specializing in AI, Image Processing, and Embedded Systems. Expert in applying cutting-edge technology to solve complex real-world problems.',
+            title: 'AI & Embedded Systems Specialist',
             image: SalibaImage,
+            aboutMe: 'I am Saliba Rishmawi, a Computer Science student with a strong focus on Artificial Intelligence, Image Processing, and Embedded Systems. My expertise lies in developing intelligent systems that can process and analyze visual data in real-time.',
+            education: 'My academic background at Al-Quds University has equipped me with comprehensive knowledge in computer vision, neural networks, and embedded systems programming. I have extensive experience with Python, TensorFlow, OpenCV, and various embedded platforms.',
+            projects: 'As the AI Specialist in our MRI Brain Tumor Recognition project, I am responsible for developing and optimizing the deep learning models used for tumor detection. I work on image preprocessing, model training, and performance optimization to ensure our system provides accurate and reliable results.',
+            interests: 'I am deeply interested in the applications of AI in medical imaging and the potential of embedded systems to bring AI capabilities to edge devices. I enjoy experimenting with new architectures and techniques to improve model accuracy and efficiency.',
+            conclusion: 'I believe that the future of healthcare lies in intelligent systems that can assist medical professionals in making faster and more accurate diagnoses. I am excited to be part of projects that push the boundaries of what is possible with AI technology.',
             socialLinks: {
                 github: 'https://github.com/Saliba-codes',
                 linkedin: 'https://linkedin.com/in/saliba-rishmawi-b32a11255',
                 instagram: 'https://instagram.com/saliba2002',
+                cv: BisharaCV
             },
         },
     ];
 
-    const ref = useRef(null);
-    const isInView = useInView(ref, {
-        once: false,
-        amount: 0.1,
-    });
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.3
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 50, scale: 0.8 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            transition: {
-                duration: 0.8,
-                ease: [0.6, -0.05, 0.01, 0.99]
-            }
-        }
-    };
+    const currentMember = teamMembers[selectedMember];
 
     return (
-        <TeamsSection id="teams">
-            <ThreeScene />
+        <div style={{
+            position: 'relative',
+            minHeight: '100vh',
+            overflow: 'hidden',
+            background: 'linear-gradient(135deg, #2d3748 0%, #1a202c 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '40px 20px'
+        }}>
+            <div ref={mountRef} style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                opacity: 0.3,
+                zIndex: 0
+            }} />
 
-            <TeamsContent>
-                <TeamGrid
-                    ref={ref}
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate={isInView ? 'visible' : 'hidden'}
-                >
-                    {teamMembers.map((member) => (
-                        <ResumeCard
+            <div style={{
+                position: 'relative',
+                zIndex: 1,
+                maxWidth: '1200px',
+                width: '100%'
+            }}>
+                {/* Navigation Tabs */}
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '20px',
+                    marginBottom: '40px',
+                    flexWrap: 'wrap'
+                }}>
+                    {teamMembers.map((member, index) => (
+                        <button
                             key={member.id}
-                            variants={itemVariants}
-                            whileHover={{ scale: 1.02 }}
-                            transition={{ type: 'spring', stiffness: 300 }}
+                            onClick={() => setSelectedMember(index)}
+                            style={{
+                                padding: '15px 30px',
+                                background: selectedMember === index ? 'white' : 'rgba(255,255,255,0.1)',
+                                color: selectedMember === index ? '#2d3748' : 'white',
+                                border: 'none',
+                                borderRadius: '10px',
+                                fontSize: '16px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                backdropFilter: 'blur(10px)'
+                            }}
+                            onMouseEnter={(e) => {
+                                if (selectedMember !== index) {
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.2)';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (selectedMember !== index) {
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                                }
+                            }}
                         >
-                            <MemberImage>
-                                <img src={member.image} alt={member.name} />
-                            </MemberImage>
-                            <MemberInfo>
-                                <MemberName>{member.name}</MemberName>
-                                <MemberAbout>{member.about}</MemberAbout>
-                                <SocialLinks>
-                                    <SocialLink
-                                        href={member.socialLinks?.github || '#'}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={handleSocialClick}
-                                    >
-                                        <i className="fab fa-github"></i>
-                                    </SocialLink>
-                                    <SocialLink
-                                        href={member.socialLinks?.linkedin || '#'}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={handleSocialClick}
-                                    >
-                                        <i className="fab fa-linkedin"></i>
-                                    </SocialLink>
-                                    <SocialLink
-                                        href={member.socialLinks?.instagram || '#'}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={handleSocialClick}
-                                    >
-                                        <i className="fab fa-instagram"></i>
-                                    </SocialLink>
-                                </SocialLinks>
-                            </MemberInfo>
-                        </ResumeCard>
+                            {member.name}
+                        </button>
                     ))}
-                </TeamGrid>
-            </TeamsContent>
-        </TeamsSection>
+                </div>
+
+                {/* Profile Content */}
+                <motion.div
+                    key={selectedMember}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '40px',
+                        background: 'rgba(255,255,255,0.05)',
+                        backdropFilter: 'blur(20px)',
+                        borderRadius: '20px',
+                        padding: '40px',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        flexWrap: 'wrap'
+                    }}
+                >
+                    {/* Left Side - Image and Basic Info */}
+                    <div style={{
+                        flex: '0 0 300px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        textAlign: 'center'
+                    }}>
+                        <img
+                            src={currentMember.image}
+                            alt={currentMember.name}
+                            style={{
+                                width: '250px',
+                                height: '250px',
+                                borderRadius: '50%',
+                                objectFit: 'cover',
+                                marginBottom: '25px',
+                                border: '4px solid rgba(255,255,255,0.2)',
+                                boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+                            }}
+                        />
+                        <h2 style={{
+                            fontSize: '28px',
+                            fontWeight: 700,
+                            color: 'white',
+                            marginBottom: '10px'
+                        }}>
+                            {currentMember.name}
+                        </h2>
+                        <p style={{
+                            fontSize: '16px',
+                            color: 'rgba(255,255,255,0.7)',
+                            marginBottom: '25px'
+                        }}>
+                            {currentMember.title}
+                        </p>
+                        <div style={{
+                            display: 'flex',
+                            gap: '15px',
+                            justifyContent: 'center'
+                        }}>
+                            <a
+                                href={currentMember.socialLinks.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    width: '45px',
+                                    height: '45px',
+                                    borderRadius: '10px',
+                                    background: 'rgba(255,255,255,0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontSize: '20px',
+                                    textDecoration: 'none',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'white';
+                                    e.currentTarget.style.color = '#2d3748';
+                                    e.currentTarget.style.transform = 'translateY(-3px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                }}
+                            >
+                                <i className="fab fa-github"></i>
+                            </a>
+                            <a
+                                href={currentMember.socialLinks.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    width: '45px',
+                                    height: '45px',
+                                    borderRadius: '10px',
+                                    background: 'rgba(255,255,255,0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontSize: '20px',
+                                    textDecoration: 'none',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'white';
+                                    e.currentTarget.style.color = '#2d3748';
+                                    e.currentTarget.style.transform = 'translateY(-3px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                }}
+                            >
+                                <i className="fab fa-linkedin"></i>
+                            </a>
+                            <a
+                                href={currentMember.socialLinks.instagram}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    width: '45px',
+                                    height: '45px',
+                                    borderRadius: '10px',
+                                    background: 'rgba(255,255,255,0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontSize: '20px',
+                                    textDecoration: 'none',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'white';
+                                    e.currentTarget.style.color = '#2d3748';
+                                    e.currentTarget.style.transform = 'translateY(-3px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                }}
+                            >
+                                <i className="fab fa-instagram"></i>
+                            </a>
+                            <a
+                                href={currentMember.socialLinks.cv}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                    width: '45px',
+                                    height: '45px',
+                                    borderRadius: '10px',
+                                    background: 'rgba(255,255,255,0.1)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    fontSize: '20px',
+                                    textDecoration: 'none',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = 'white';
+                                    e.currentTarget.style.color = '#2d3748';
+                                    e.currentTarget.style.transform = 'translateY(-3px)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
+                                    e.currentTarget.style.color = 'white';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                }}
+                            >
+                                <i className="fas fa-file-pdf"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Right Side - Detailed Information */}
+                    <div style={{
+                        flex: '1',
+                        minWidth: '300px',
+                        color: 'white',
+                        overflowY: 'auto',
+                        maxHeight: '600px',
+                        paddingRight: '20px'
+                    }}>
+                        <div style={{ marginBottom: '30px' }}>
+                            <h3 style={{
+                                fontSize: '20px',
+                                fontWeight: 700,
+                                color: '#ef4444',
+                                marginBottom: '15px'
+                            }}>
+                                About Me:
+                            </h3>
+                            <p style={{
+                                fontSize: '15px',
+                                lineHeight: '1.8',
+                                color: 'rgba(255,255,255,0.85)'
+                            }}>
+                                {currentMember.aboutMe}
+                            </p>
+                        </div>
+
+                        <div style={{ marginBottom: '30px' }}>
+                            <h3 style={{
+                                fontSize: '20px',
+                                fontWeight: 700,
+                                color: '#ef4444',
+                                marginBottom: '15px'
+                            }}>
+                                Education and Experience:
+                            </h3>
+                            <p style={{
+                                fontSize: '15px',
+                                lineHeight: '1.8',
+                                color: 'rgba(255,255,255,0.85)'
+                            }}>
+                                {currentMember.education}
+                            </p>
+                        </div>
+
+
+                        <div style={{ marginBottom: '30px' }}>
+                            <h3 style={{
+                                fontSize: '20px',
+                                fontWeight: 700,
+                                color: '#ef4444',
+                                marginBottom: '15px'
+                            }}>
+                                Personal Interests:
+                            </h3>
+                            <p style={{
+                                fontSize: '15px',
+                                lineHeight: '1.8',
+                                color: 'rgba(255,255,255,0.85)'
+                            }}>
+                                {currentMember.interests}
+                            </p>
+                        </div>
+
+
+                    </div>
+                </motion.div>
+            </div>
+
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        </div>
     );
 };
 

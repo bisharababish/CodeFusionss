@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import * as THREE from 'three';
-import bisharaImage from '../components/images/Team/Bishara.jpeg';
-import JudahImage from '../components/images/Team/Judah.jpeg';
-import SalibaImage from '../components/images/Team/Saliba.jpeg';
-import BisharaCV from '../components/images/Team/BisharaBabishCV.pdf';
-import JudahCV from '../components/images/Team/JudahSleibiCV.pdf';
-import SalibaCV from '../components/images/Team/SalibaRishmawiCV.pdf';
+import bisharaImage from './images/Team/Bishara.jpeg';
+import JudahImage from './images/Team/Judah.jpeg';
+import SalibaImage from './images/Team/Saliba.jpeg';
+import BisharaCV from './images/Team/BisharaBabishCV.pdf';
+import JudahCV from './images/Team/JudahSleibiCV.pdf';
+import SalibaCV from './images/Team/SalibaRishmawiCV.pdf';
 
 const Teams = () => {
     const mountRef = useRef<HTMLDivElement>(null);

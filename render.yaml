@@ -2,21 +2,15 @@ services:
   - type: web
     name: codefusion-portfolio
     env: static
-    buildCommand: npm run build
+    buildCommand: npm install && npm run build
     staticPublishPath: ./build
     routes:
       - type: rewrite
         source: /teams
         destination: /team
       - type: rewrite
-        source: /BisharaBabishCV.pdf
-        destination: /BisharaBabishCV.pdf
-      - type: rewrite
-        source: /JudahSleibiCV.pdf
-        destination: /JudahSleibiCV.pdf
-      - type: rewrite
-        source: /SalibaRishmawiCV.pdf
-        destination: /SalibaRishmawiCV.pdf
+        source: /*.pdf
+        destination: /:splat
       - type: rewrite
         source: /*
         destination: /index.html

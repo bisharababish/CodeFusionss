@@ -2,14 +2,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { Scrollbar } from 'react-scrollbars-custom';
-import PDFViewer from './PDFViewer';
 // Images are now served from public directory
 
 const Teams = () => {
     const mountRef = useRef<HTMLDivElement>(null);
     const [selectedMember, setSelectedMember] = useState(0);
-    const [showPDF, setShowPDF] = useState(false);
-    const [currentPDF, setCurrentPDF] = useState({ url: '', title: '' });
 
     useEffect(() => {
         if (!mountRef.current) return;
@@ -137,7 +134,7 @@ const Teams = () => {
                 github: 'https://github.com/bisharababish',
                 linkedin: 'https://www.linkedin.com/in/bisharababish/',
                 instagram: 'https://instagram.com/bisharababish_',
-                cv: '/BisharaBabishCV.pdf'
+                cv: 'https://github.com/bisharababish/CodeFusion-Portfolio/raw/main/public/BisharaBabishCV.pdf'
             },
         },
         {
@@ -152,7 +149,7 @@ const Teams = () => {
                 github: 'https://github.com/judahsleibi34',
                 linkedin: 'https://linkedin.com/in/judah-sleibi-b8578b321',
                 instagram: 'https://instagram.com/judah_sleibi',
-                cv: '/JudahSleibiCV.pdf'
+                cv: 'https://github.com/bisharababish/CodeFusion-Portfolio/raw/main/public/JudahSleibiCV.pdf'
             },
         },
         {
@@ -167,7 +164,7 @@ const Teams = () => {
                 github: 'https://github.com/Saliba-codes',
                 linkedin: 'https://linkedin.com/in/saliba-rishmawi-b32a11255',
                 instagram: 'https://instagram.com/saliba2002',
-                cv: '/SalibaRishmawiCV.pdf'
+                cv: 'https://github.com/bisharababish/CodeFusion-Portfolio/raw/main/public/SalibaRishmawiCV.pdf'
             },
         },
     ];
@@ -394,16 +391,16 @@ const Teams = () => {
                                 </a>
                                 <button
                                     onClick={() => {
-                                        // Try to open in new window first, fallback to modal
-                                        const pdfWindow = window.open(currentMember.socialLinks.cv, '_blank');
-                                        if (!pdfWindow || pdfWindow.closed || typeof pdfWindow.closed == 'undefined') {
-                                            // If popup was blocked or failed, show modal
-                                            setCurrentPDF({
-                                                url: currentMember.socialLinks.cv,
-                                                title: `${currentMember.name} - CV`
-                                            });
-                                            setShowPDF(true);
+                                        // Open PDF in new tab using our PDF route
+                                        let pdfName = '';
+                                        if (currentMember.name === 'Bishara Babish') {
+                                            pdfName = 'BisharaBabishCV';
+                                        } else if (currentMember.name === 'Judah Sleibi') {
+                                            pdfName = 'JudahSleibiCV';
+                                        } else if (currentMember.name === 'Saliba Rishmawi') {
+                                            pdfName = 'SalibaRishmawiCV';
                                         }
+                                        window.open(`/pdf/${pdfName}`, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
                                     }}
                                     style={{
                                         width: '45px',
@@ -568,16 +565,6 @@ const Teams = () => {
                 }} />
             </div>
 
-            {/* PDF Viewer Modal */}
-            <AnimatePresence>
-                {showPDF && (
-                    <PDFViewer
-                        pdfUrl={currentPDF.url}
-                        title={currentPDF.title}
-                        onClose={() => setShowPDF(false)}
-                    />
-                )}
-            </AnimatePresence>
         </>
     );
 };

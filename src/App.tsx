@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import ProjectsPage from './pages/ProjectsPage';
 import AboutPage from './pages/AboutPage';
 import TeamsPage from './pages/TeamsPage';
+import PDFPage from './pages/PDFPage';
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/team" element={<TeamsPage />} />
+          <Route path="/pdf/:pdfName" element={<PDFPage />} />
         </Routes>
         <Footer />
       </div>

@@ -37,7 +37,6 @@ Templates/
 *.msi
 *.jpg
 *.docx
-*.pdf
 .DS_Store
 node_modules/
 .vscode/

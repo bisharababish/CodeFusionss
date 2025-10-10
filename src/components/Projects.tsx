@@ -104,9 +104,8 @@ const LeftSidebar = styled(motion.div)`
     width: 100%;
     height: auto;
     min-height: auto;
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 2.5rem 0 1.5rem 0;
+    flex-direction: column;
+    padding: 2rem 1rem;
     border-right: none;
     border-bottom: none;
     box-shadow: none;
@@ -115,7 +114,10 @@ const LeftSidebar = styled(motion.div)`
     left: 0;
     right: 0;
     z-index: 100;
-    justify-content: flex-start;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
   }
 `;
 
@@ -129,15 +131,12 @@ const NavigationList = styled.div`
 
   ${media.mobile} {
     flex-direction: row;
-    padding: 0 1rem;
+    padding: 0;
     gap: 0.8rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
   }
 `;
 
@@ -176,11 +175,37 @@ const NavItem = styled(motion.button) <NavItemProps>`
   }
 
   ${media.mobile} {
-    padding: 0.8rem 1.2rem;
-    font-size: 0.85rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.8rem;
     white-space: nowrap;
     flex-shrink: 0;
     min-width: fit-content;
+    width: auto;
+    margin-bottom: 0;
+    border-radius: 20px;
+    background: ${(props) => props.$active
+    ? 'linear-gradient(135deg, #6C4CC4, #00C2FF)'
+    : 'rgba(255, 255, 255, 0.1)'};
+    color: ${(props) => props.$active ? '#F4EFEA' : '#B0B6C1'};
+    border: 1px solid ${(props) => props.$active
+    ? 'rgba(255, 255, 255, 0.3)'
+    : 'rgba(255, 255, 255, 0.1)'};
+    backdrop-filter: blur(15px);
+    box-shadow: ${(props) => props.$active
+    ? '0 8px 25px rgba(108, 76, 196, 0.4)'
+    : '0 4px 15px rgba(0, 0, 0, 0.1)'};
+
+    &:hover {
+      background: ${(props) => props.$active
+    ? 'linear-gradient(135deg, #00C2FF, #6C4CC4)'
+    : 'rgba(255, 255, 255, 0.2)'};
+      color: #F4EFEA;
+      transform: translateY(-3px) scale(1.05);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: ${(props) => props.$active
+    ? '0 12px 35px rgba(0, 194, 255, 0.5)'
+    : '0 8px 25px rgba(255, 255, 255, 0.2)'};
+    }
   }
 `;
 
@@ -193,7 +218,7 @@ const MainContent = styled.div`
   overflow: hidden;
 
   ${media.mobile} {
-    margin-top: 140px;
+    margin-top: 180px;
     padding-top: 1rem;
   }
 `;
@@ -1157,11 +1182,11 @@ const Projects = () => {
               }}
             >
               <motion.span
-                style={{ marginRight: '1rem', fontSize: '1.3rem' }}
+                style={{ marginRight: '0.8rem', fontSize: '1.2rem' }}
                 animate={activeCategory === category.id ? {
                   rotate: [0, 15, -15, 0],
                   scale: [1, 1.2, 1],
-                  y: [0, -5, 0]
+                  y: [0, -3, 0]
                 } : {
                   rotate: 0,
                   scale: 1,

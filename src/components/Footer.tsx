@@ -343,7 +343,9 @@ const Footer = () => {
           {[
             { name: "Home", href: "#" },
             { name: "Projects", href: "#projects" },
-            { name: "About", href: "#about" }
+            { name: "About", href: "#about" },
+            { name: "Team", href: "#teams" } 
+
           ].map((item) => (
             <FooterLink
               key={item.name}

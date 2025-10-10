@@ -29,7 +29,7 @@ const AboutSection = styled(motion.section)`
   ${media.laptop} { padding: 6rem 0 0 0; }
   ${media.tablet} { padding: 5rem 0 0 0; }
   ${media.largeMobile} { padding: 4rem 0 0 0; }
-  ${media.mobile} { padding: 3rem 0.5rem 0 0; }
+${media.mobile} { padding: 4rem 1rem 0 1rem; }
 `;
 
 const ThreeBackground = styled.div`

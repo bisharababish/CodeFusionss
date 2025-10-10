@@ -204,7 +204,8 @@ const Teams = () => {
                     justifyContent: 'center',
                     gap: '20px',
                     marginBottom: '40px',
-                    flexWrap: 'wrap'
+                    flexWrap: 'wrap',
+                    padding: '30px 30px'
                 }}>
                     {teamMembers.map((member, index) => (
                         <button

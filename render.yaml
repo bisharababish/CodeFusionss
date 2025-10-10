@@ -19,3 +19,6 @@ services:
         source: /teams
         destination: /team
         status: 301
+      - type: rewrite
+        source: /*
+        destination: /index.html

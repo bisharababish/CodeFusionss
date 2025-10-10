@@ -4,13 +4,21 @@ services:
     env: static
     buildCommand: npm install && npm run build
     staticPublishPath: ./build
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*.pdf
+        name: Content-Type
+        value: application/pdf
     routes:
-      - type: rewrite
+      - type: redirect
         source: /teams
         destination: /team
-      - type: rewrite
-        source: /*.pdf
-        destination: /:splat
+        status: 301
       - type: rewrite
         source: /*
         destination: /index.html

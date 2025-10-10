@@ -137,7 +137,7 @@ const Teams = () => {
                 github: 'https://github.com/bisharababish',
                 linkedin: 'https://www.linkedin.com/in/bisharababish/',
                 instagram: 'https://instagram.com/bisharababish_',
-                cv: '/BisharaBabishCV.pdf'
+                cv: '../../public/BisharaBabishCV.pdf'
             },
         },
         {
@@ -152,7 +152,7 @@ const Teams = () => {
                 github: 'https://github.com/judahsleibi34',
                 linkedin: 'https://linkedin.com/in/judah-sleibi-b8578b321',
                 instagram: 'https://instagram.com/judah_sleibi',
-                cv: '/JudahSleibiCV.pdf'
+                cv: '../../public/JudahSleibiCV.pdf'
             },
         },
         {
@@ -167,7 +167,7 @@ const Teams = () => {
                 github: 'https://github.com/Saliba-codes',
                 linkedin: 'https://linkedin.com/in/saliba-rishmawi-b32a11255',
                 instagram: 'https://instagram.com/saliba2002',
-                cv: '/SalibaRishmawiCV.pdf'
+                cv: '../../public/SalibaRishmawiCV.pdf'
             },
         },
     ];

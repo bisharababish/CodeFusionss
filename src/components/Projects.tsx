@@ -256,24 +256,25 @@ const ProjectSlide = styled(motion.div)`
 
 const ProjectCard = styled(motion.div)`
   background: var(--cards-bg);
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
-  width: 75%;
-  max-width: 650px;
-  height: 75%;
-  max-height: 600px;
+  width: 85%;
+  max-width: 750px;
+  height: 80%;
+  max-height: 650px;
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-color);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transform-style: preserve-3d;
 
   &:hover {
-    transform: translateY(-8px) rotateX(2deg);
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 80px rgba(75, 46, 131, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
   ${media.tablet} {
@@ -293,22 +294,27 @@ const ProjectCard = styled(motion.div)`
 
 const ProjectImage = styled(motion.div)`
   width: 100%;
-  height: 50%;
+  height: 55%;
   position: relative;
   overflow: hidden;
-  background: var(--primary-btn-bg);
+  background: linear-gradient(135deg, #4B2E83, #2F80ED);
   flex-shrink: 0;
+  z-index: 2;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     object-position: center;
+    filter: brightness(0.9) contrast(1.1);
   }
 
-  ${ProjectCard}:hover & img {
-    transform: scale(1.05);
+  ${ProjectCard}:hover & {
+    img {
+      transform: scale(1.05);
+      filter: brightness(1) contrast(1.1);
+    }
   }
 `;
 
@@ -331,14 +337,16 @@ const ImageOverlay = styled(motion.div)`
 `;
 
 const ProjectInfo = styled.div`
-  padding: 1.5rem;
-  height: 50%;
+  padding: 2rem;
+  height: 45%;
   display: flex;
   flex-direction: column;
-  background: var(--cards-bg);
-  gap: 1rem;
+  background: transparent;
+  gap: 1.2rem;
   flex-shrink: 0;
   overflow-y: auto;
+  z-index: 2;
+  position: relative;
 
   ${media.tablet} { 
     padding: 1.2rem;
@@ -352,15 +360,20 @@ const ProjectInfo = styled.div`
 `;
 
 const ProjectTitle = styled.h3`
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: var(--main-text);
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 1.3;
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  background: linear-gradient(135deg, #F4EFEA 0%, #B0B6C1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   ${media.tablet} { 
     font-size: 1.3rem; 
@@ -373,14 +386,15 @@ const ProjectTitle = styled.h3`
 
 const ProjectDescription = styled.p`
   color: var(--secondary-text);
-  line-height: 1.5;
+  line-height: 1.6;
   flex: 1;
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  opacity: 0.9;
 `;
 
 const TechTags = styled.div`
@@ -391,17 +405,22 @@ const TechTags = styled.div`
 `;
 
 const TechTag = styled(motion.span)`
-  background: var(--primary-btn-bg);
+  background: linear-gradient(135deg, #4B2E83, #2F80ED);
   color: var(--primary-btn-text);
-  padding: 0.4rem 1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(75, 46, 131, 0.3);
 
   &:hover {
-    background: var(--primary-btn-hover);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #2F80ED, #00C2FF);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(47, 128, 237, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 `;
 
@@ -417,42 +436,79 @@ const ProjectLinks = styled.div`
 `;
 
 const LiveLink = styled(motion.a)`
-  background: var(--primary-btn-bg);
+  background: linear-gradient(135deg, #4B2E83, #2F80ED);
   color: var(--primary-btn-text);
-  padding: 1rem 2rem;
-  border-radius: 15px;
-  font-weight: 600;
+  padding: 1.2rem 2.5rem;
+  border-radius: 20px;
+  font-weight: 700;
   text-decoration: none;
   flex: 1;
   text-align: center;
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 25px rgba(75, 46, 131, 0.4);
-  backdrop-filter: blur(10px);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 10px 30px rgba(75, 46, 131, 0.4);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+  }
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(75, 46, 131, 0.6);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(75, 46, 131, 0.6);
+    background: linear-gradient(135deg, #2F80ED, #00C2FF);
+    
+    &::before {
+      left: 100%;
+    }
   }
 `;
 
 const CodeLink = styled(motion.a)`
-  background: var(--secondary-btn-bg);
+  background: linear-gradient(135deg, #6C4CC4, #00C2FF);
   color: var(--secondary-btn-text) !important;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 12px;
-  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.2rem 2.5rem;
+  border-radius: 20px;
+  font-weight: 700;
   text-decoration: none;
   flex: 1;
   text-align: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(108, 76, 196, 0.3);
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 10px 30px rgba(108, 76, 196, 0.4);
+  backdrop-filter: blur(15px);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+  }
 
   &:hover {
-    background: var(--secondary-btn-hover);
+    background: linear-gradient(135deg, #00C2FF, #2F80ED);
     color: var(--secondary-btn-text) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 194, 255, 0.4);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 194, 255, 0.5);
+    
+    &::before {
+      left: 100%;
+    }
   }
 `;
 
@@ -471,22 +527,23 @@ const SlideControls = styled.div`
 `;
 
 const ControlButton = styled(motion.button)`
-  width: 55px;
-  height: 55px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
-  border: 2px solid var(--border-color);
-  background: var(--cards-bg);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, var(--cards-bg), rgba(255, 255, 255, 0.05));
   color: var(--main-text);
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  backdrop-filter: blur(15px);
-  box-shadow: 0 8px 25px rgba(75, 46, 131, 0.3);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(75, 46, 131, 0.4);
   position: relative;
   overflow: hidden;
+  font-weight: 700;
 
   &::before {
     content: '';
@@ -495,29 +552,49 @@ const ControlButton = styled(motion.button)`
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.6s ease;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.8s ease;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
   }
 
   &:hover {
-    background: var(--primary-btn-bg);
-    border-color: var(--link-default);
-    transform: scale(1.15) rotate(5deg);
-    box-shadow: 0 12px 35px rgba(75, 46, 131, 0.5);
+    background: linear-gradient(135deg, #4B2E83, #2F80ED);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.2) rotate(10deg);
+    box-shadow: 0 15px 40px rgba(75, 46, 131, 0.6);
+    color: #F4EFEA;
 
     &::before {
       left: 100%;
     }
+
+    &::after {
+      width: 100px;
+      height: 100px;
+    }
   }
 
   &:active {
-    transform: scale(1.05) rotate(2deg);
+    transform: scale(1.1) rotate(5deg);
   }
 
   &:disabled {
-    opacity: 0.3;
+    opacity: 0.4;
     cursor: not-allowed;
-    transform: scale(0.9);
+    transform: scale(0.8);
+    filter: grayscale(0.5);
   }
 `;
 
@@ -549,17 +626,43 @@ interface IndicatorDotProps {
 }
 
 const IndicatorDot = styled(motion.div) <IndicatorDotProps>`
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: ${(props) => props.$active
     ? 'linear-gradient(135deg, #4B2E83, #2F80ED)'
-    : '#B0B6C1'};
+    : 'rgba(176, 182, 193, 0.3)'};
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 2px solid ${(props) => props.$active
+    ? 'rgba(255, 255, 255, 0.3)'
+    : 'transparent'};
+  box-shadow: ${(props) => props.$active
+    ? '0 0 20px rgba(75, 46, 131, 0.6)'
+    : 'none'};
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, transparent 70%);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+    opacity: ${(props) => props.$active ? 1 : 0};
+  }
 
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.4);
+    background: ${(props) => props.$active
+    ? 'linear-gradient(135deg, #2F80ED, #00C2FF)'
+    : 'rgba(176, 182, 193, 0.6)'};
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 25px rgba(75, 46, 131, 0.8);
   }
 `;
 
@@ -1050,10 +1153,14 @@ const Projects = () => {
 
   const handleCategoryChange = (categoryId: string) => {
     setIsLoading(true);
-    setActiveCategory(categoryId);
     setCurrentSlide(0);
     setSlideProgress(0);
-    setTimeout(() => setIsLoading(false), 500);
+
+    // Use a timeout to ensure proper cleanup before changing category
+    setTimeout(() => {
+      setActiveCategory(categoryId);
+      setTimeout(() => setIsLoading(false), 300);
+    }, 200);
   };
 
   // Show projects based on selected category
@@ -1061,7 +1168,7 @@ const Projects = () => {
 
   // Auto-slide functionality with enhanced progress indicator
   useEffect(() => {
-    if (projectsToDisplay.length <= 1) return;
+    if (projectsToDisplay.length <= 1 || isLoading) return;
 
     setSlideProgress(0);
 
@@ -1083,7 +1190,7 @@ const Projects = () => {
       clearInterval(progressInterval);
       clearInterval(slideInterval);
     };
-  }, [projectsToDisplay.length, currentSlide]);
+  }, [projectsToDisplay.length, currentSlide, isLoading, activeCategory]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % projectsToDisplay.length);
@@ -1099,12 +1206,10 @@ const Projects = () => {
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 1200 : -1200,
+      x: direction > 0 ? 1000 : -1000,
       opacity: 0,
       scale: 0.8,
-      rotateY: direction > 0 ? 120 : -120,
-      rotateX: direction > 0 ? 15 : -15,
-      filter: "blur(10px)",
+      rotateY: direction > 0 ? 45 : -45,
       transition: {
         type: "spring",
         stiffness: 300,
@@ -1118,8 +1223,6 @@ const Projects = () => {
       opacity: 1,
       scale: 1,
       rotateY: 0,
-      rotateX: 0,
-      filter: "blur(0px)",
       transition: {
         type: "spring",
         stiffness: 300,
@@ -1129,12 +1232,10 @@ const Projects = () => {
     },
     exit: (direction: number) => ({
       zIndex: 0,
-      x: direction < 0 ? 1200 : -1200,
+      x: direction < 0 ? 1000 : -1000,
       opacity: 0,
       scale: 0.8,
-      rotateY: direction < 0 ? 120 : -120,
-      rotateX: direction < 0 ? 15 : -15,
-      filter: "blur(10px)",
+      rotateY: direction < 0 ? 45 : -45,
       transition: {
         type: "spring",
         stiffness: 300,
@@ -1233,23 +1334,29 @@ const Projects = () => {
               <AnimatePresence mode="wait" custom={currentSlide}>
                 {projectsToDisplay.map((project, index) => (
                   <ProjectSlide
-                    key={`${activeCategory}-${project.id}`}
+                    key={`${activeCategory}-${project.id}-${index}`}
                     custom={currentSlide}
                     variants={slideVariants}
                     initial="enter"
                     animate="center"
                     exit="exit"
                     transition={{
-                      x: { type: "spring", stiffness: 200, damping: 25, duration: 0.8 },
-                      opacity: { duration: 0.6, ease: "easeInOut" },
-                      scale: { duration: 0.6, ease: "easeInOut" },
-                      rotateY: { duration: 0.8, ease: "easeInOut" }
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 30,
+                      duration: 0.8
                     }}
                     style={{ display: index === currentSlide ? 'flex' : 'none' }}
                   >
                     <ProjectCard
-                      whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.3 }}
+                      whileHover={{
+                        scale: 1.02,
+                        y: -5
+                      }}
+                      transition={{
+                        duration: 0.3,
+                        ease: "easeOut"
+                      }}
                     >
                       <ProjectImage>
                         {project.image ? (
@@ -1286,7 +1393,10 @@ const Projects = () => {
                           {project.technologies.map((tech, techIndex) => (
                             <TechTag
                               key={techIndex}
-                              whileHover={{ scale: 1.1, y: -3 }}
+                              whileHover={{
+                                scale: 1.1,
+                                y: -2
+                              }}
                               whileTap={{ scale: 0.95 }}
                             >
                               {tech}
@@ -1300,7 +1410,10 @@ const Projects = () => {
                               href={project.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              whileHover={{ scale: 1.05, y: -2 }}
+                              whileHover={{
+                                scale: 1.05,
+                                y: -2
+                              }}
                               whileTap={{ scale: 0.95 }}
                             >
                               View Live
@@ -1311,7 +1424,10 @@ const Projects = () => {
                               href={project.githubLink}
                               target="_blank"
                               rel="noopener noreferrer"
-                              whileHover={{ scale: 1.05, y: -2 }}
+                              whileHover={{
+                                scale: 1.05,
+                                y: -2
+                              }}
                               whileTap={{ scale: 0.95 }}
                             >
                               Source Code
@@ -1328,8 +1444,11 @@ const Projects = () => {
                 <ControlButton
                   onClick={prevSlide}
                   disabled={projectsToDisplay.length <= 1}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{
+                    scale: 1.1,
+                    rotate: -5
+                  }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   ←
                 </ControlButton>
@@ -1340,7 +1459,9 @@ const Projects = () => {
                       <IndicatorDot
                         $active={index === currentSlide}
                         onClick={() => goToSlide(index)}
-                        whileHover={{ scale: 1.2 }}
+                        whileHover={{
+                          scale: 1.2
+                        }}
                         whileTap={{ scale: 0.9 }}
                       />
                       {index === currentSlide && projectsToDisplay.length > 1 && (
@@ -1353,8 +1474,11 @@ const Projects = () => {
                 <ControlButton
                   onClick={nextSlide}
                   disabled={projectsToDisplay.length <= 1}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  whileHover={{
+                    scale: 1.1,
+                    rotate: 5
+                  }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   →
                 </ControlButton>

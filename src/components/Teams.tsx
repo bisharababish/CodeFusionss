@@ -1,12 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { Scrollbar } from 'react-scrollbars-custom';
+import PDFViewer from './PDFViewer';
 // Images are now served from public directory
 
 const Teams = () => {
     const mountRef = useRef<HTMLDivElement>(null);
     const [selectedMember, setSelectedMember] = useState(0);
+    const [showPDF, setShowPDF] = useState(false);
+    const [currentPDF, setCurrentPDF] = useState({ url: '', title: '' });
 
     useEffect(() => {
         if (!mountRef.current) return;
@@ -172,371 +175,384 @@ const Teams = () => {
     const currentMember = teamMembers[selectedMember];
 
     return (
-        <div style={{
-            position: 'relative',
-            minHeight: '100vh',
-            overflow: 'hidden',
-            background: '#0A0A0A',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '40px 20px'
-        }}>
-            <div ref={mountRef} style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                opacity: 0.3,
-                zIndex: 0
-            }} />
-
+        <>
             <div style={{
                 position: 'relative',
-                zIndex: 1,
-                maxWidth: '1200px',
-                width: '100%'
+                minHeight: '100vh',
+                overflow: 'hidden',
+                background: '#0A0A0A',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '40px 20px'
             }}>
-                {/* Navigation Tabs */}
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    gap: '20px',
-                    marginBottom: '40px',
-                    flexWrap: 'wrap',
-                    padding: '30px 30px'
-                }}>
-                    {teamMembers.map((member, index) => (
-                        <button
-                            key={member.id}
-                            onClick={() => setSelectedMember(index)}
-                            style={{
-                                padding: '15px 30px',
-                                background: selectedMember === index ? 'linear-gradient(135deg, #4B2E83, #2F80ED)' : '#1A1A1A',
-                                color: selectedMember === index ? '#F4EFEA' : '#F4EFEA',
-                                border: 'none',
-                                borderRadius: '10px',
-                                fontSize: '16px',
-                                fontWeight: 600,
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                                backdropFilter: 'blur(10px)'
-                            }}
-                            onMouseEnter={(e) => {
-                                if (selectedMember !== index) {
-                                    e.currentTarget.style.background = '#6C4CC4';
-                                }
-                            }}
-                            onMouseLeave={(e) => {
-                                if (selectedMember !== index) {
-                                    e.currentTarget.style.background = '#1A1A1A';
-                                }
-                            }}
-                        >
-                            {member.name}
-                        </button>
-                    ))}
-                </div>
+                <div ref={mountRef} style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    opacity: 0.3,
+                    zIndex: 0
+                }} />
 
-                {/* Profile Content */}
-                <motion.div
-                    key={selectedMember}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: '40px',
-                        background: '#1A1A1A',
-                        backdropFilter: 'blur(20px)',
-                        borderRadius: '20px',
-                        padding: '40px',
-                        border: '1px solid #B0B6C1',
-                        flexWrap: 'wrap'
-                    }}
-                >
-                    {/* Left Side - Image and Basic Info */}
+                <div style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    maxWidth: '1200px',
+                    width: '100%'
+                }}>
+                    {/* Navigation Tabs */}
                     <div style={{
-                        flex: '0 0 300px',
                         display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        textAlign: 'center'
+                        justifyContent: 'center',
+                        gap: '20px',
+                        marginBottom: '40px',
+                        flexWrap: 'wrap',
+                        padding: '30px 30px'
                     }}>
-                        <img
-                            src={currentMember.image}
-                            alt={currentMember.name}
-                            style={{
-                                width: '250px',
-                                height: '250px',
-                                borderRadius: '50%',
-                                objectFit: 'cover',
-                                marginBottom: '25px',
-                                border: '4px solid #B0B6C1',
-                                boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
-                            }}
-                        />
-                        <h2 style={{
-                            fontSize: '28px',
-                            fontWeight: 700,
-                            color: '#F4EFEA',
-                            marginBottom: '10px'
-                        }}>
-                            {currentMember.name}
-                        </h2>
-                        <p style={{
-                            fontSize: '16px',
-                            color: '#B0B6C1',
-                            marginBottom: '25px'
-                        }}>
-                            {currentMember.title}
-                        </p>
-                        <div style={{
-                            display: 'flex',
-                            gap: '15px',
-                            justifyContent: 'center'
-                        }}>
-                            <a
-                                href={currentMember.socialLinks.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                        {teamMembers.map((member, index) => (
+                            <button
+                                key={member.id}
+                                onClick={() => setSelectedMember(index)}
                                 style={{
-                                    width: '45px',
-                                    height: '45px',
+                                    padding: '15px 30px',
+                                    background: selectedMember === index ? 'linear-gradient(135deg, #4B2E83, #2F80ED)' : '#1A1A1A',
+                                    color: selectedMember === index ? '#F4EFEA' : '#F4EFEA',
+                                    border: 'none',
                                     borderRadius: '10px',
-                                    background: '#1A1A1A',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: '#F4EFEA',
-                                    fontSize: '20px',
-                                    textDecoration: 'none',
-                                    transition: 'all 0.3s ease'
+                                    fontSize: '16px',
+                                    fontWeight: 600,
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    backdropFilter: 'blur(10px)'
                                 }}
                                 onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
-                                    e.currentTarget.style.color = '#F4EFEA';
-                                    e.currentTarget.style.transform = 'translateY(-3px)';
+                                    if (selectedMember !== index) {
+                                        e.currentTarget.style.background = '#6C4CC4';
+                                    }
                                 }}
                                 onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = '#1A1A1A';
-                                    e.currentTarget.style.color = '#F4EFEA';
-                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    if (selectedMember !== index) {
+                                        e.currentTarget.style.background = '#1A1A1A';
+                                    }
                                 }}
                             >
-                                <i className="fab fa-github"></i>
-                            </a>
-                            <a
-                                href={currentMember.socialLinks.linkedin}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{
-                                    width: '45px',
-                                    height: '45px',
-                                    borderRadius: '10px',
-                                    background: '#1A1A1A',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: '#F4EFEA',
-                                    fontSize: '20px',
-                                    textDecoration: 'none',
-                                    transition: 'all 0.3s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
-                                    e.currentTarget.style.color = '#F4EFEA';
-                                    e.currentTarget.style.transform = 'translateY(-3px)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = '#1A1A1A';
-                                    e.currentTarget.style.color = '#F4EFEA';
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                }}
-                            >
-                                <i className="fab fa-linkedin"></i>
-                            </a>
-                            <a
-                                href={currentMember.socialLinks.instagram}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{
-                                    width: '45px',
-                                    height: '45px',
-                                    borderRadius: '10px',
-                                    background: '#1A1A1A',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: '#F4EFEA',
-                                    fontSize: '20px',
-                                    textDecoration: 'none',
-                                    transition: 'all 0.3s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
-                                    e.currentTarget.style.color = '#F4EFEA';
-                                    e.currentTarget.style.transform = 'translateY(-3px)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = '#1A1A1A';
-                                    e.currentTarget.style.color = '#F4EFEA';
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                }}
-                            >
-                                <i className="fab fa-instagram"></i>
-                            </a>
-                            <a
-                                href={currentMember.socialLinks.cv}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                type="application/pdf"
-                                style={{
-                                    width: '45px',
-                                    height: '45px',
-                                    borderRadius: '10px',
-                                    background: '#1A1A1A',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: '#F4EFEA',
-                                    fontSize: '20px',
-                                    textDecoration: 'none',
-                                    transition: 'all 0.3s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
-                                    e.currentTarget.style.color = '#F4EFEA';
-                                    e.currentTarget.style.transform = 'translateY(-3px)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.background = '#1A1A1A';
-                                    e.currentTarget.style.color = '#F4EFEA';
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                }}
-                            >
-                                <i className="fas fa-file-pdf"></i>
-                            </a>
-                        </div>
+                                {member.name}
+                            </button>
+                        ))}
                     </div>
 
-                    {/* Right Side - Detailed Information */}
-                    <Scrollbar
+                    {/* Profile Content */}
+                    <motion.div
+                        key={selectedMember}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
                         style={{
-                            flex: '1',
-                            minWidth: '300px',
-                            height: '600px'
+                            display: 'flex',
+                            flexDirection: 'row',
+                            gap: '40px',
+                            background: '#1A1A1A',
+                            backdropFilter: 'blur(20px)',
+                            borderRadius: '20px',
+                            padding: '40px',
+                            border: '1px solid #B0B6C1',
+                            flexWrap: 'wrap'
                         }}
-                        thumbYProps={{
-                            style: {
-                                background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
-                                borderRadius: '10px',
-                                width: '8px',
-                                cursor: 'pointer'
-                            }
-                        }}
-                        trackYProps={{
-                            style: {
-                                background: 'rgba(176, 182, 193, 0.2)',
-                                borderRadius: '10px',
-                                width: '8px',
-                                right: '2px'
-                            }
-                        }}
-                        contentProps={{
-                            style: {
-                                paddingRight: '20px'
-                            }
-                        }}
-                        noScrollX
-                        permanentTrackY
                     >
-                        <div
-                            className="team-content"
-                            style={{
+                        {/* Left Side - Image and Basic Info */}
+                        <div style={{
+                            flex: '0 0 300px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            textAlign: 'center'
+                        }}>
+                            <img
+                                src={currentMember.image}
+                                alt={currentMember.name}
+                                style={{
+                                    width: '250px',
+                                    height: '250px',
+                                    borderRadius: '50%',
+                                    objectFit: 'cover',
+                                    marginBottom: '25px',
+                                    border: '4px solid #B0B6C1',
+                                    boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+                                }}
+                            />
+                            <h2 style={{
+                                fontSize: '28px',
+                                fontWeight: 700,
                                 color: '#F4EFEA',
-                                padding: '0 10px 0 0'
-                            }}
-                        >
-                            <div style={{ marginBottom: '30px' }}>
-                                <h3 style={{
-                                    fontSize: '20px',
-                                    fontWeight: 700,
-                                    background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
-                                    WebkitBackgroundClip: 'text',
-                                    backgroundClip: 'text',
-                                    color: 'transparent',
-                                    marginBottom: '15px',
-                                    textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
-                                }}>
-                                    About Me:
-                                </h3>
-                                <p
+                                marginBottom: '10px'
+                            }}>
+                                {currentMember.name}
+                            </h2>
+                            <p style={{
+                                fontSize: '16px',
+                                color: '#B0B6C1',
+                                marginBottom: '25px'
+                            }}>
+                                {currentMember.title}
+                            </p>
+                            <div style={{
+                                display: 'flex',
+                                gap: '15px',
+                                justifyContent: 'center'
+                            }}>
+                                <a
+                                    href={currentMember.socialLinks.github}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     style={{
-                                        fontSize: '15px',
-                                        lineHeight: '1.8',
-                                        color: '#B0B6C1'
+                                        width: '45px',
+                                        height: '45px',
+                                        borderRadius: '10px',
+                                        background: '#1A1A1A',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#F4EFEA',
+                                        fontSize: '20px',
+                                        textDecoration: 'none',
+                                        transition: 'all 0.3s ease'
                                     }}
-                                    dangerouslySetInnerHTML={{ __html: currentMember.aboutMe }}
-                                />
-                            </div>
-
-                            <div style={{ marginBottom: '30px' }}>
-                                <h3 style={{
-                                    fontSize: '20px',
-                                    fontWeight: 700,
-                                    background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
-                                    WebkitBackgroundClip: 'text',
-                                    backgroundClip: 'text',
-                                    color: 'transparent',
-                                    marginBottom: '15px',
-                                    textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
-                                }}>
-                                    Education and Experience:
-                                </h3>
-                                <p
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
+                                        e.currentTarget.style.color = '#F4EFEA';
+                                        e.currentTarget.style.transform = 'translateY(-3px)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = '#1A1A1A';
+                                        e.currentTarget.style.color = '#F4EFEA';
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                    }}
+                                >
+                                    <i className="fab fa-github"></i>
+                                </a>
+                                <a
+                                    href={currentMember.socialLinks.linkedin}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     style={{
-                                        fontSize: '15px',
-                                        lineHeight: '1.8',
-                                        color: '#B0B6C1'
+                                        width: '45px',
+                                        height: '45px',
+                                        borderRadius: '10px',
+                                        background: '#1A1A1A',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#F4EFEA',
+                                        fontSize: '20px',
+                                        textDecoration: 'none',
+                                        transition: 'all 0.3s ease'
                                     }}
-                                    dangerouslySetInnerHTML={{ __html: currentMember.education }}
-                                />
-                            </div>
-
-
-                            <div style={{ marginBottom: '30px' }}>
-                                <h3 style={{
-                                    fontSize: '20px',
-                                    fontWeight: 700,
-                                    background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
-                                    WebkitBackgroundClip: 'text',
-                                    backgroundClip: 'text',
-                                    color: 'transparent',
-                                    marginBottom: '15px',
-                                    textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
-                                }}>
-                                    Personal Interests:
-                                </h3>
-                                <p
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
+                                        e.currentTarget.style.color = '#F4EFEA';
+                                        e.currentTarget.style.transform = 'translateY(-3px)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = '#1A1A1A';
+                                        e.currentTarget.style.color = '#F4EFEA';
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                    }}
+                                >
+                                    <i className="fab fa-linkedin"></i>
+                                </a>
+                                <a
+                                    href={currentMember.socialLinks.instagram}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     style={{
-                                        fontSize: '15px',
-                                        lineHeight: '1.8',
-                                        color: '#B0B6C1'
+                                        width: '45px',
+                                        height: '45px',
+                                        borderRadius: '10px',
+                                        background: '#1A1A1A',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#F4EFEA',
+                                        fontSize: '20px',
+                                        textDecoration: 'none',
+                                        transition: 'all 0.3s ease'
                                     }}
-                                    dangerouslySetInnerHTML={{ __html: currentMember.interests }}
-                                />
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
+                                        e.currentTarget.style.color = '#F4EFEA';
+                                        e.currentTarget.style.transform = 'translateY(-3px)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = '#1A1A1A';
+                                        e.currentTarget.style.color = '#F4EFEA';
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                    }}
+                                >
+                                    <i className="fab fa-instagram"></i>
+                                </a>
+                                <button
+                                    onClick={() => {
+                                        // Try to open in new window first, fallback to modal
+                                        const pdfWindow = window.open(currentMember.socialLinks.cv, '_blank');
+                                        if (!pdfWindow || pdfWindow.closed || typeof pdfWindow.closed == 'undefined') {
+                                            // If popup was blocked or failed, show modal
+                                            setCurrentPDF({
+                                                url: currentMember.socialLinks.cv,
+                                                title: `${currentMember.name} - CV`
+                                            });
+                                            setShowPDF(true);
+                                        }
+                                    }}
+                                    style={{
+                                        width: '45px',
+                                        height: '45px',
+                                        borderRadius: '10px',
+                                        background: '#1A1A1A',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: '#F4EFEA',
+                                        fontSize: '20px',
+                                        textDecoration: 'none',
+                                        transition: 'all 0.3s ease',
+                                        cursor: 'pointer',
+                                        border: 'none'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.background = 'linear-gradient(135deg, #4B2E83, #2F80ED)';
+                                        e.currentTarget.style.color = '#F4EFEA';
+                                        e.currentTarget.style.transform = 'translateY(-3px) scale(1.1)';
+                                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(75, 46, 131, 0.4)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.background = '#1A1A1A';
+                                        e.currentTarget.style.color = '#F4EFEA';
+                                        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                                        e.currentTarget.style.boxShadow = 'none';
+                                    }}
+                                >
+                                    <i className="fas fa-file-pdf"></i>
+                                </button>
                             </div>
                         </div>
-                    </Scrollbar>
-                </motion.div>
-            </div>
 
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-            <style dangerouslySetInnerHTML={{
-                __html: `
+                        {/* Right Side - Detailed Information */}
+                        <Scrollbar
+                            style={{
+                                flex: '1',
+                                minWidth: '300px',
+                                height: '600px'
+                            }}
+                            thumbYProps={{
+                                style: {
+                                    background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                    borderRadius: '10px',
+                                    width: '8px',
+                                    cursor: 'pointer'
+                                }
+                            }}
+                            trackYProps={{
+                                style: {
+                                    background: 'rgba(176, 182, 193, 0.2)',
+                                    borderRadius: '10px',
+                                    width: '8px',
+                                    right: '2px'
+                                }
+                            }}
+                            contentProps={{
+                                style: {
+                                    paddingRight: '20px'
+                                }
+                            }}
+                            noScrollX
+                            permanentTrackY
+                        >
+                            <div
+                                className="team-content"
+                                style={{
+                                    color: '#F4EFEA',
+                                    padding: '0 10px 0 0'
+                                }}
+                            >
+                                <div style={{ marginBottom: '30px' }}>
+                                    <h3 style={{
+                                        fontSize: '20px',
+                                        fontWeight: 700,
+                                        background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                        WebkitBackgroundClip: 'text',
+                                        backgroundClip: 'text',
+                                        color: 'transparent',
+                                        marginBottom: '15px',
+                                        textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
+                                    }}>
+                                        About Me:
+                                    </h3>
+                                    <p
+                                        style={{
+                                            fontSize: '15px',
+                                            lineHeight: '1.8',
+                                            color: '#B0B6C1'
+                                        }}
+                                        dangerouslySetInnerHTML={{ __html: currentMember.aboutMe }}
+                                    />
+                                </div>
+
+                                <div style={{ marginBottom: '30px' }}>
+                                    <h3 style={{
+                                        fontSize: '20px',
+                                        fontWeight: 700,
+                                        background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                        WebkitBackgroundClip: 'text',
+                                        backgroundClip: 'text',
+                                        color: 'transparent',
+                                        marginBottom: '15px',
+                                        textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
+                                    }}>
+                                        Education and Experience:
+                                    </h3>
+                                    <p
+                                        style={{
+                                            fontSize: '15px',
+                                            lineHeight: '1.8',
+                                            color: '#B0B6C1'
+                                        }}
+                                        dangerouslySetInnerHTML={{ __html: currentMember.education }}
+                                    />
+                                </div>
+
+
+                                <div style={{ marginBottom: '30px' }}>
+                                    <h3 style={{
+                                        fontSize: '20px',
+                                        fontWeight: 700,
+                                        background: 'linear-gradient(135deg, #4B2E83, #2F80ED)',
+                                        WebkitBackgroundClip: 'text',
+                                        backgroundClip: 'text',
+                                        color: 'transparent',
+                                        marginBottom: '15px',
+                                        textShadow: '0 0 10px rgba(75, 46, 131, 0.3)'
+                                    }}>
+                                        Personal Interests:
+                                    </h3>
+                                    <p
+                                        style={{
+                                            fontSize: '15px',
+                                            lineHeight: '1.8',
+                                            color: '#B0B6C1'
+                                        }}
+                                        dangerouslySetInnerHTML={{ __html: currentMember.interests }}
+                                    />
+                                </div>
+                            </div>
+                        </Scrollbar>
+                    </motion.div>
+                </div>
+
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+                <style dangerouslySetInnerHTML={{
+                    __html: `
                     .team-content strong {
                         color: #00C2FF !important;
                         font-weight: 700 !important;
@@ -549,8 +565,20 @@ const Teams = () => {
                         text-shadow: 0 0 12px rgba(47, 128, 237, 0.4) !important;
                     }
                 `
-            }} />
-        </div>
+                }} />
+            </div>
+
+            {/* PDF Viewer Modal */}
+            <AnimatePresence>
+                {showPDF && (
+                    <PDFViewer
+                        pdfUrl={currentPDF.url}
+                        title={currentPDF.title}
+                        onClose={() => setShowPDF(false)}
+                    />
+                )}
+            </AnimatePresence>
+        </>
     );
 };
 

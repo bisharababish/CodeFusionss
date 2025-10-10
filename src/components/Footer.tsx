@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 // Color variables are now defined in GlobalStyles.ts
 
@@ -84,11 +85,12 @@ const FooterLinks = styled(motion.div)`
   }
 `;
 
-const FooterLink = styled(motion.a)`
+const FooterLink = styled(motion(Link))`
   color: var(--secondary-text);
   font-size: 1rem;
   padding: 0.5rem;
   position: relative;
+  text-decoration: none;
   
   @media (max-width: 768px) {
     font-size: 0.95rem;
@@ -286,6 +288,13 @@ const Footer = () => {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const dividerAnimation = useAnimation();
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setMousePosition({
@@ -341,20 +350,21 @@ const Footer = () => {
       <FooterContent>
         <FooterLinks variants={itemVariants}>
           {[
-            { name: "Home", href: "#" },
-            { name: "Projects", href: "#projects" },
-            { name: "About", href: "#about" },
-            { name: "Team", href: "#teams" } 
+            { name: "Home", href: "/" },
+            { name: "Projects", href: "/projects" },
+            { name: "About", href: "/about" },
+            { name: "Team", href: "/team" }
 
           ].map((item) => (
             <FooterLink
               key={item.name}
-              href={item.href}
+              to={item.href}
               aria-label={item.name}
               variants={itemVariants}
               onMouseEnter={() => setActiveLink(item.name)}
               onMouseLeave={() => setActiveLink(null)}
               whileTap={{ scale: 0.95 }}
+              onClick={scrollToTop}
             >
               {item.name}
               <AnimatePresence>

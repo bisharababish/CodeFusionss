@@ -292,7 +292,7 @@ const AnimatedButton = styled(motion.div)`
 
 const SocialLinksWrapper = styled(motion.div)`
   position: absolute;
-  right: 3rem;
+  right: 5rem;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -301,7 +301,7 @@ const SocialLinksWrapper = styled(motion.div)`
   z-index: 10;
 
   @media (min-width: 769px) and (max-width: ${breakpoints.largeTablet}) {
-    right: 2rem;
+    right: 4rem;
     gap: 1.2rem;
   }
 

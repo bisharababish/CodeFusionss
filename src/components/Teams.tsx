@@ -392,6 +392,7 @@ const Teams = () => {
                                 href={currentMember.socialLinks.cv}
                                 target="_blank"
                                 rel="noopener noreferrer"
+                                type="application/pdf"
                                 style={{
                                     width: '45px',
                                     height: '45px',
